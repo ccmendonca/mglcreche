@@ -9,23 +9,24 @@
 
 
 
-    <ui:define name="left">
-        left
-    </ui:define>
+
 
     <ui:define name="content">
         <f:view>
+            <p:panel header="Registo de grau de parentesco">
             <h:form>
                 <p:growl id="growl" sticky="true" />
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Grau de parentesco"/>
-                    <h:inputText value="#{grauParentescoMB.grauParentesco.descricaoGrauParentesco}"/>
+                    <h:inputText value="#{grauParentescoMB.grauParentesco.descricaoGrauParentesco}" required="true" requiredMessage="Campo obrigatório"/>
+
+                    <p:commandButton style="float: right" id="save" value="Save" 
+                                     action="#{grauParentescoMB.save}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
                 </h:panelGrid>
-                <p:commandButton style="float: right" id="save" value="Save" 
-                                 action="#{grauParentescoMB.save}" icon="ui-icon-disk" update="growl">
-                    <f:ajax execute="@form" render="@form"/>
-                </p:commandButton>
             </h:form>
+                </p:panel>
         </f:view>
 
         <f:view>
@@ -50,8 +51,6 @@
 
     </ui:define>
 
-    <ui:define name="bottom">
-        bottom
-    </ui:define>
+
 
 </ui:composition>

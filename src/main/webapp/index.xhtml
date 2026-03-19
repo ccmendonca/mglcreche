@@ -9,13 +9,20 @@
         <h:outputStylesheet name="layout.css" library="css"/>
     </h:head>
     <h:body>
+        <h1 style="text-align: center; font-size: 2rem; color: #2D82BA">Sistema de gestão de creche</h1>
         <div id="containerhome">
+            
             <div class="boxhome">
                 <h:link value="Gestão de alunos" outcome="index_aluno"/>
 
             </div>
             <div class="boxhome">
-                <h:link value="Gestão da busca dos alunos" outcome="index_secretaria"/>
+                <h:link value="Responsável de busca" outcome="index_responsavel_busca_aluno"/>
+
+            </div>
+            
+             <div class="boxhome">
+                <h:link value="Gestao de tabelas" outcome="index_tabelas"/>
 
             </div>
           

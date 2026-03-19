@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSF/JSFManagedBean.java to edit this template
  */
-package skylink.mglcreche;
+package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -54,8 +54,8 @@ public class GrauParentescoMB implements Serializable {
     public String save() {
         if (grauParentescoDAO.save(grauParentesco)) {
             grauParentesco = new GrauParentesco();
-             addMessage(FacesMessage.SEVERITY_ERROR, "guardar", "Sucesso ao guardar os dados");
-            return "/pages/vendas/forma_pagamento_novo?faces-redirect=true";
+             addMessage(FacesMessage.SEVERITY_INFO, "guardar", "Sucesso ao guardar os dados");
+            return "index_tabelas?faces-redirect=true";
         } else {
             addMessage(FacesMessage.SEVERITY_ERROR, "Erro ao guardar", "Erro ao guardar os dados");
 
