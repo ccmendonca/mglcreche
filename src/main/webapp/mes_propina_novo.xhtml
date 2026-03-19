@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                template="./WEB-INF/templates/propinas_template.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+
+
+    <ui:define name="content">
+        <f:view>
+            <p:panel header="Registo dos meses">
+            <h:form>
+                <p:growl id="growl" sticky="true" />
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Mês"/>
+                    <h:inputText value="#{mesPropinaMBean.mesPropina.descricaoMesPropina}" required="true" requiredMessage="Campo obrigatório"/>
+                     <h:outputLabel value="Valor mensal"/>
+                     <h:inputText value="#{mesPropinaMBean.mesPropina.valorMesPropina}" required="true" requiredMessage="Campo obrigatório"/>
+                    <p:commandButton style="float: right" id="save" value="Save" 
+                                     action="#{mesPropinaMBean.save}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+                </p:panel>
+        </f:view>
+
+        <f:view>
+            <h:form>
+                <h:dataTable value="#{mesPropinaMBean.mesPropinas}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            Mês:
+                        </f:facet>
+                        <h:outputText value="#{item.descricaoMesPropina}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                           Valor mensal
+                        </f:facet>
+                        <h:outputText value="#{item.valorMesPropina}">
+                            <f:convertNumber maxFractionDigits="2"/>
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+
+    </ui:define>
+
+
+
+</ui:composition>
