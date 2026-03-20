@@ -35,6 +35,7 @@ public class AlunoDAO {
             ps.setInt(1, aluno.getIdAluno());
             ps.setString(2, aluno.getNomeAluno());
             ps.setString(3, aluno.getSobrenomeAluno());
+             ps.setDate(4, new java.sql.Date(aluno.getDataNascimentoAluno().getTime()));
             return false;
         } catch (SQLException e) {
             System.out.println("Erro ao inserir dados: " + e.getMessage());
