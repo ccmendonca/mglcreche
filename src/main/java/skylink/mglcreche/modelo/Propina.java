@@ -9,15 +9,35 @@ public class Propina {
     private Integer idPropina;
     private Date dataPagamento;
     private Aluno aluno;
+    private AnoLectivo anoLectivo;
+    private FormaPagamento formaPagamento;
+    private Date dataHoraRegisto;
+    
 
     public Propina() {
     }
 
-    public Propina(Integer idPropina, Date dataPagamento, Aluno aluno) {
+    public Propina(Integer idPropina, Date dataPagamento, Aluno aluno, AnoLectivo anoLectivo, FormaPagamento formaPagamento, Date dataHoraRegisto) {
         this.idPropina = idPropina;
         this.dataPagamento = dataPagamento;
         this.aluno = aluno;
+        this.anoLectivo = anoLectivo;
+        this.formaPagamento = formaPagamento;
+        this.dataHoraRegisto = dataHoraRegisto;
     }
+
+   
+   
+
+    public AnoLectivo getAnoLectivo() {
+        return anoLectivo;
+    }
+
+    public void setAnoLectivo(AnoLectivo anoLectivo) {
+        this.anoLectivo = anoLectivo;
+    }
+
+  
 
     public Integer getIdPropina() {
         return idPropina;
@@ -43,6 +63,24 @@ public class Propina {
         this.aluno = aluno;
     }
 
+    public Date getDataHoraRegisto() {
+        return dataHoraRegisto;
+    }
+
+    public void setDataHoraRegisto(Date dataHoraRegisto) {
+        this.dataHoraRegisto = dataHoraRegisto;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

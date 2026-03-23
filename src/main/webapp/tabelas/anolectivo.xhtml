@@ -2,7 +2,7 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="jakarta.faces.facelets"
-                template="./WEB-INF/templates/tabelas_template.xhtml"
+             template="./../WEB-INF/templates/tabelas_template.xhtml"
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:p="http://primefaces.org/ui">
@@ -13,15 +13,15 @@
 
     <ui:define name="content">
         <f:view>
-            <p:panel header="Registo de grau de parentesco">
+            <p:panel header="Registo Ano Lectivo">
             <h:form>
                 <p:growl id="growl" sticky="true" />
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="Grau de parentesco"/>
-                    <h:inputText value="#{grauParentescoMB.grauParentesco.descricaoGrauParentesco}" required="true" requiredMessage="Campo obrigatório"/>
+                    <h:outputLabel value="Ano Lectivo"/>
+                    <h:inputText value="#{anoLectivoMBean.anoLectivo.descricaoAnoLectivo}" required="true" requiredMessage="Campo obrigatório"/>
 
                     <p:commandButton style="float: right" id="save" value="Save" 
-                                     action="#{grauParentescoMB.save}" icon="ui-icon-disk" update="growl">
+                                     action="#{anoLectivoMBean.save}" icon="ui-icon-disk" update="growl">
                         <f:ajax execute="@form" render="@form"/>
                     </p:commandButton>
                 </h:panelGrid>
@@ -31,18 +31,18 @@
 
         <f:view>
             <h:form>
-                <h:dataTable value="#{grauParentescoMB.grauParentescos}" var="item">
+                <h:dataTable value="#{anoLectivoMBean.anosLectivos}" var="item">
                     <h:column>
                         <f:facet name="header">
                             N.º Registo:
                         </f:facet>
-                        <h:outputText value="#{item.idGrauParentesco}"/>
+                        <h:outputText value="#{item.idAnoLectivo}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            Descrição grau parentesco:
+                            <h:outputLabel value="Ano Lectivo"/>
                         </f:facet>
-                        <h:outputText value="#{item.descricaoGrauParentesco}"/>
+                        <h:outputText value="#{item.descricaoAnoLectivo}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>
