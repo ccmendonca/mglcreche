@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
+import skylink.mglcreche.modelo.Aluno;
 import skylink.mglcreche.modelo.MesPropina;
 
 public class MesPropinaDAO {
@@ -20,6 +21,7 @@ public class MesPropinaDAO {
     private static final String DELETE = "DELETE FROM mes_propina WHERE id_mes_propina= ?";
     private static final String BUSCAR_POR_CODIGO = "SELECT id_mes_propina, descricao_mes_propina, valor_mes_propina FROM mes_propina WHERE id_mes_propina =?";
     private static final String LISTAR_TUDO = "SELECT id_mes_propina, descricao_mes_propina, valor_mes_propina FROM mes_propina";
+    private static final String BUSCA_ALUNO_NOME = "SELECT id_aluno,  nome_aluno,sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, data_registo_aluno FROM aluno WHERE id_aluno LIKE? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
 
     public boolean save(MesPropina mesPropina) {
         PreparedStatement ps = null;
@@ -145,6 +147,32 @@ public class MesPropinaDAO {
         return mesPropinas;
     }
 
+    public List<Aluno> findAllAlunosByNome(String valor) {
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        List<Aluno> alunos = new ArrayList<>();
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(BUSCA_ALUNO_NOME);
+            ps.setString(1, "%" + valor + "%");
+            ps.setString(2, "%" + valor + "%");
+            ps.setString(3, "%" + valor + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                popularAluno(aluno, rs);
+                alunos.add(aluno);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn);
+        }
+        return alunos;
+    }
+
     private void popularComDados(MesPropina mesPropina, ResultSet rs) {
         try {
             mesPropina.setIdMesPropina(rs.getInt("id_mes_propina"));
@@ -153,6 +181,31 @@ public class MesPropinaDAO {
         } catch (SQLException ex) {
             System.err.println("Erro ao carregar dados: " + ex.getLocalizedMessage());
         }
+    }
+
+    public void popularAluno(Aluno aluno, ResultSet rs) {
+        try {
+
+            aluno.setIdAluno(rs.getInt("id_aluno"));
+            aluno.setNomeAluno(rs.getString("nome_aluno"));
+            aluno.setSobrenomeAluno(rs.getString("sobrenome_aluno"));
+            aluno.setDataNascimentoAluno(rs.getDate("data_nascimento_aluno"));
+            aluno.setGrauSanguineoAluno(rs.getString("grupo_sanguineo_aluno"));
+            aluno.setCasaAluno(rs.getString("casa_aluno"));
+            aluno.setRuaAluno(rs.getString("rua_aluno"));
+            aluno.setBairroAluno(rs.getString("bairro_aluno"));
+            aluno.setNomeMaeAluno(rs.getString("nome_mae_aluno"));
+            aluno.setSobrenomeMaeAluno(rs.getString("sobrenome_mae_aluno"));
+            aluno.setTelefoneMaeAluno(rs.getString("telefone_mae_aluno"));
+            aluno.setNomePaiAluno(rs.getString("nome_pai_aluno"));
+            aluno.setSobrenomePaiAluno(rs.getString("sobrenome_pai_aluno"));
+            aluno.setTelefonePaiAluno(rs.getString("telefone_pai_aluno"));
+            aluno.setDataRegistoAluno(rs.getDate("data_registo_aluno"));
+
+        } catch (SQLException ex) {
+            System.err.println("Error on fill data Cliente: " + ex.getLocalizedMessage());
+        }
+
     }
 
 }
