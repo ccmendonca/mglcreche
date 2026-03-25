@@ -1,10 +1,11 @@
 
 package skylink.mglcreche.modelo;
 
-/**
- *
- * @author TECNICO
- */
+
 public class ResponsavelBuscaAluno {
+    private Integer idResponsavelBuscaAluno;
+    private String nomeResponsavelBuscaAluno;
+    private String sobrenomeResponsavelBuscaAluno;
+    
     
 }
