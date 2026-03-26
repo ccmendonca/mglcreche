@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSF/JSFManagedBean.java to edit this template
  */
@@ -48,9 +48,6 @@ public class GrauParentescoMB implements Serializable {
     public void setGrauParentescos(List<GrauParentesco> grauParentescos) {
         this.grauParentescos = grauParentescos;
     }
-    
-    
-    
     public String save() {
         if (grauParentescoDAO.save(grauParentesco)) {
             grauParentesco = new GrauParentesco();

@@ -117,7 +117,7 @@ public class GrauParentescoDAO {
         return grauParentesco;
     }
 
-    public List< GrauParentesco> findAll() {
+    public List<GrauParentesco> findAll() {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
