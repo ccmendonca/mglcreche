@@ -2,14 +2,71 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="jakarta.faces.facelets"
-                template="./WEB-INF/templates/aluno_template.xhtml">
+                template="./WEB-INF/templates/aluno_template.xhtml"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui">
 
    
 
    
 
     <ui:define name="content">
-        content
+        <f:view>
+            <p:panel header="Registos de Alunos">
+            <h:form>
+                <h:dataTable value="#{alunoBean.alunos}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            Nº Registo:        
+                        </f:facet>
+                        <h:outputText value="#{item.idAluno}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Nome:          
+                        </f:facet>
+                        <h:outputText value="#{item.nomeAluno}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Sobrenome:         
+                        </f:facet>
+                        <h:outputText value="#{item.sobrenomeAluno}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Data de Nascimento:          
+                        </f:facet>
+                        <h:outputText value="#{item.dataNascimentoAluno}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Bairro:
+                        </f:facet>
+                        <h:outputText value="#{item.bairroAluno}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Operações
+                        </f:facet>
+                        <p:column width="15%">
+                                <p:commandButton value="Histórico" icon="pi pi-id-card"
+                                                 class="ui-button-raised ui-button-flat" action="historico_aluno">
+                                    <f:setPropertyActionListener value="#{aluno}" target="#{alunoBean.selecionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Operações
+                        </f:facet>
+                        <p:button value="Editar"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+                </p:panel>
+        </f:view>
     </ui:define>
 
   

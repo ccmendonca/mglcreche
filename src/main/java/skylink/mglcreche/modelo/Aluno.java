@@ -1,6 +1,7 @@
 
 package skylink.mglcreche.modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
@@ -9,6 +10,9 @@ import java.util.Objects;
  * «claudiomendonca»
  */
 public class Aluno implements Serializable{
+    
+    @Serial
+    private static final long serialVersionUID = 1L;
     
     private Integer idAluno;
     private String nomeAluno;

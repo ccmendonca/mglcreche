@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/aluno_template.xhtml">
+
+            <ui:define name="content">
+                <f:view>
+                        <h:form>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Código"/>
+                                <h:outputText value="#{alunoBean.selecionado.idAluno}" id="code"/>
+                                <p:outputLabel value="Nome"/>
+                                <h:outputText value="#{alunoBean.selecionado.nomeAluno}" id="name"/>
+                                <p:outputLabel value="Sobrenome"/>
+                                <h:outputText value="#{alunoBean.selecionado.sobrenomeAluno}" id="name"/>
+                                <p:outputLabel value="Data de Nascimento"/>
+                                <h:outputText value="#{alunoBean.selecionado.dataNascimentoAluno}" id="name"/>
+                                <p:outputLabel value="Grupo Sanguíneo"/>
+                                <h:outputText value="#{alunoBean.selecionado.grauSanguineoAluno}" id="name"/>
+                                <p:outputLabel value="Nº Casa"/>
+                                <h:outputText value="#{alunoBean.selecionado.casaAluno}" id="name"/>
+                                <p:outputLabel value="Rua"/>
+                                <h:outputText value="#{alunoBean.selecionado.ruaAluno}" id="name"/>
+                                <p:outputLabel value="Bairro"/>
+                                <h:outputText value="#{alunoBean.selecionado.bairroAluno}" id="name"/>
+                            </h:panelGrid>
+                        </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
