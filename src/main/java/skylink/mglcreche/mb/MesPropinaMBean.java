@@ -2,24 +2,27 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.MesPropinaDAO;
+import skylink.mglcreche.modelo.Aluno;
 import skylink.mglcreche.modelo.MesPropina;
 
 @Named(value = "mesPropinaMBean")
-@ViewScoped
+@SessionScoped
 public class MesPropinaMBean implements Serializable {
 
     MesPropinaDAO mesPropinaDAO = new MesPropinaDAO();
     private List<MesPropina> mesPropinas = new ArrayList();
     private MesPropina mesPropina = new MesPropina();
-
+    private List<Aluno> alunosPesquisados;
+    private String nomeAluno ;
+    private Aluno aluno = new Aluno();
     @PostConstruct
     public void inicializar() {
 
@@ -27,6 +30,34 @@ public class MesPropinaMBean implements Serializable {
 
     }
 
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    
+    
+    public List<Aluno> getAlunosPesquisados() {
+        return alunosPesquisados;
+    }
+
+    public void setAlunosPesquisados(List<Aluno> alunosPesquisados) {
+        this.alunosPesquisados = alunosPesquisados;
+    }
+
+    public String getNomeAluno() {
+        return nomeAluno;
+    }
+
+    public void setNomeAluno(String nomeAluno) {
+        this.nomeAluno = nomeAluno;
+    }
+
+    
+    
     public List<MesPropina> getMesPropinas() {
         return mesPropinas;
     }
@@ -43,7 +74,10 @@ public class MesPropinaMBean implements Serializable {
         this.mesPropina = mesPropina;
     }
     
-    
+     public void pesquisaAluno() {
+        alunosPesquisados = mesPropinaDAO.findAllAlunosByNome(nomeAluno);
+
+    }
     
     
 

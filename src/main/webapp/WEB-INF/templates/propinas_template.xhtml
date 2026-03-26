@@ -23,9 +23,11 @@
             <div id="menu">
                 <ui:insert name="left">
                     <h:panelGrid columns="1">
-                        <p:button value="Home" outcome="index" icon="home"/>
+                        <p:button value="Home" outcome="/index" icon="home"/>
 
-                          <p:button value="Mêses e propinas" outcome="mes_propina_novo" icon="home"/>
+                          <p:button value="Mêses e propinas" outcome="/propinas/mes_propina_novo" icon="home"/>
+                              <p:button value="Pagar Propina" outcome="/propinas/propinas_pagamento" icon="home"/>
+                          
                     </h:panelGrid>
                 </ui:insert>
             </div>

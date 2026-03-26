@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+           template="./../WEB-INF/templates/tabelas_template.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+
+
+    <ui:define name="content">
+        <f:view>
+            <p:panel header="Registo de grau de parentesco">
+            <h:form>
+                <p:growl id="growl" sticky="true" />
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Grau de parentesco"/>
+                    <h:inputText value="#{grauParentescoMB.grauParentesco.descricaoGrauParentesco}" required="true" requiredMessage="Campo obrigatório"/>
+
+                    <p:commandButton style="float: right" id="save" value="Save" 
+                                     action="#{grauParentescoMB.save}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </h:form>
+                </p:panel>
+        </f:view>
+
+        <f:view>
+            <h:form>
+                <h:dataTable value="#{grauParentescoMB.grauParentescos}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            N.º Registo:
+                        </f:facet>
+                        <h:outputText value="#{item.idGrauParentesco}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Descrição grau parentesco:
+                        </f:facet>
+                        <h:outputText value="#{item.descricaoGrauParentesco}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+
+    </ui:define>
+
+
+
+</ui:composition>

@@ -16,9 +16,9 @@ import skylink.mglcreche.dao.GrauParentescoDAO;
 import skylink.mglcreche.modelo.GrauParentesco;
 
 
-@Named(value = "grauParentescoMB")
+@Named(value = "grauParentescoMBean")
 @ViewScoped
-public class GrauParentescoMB implements Serializable {
+public class GrauParentescoMBean implements Serializable {
     GrauParentesco grauParentesco = new GrauParentesco();
     
     GrauParentescoDAO grauParentescoDAO = new GrauParentescoDAO();

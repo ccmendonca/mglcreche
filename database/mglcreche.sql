@@ -41,7 +41,7 @@ CREATE TABLE `aluno` (
   `telefone_pai_aluno` varchar(45) DEFAULT NULL,
   `data_registo_aluno` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_aluno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,32 @@ CREATE TABLE `aluno` (
 
 LOCK TABLES `aluno` WRITE;
 /*!40000 ALTER TABLE `aluno` DISABLE KEYS */;
+INSERT INTO `aluno` VALUES (1,'Ana','Carlos',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2026-03-20 18:20:24'),(2,'Pedro','Maria',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2026-03-20 18:20:36');
 /*!40000 ALTER TABLE `aluno` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ano_lectivo`
+--
+
+DROP TABLE IF EXISTS `ano_lectivo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ano_lectivo` (
+  `id_ano_lectivo` int NOT NULL AUTO_INCREMENT,
+  `descricao_ano_lectivo` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id_ano_lectivo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ano_lectivo`
+--
+
+LOCK TABLES `ano_lectivo` WRITE;
+/*!40000 ALTER TABLE `ano_lectivo` DISABLE KEYS */;
+INSERT INTO `ano_lectivo` VALUES (1,'2026-2027');
+/*!40000 ALTER TABLE `ano_lectivo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -83,6 +108,53 @@ CREATE TABLE `cadastro_responsavel_busca` (
 LOCK TABLES `cadastro_responsavel_busca` WRITE;
 /*!40000 ALTER TABLE `cadastro_responsavel_busca` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cadastro_responsavel_busca` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `classe`
+--
+
+DROP TABLE IF EXISTS `classe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `classe` (
+  `id_classe` int NOT NULL AUTO_INCREMENT,
+  `descricao_classe` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id_classe`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `classe`
+--
+
+LOCK TABLES `classe` WRITE;
+/*!40000 ALTER TABLE `classe` DISABLE KEYS */;
+INSERT INTO `classe` VALUES (1,'1.ª Classe'),(2,'2:ª Classe');
+/*!40000 ALTER TABLE `classe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `forma_pagamento`
+--
+
+DROP TABLE IF EXISTS `forma_pagamento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `forma_pagamento` (
+  `id_forma_pagamento` int NOT NULL AUTO_INCREMENT,
+  `descricao_forma_pagamento` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id_forma_pagamento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `forma_pagamento`
+--
+
+LOCK TABLES `forma_pagamento` WRITE;
+/*!40000 ALTER TABLE `forma_pagamento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `forma_pagamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -145,9 +217,16 @@ CREATE TABLE `proprina` (
   `id_proprina` int NOT NULL AUTO_INCREMENT,
   `data_pagamento` datetime DEFAULT CURRENT_TIMESTAMP,
   `id_aluno` int DEFAULT NULL,
+  `id_ano_lectivo` int DEFAULT NULL,
+  `id_forma_pagamento` int DEFAULT NULL,
+  `data_hora_registo` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_proprina`),
   KEY `fk_proprina_aluno_idx` (`id_aluno`),
-  CONSTRAINT `fk_proprina_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id_aluno`)
+  KEY `fk_proprina_ano_lectivo_idx` (`id_ano_lectivo`),
+  KEY `fk_proprina_forma_pagamento_idx` (`id_forma_pagamento`),
+  CONSTRAINT `fk_proprina_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id_aluno`),
+  CONSTRAINT `fk_proprina_ano_lectivo` FOREIGN KEY (`id_ano_lectivo`) REFERENCES `ano_lectivo` (`id_ano_lectivo`),
+  CONSTRAINT `fk_proprina_forma_pagamento` FOREIGN KEY (`id_forma_pagamento`) REFERENCES `forma_pagamento` (`id_forma_pagamento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -226,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-20  0:11:42
+-- Dump completed on 2026-03-24  0:45:18
