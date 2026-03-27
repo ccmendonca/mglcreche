@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.AnoLectivo;
-import skylink.mglcreche.modelo.GrauParentesco;
 
 
 public class AnoLectivoDAO {

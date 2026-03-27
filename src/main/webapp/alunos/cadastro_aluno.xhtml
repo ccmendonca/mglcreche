@@ -3,14 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="jakarta.faces.html">
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <body>
 
-        <ui:composition template="./WEB-INF/templates/aluno_template.xhtml">
+        <ui:composition  template="./../WEB-INF/templates/aluno_template.xhtml">
 
             <ui:define name="content">
                 <h:form>
+                     <p:growl id="growl" sticky="true" />
                     <p:panel header="Registos de Alunos">
 
 
@@ -20,7 +22,7 @@
                             <p:outputLabel value="Sobrenome:"/>
                             <p:inputText value="#{alunoBean.aluno.sobrenomeAluno}" required="true"/>
                             <p:outputLabel value="Data de Nascimento:"/>
-                            <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true"/>
+                            <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
                             <p:outputLabel value="Grupo Sanguíneo:"/>
                             <p:inputText value="#{alunoBean.aluno.grauSanguineoAluno}" required="true"/>
                             <p:outputLabel value="Nº Casa:"/>
@@ -52,7 +54,12 @@
 
                         </h:panelGrid>
                     </p:panel>
-                    <p:commandButton value="Save" action="#{alunoBean.save}" ajax="false"/>
+                  
+                    
+                        <p:commandButton  id="save" value="Save" 
+                                     action="#{alunoBean.save}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
                 </h:form>
 
             </ui:define>

@@ -5,6 +5,8 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -13,10 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.AlunoDAO;
 import skylink.mglcreche.modelo.Aluno;
-
-/**
- * «claudiomendonca»
- */
 
 @Named(value = "alunoBean")
 @ViewScoped
@@ -36,24 +34,31 @@ public class AlunoBean implements Serializable {
         alunos = alunoDAO.findAll();
         aluno = new Aluno();
     }
-    
-    public void findParameter(){
-        pesquisado = alunoDAO.aleatory(dado);
+
+    public void findParameter() {
+        pesquisado = alunoDAO.aleatoryAlunos(dado);
     }
-    
-    public String save(){
-        alunoDAO.save(aluno);
-        aluno = new Aluno();
-        return "index_aluno.faces?faces-redirect=true";
+
+   
+
+    public String save() {
+        if (alunoDAO.save(aluno)) {
+            aluno = new Aluno();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso ao Guarda", "Sucesso ao guardar os dados"));
+            return "index_aluno.faces?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Guardar", "Erro ao guardar os dados"));
+            return null;
+        }
     }
-    
-    public String update(){
+
+    public String update() {
         alunoDAO.update(aluno);
         aluno = new Aluno();
         return ".faces?faces-redirect=true";
     }
-    
-    public String selectAluno(Aluno a){
+
+    public String selectAluno(Aluno a) {
         aluno = a;
         return "historico_aluno";
     }
@@ -113,7 +118,5 @@ public class AlunoBean implements Serializable {
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
-    
-    
 
 }
