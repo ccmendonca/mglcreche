@@ -2,67 +2,58 @@ package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.sql.Date; 
-import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.ResponsavelBuscaAlunoDAO;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 
-@Named(value = "responsavelBuscaAlunoBean")
+@Named(value = "responsavelBean")
 @SessionScoped
 public class ResponsavelBuscaAlunoBean implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     private ResponsavelBuscaAluno responsavel;
     private ResponsavelBuscaAlunoDAO responsavelDAO;
     private List<ResponsavelBuscaAluno> listaResponsaveis;
 
-    public ResponsavelBuscaAlunoBean() {
-    }
-
     @PostConstruct
     public void init() {
         responsavel = new ResponsavelBuscaAluno();
         responsavelDAO = new ResponsavelBuscaAlunoDAO();
-        listaResponsaveis = new ArrayList<>();
         listar();
     }
 
-    public void salvar() {
-        if (responsavel.getDataRegistoResponsavel() == null) {
+    public void listar() {
+        listaResponsaveis = responsavelDAO.listar();
+    }
 
-            responsavel.setDataRegistoResponsavel(new Date(System.currentTimeMillis()));
-        }
-
+    public String salvar() {
         if (responsavelDAO.save(responsavel)) {
-            novo();
-            listar();
+
+            responsavel = new ResponsavelBuscaAluno();
+            listar(); 
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados"));
+
+            return "/responsavelbusca/index_responsavel_busca_aluno.xhtml?faces-redirect=true";
         }
+
+        return null;
     }
 
     public void atualizar() {
         if (responsavelDAO.update(responsavel)) {
             listar();
-            novo(); 
         }
     }
 
     public void eliminar() {
         if (responsavelDAO.delete(responsavel)) {
-            novo();
             listar();
         }
-    }
-
-    public void listar() {
-        listaResponsaveis = responsavelDAO.findAll();
-    }
-
-    public void novo() {
-        responsavel = new ResponsavelBuscaAluno();
     }
 
     public ResponsavelBuscaAluno getResponsavel() {
@@ -75,9 +66,5 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
 
     public List<ResponsavelBuscaAluno> getListaResponsaveis() {
         return listaResponsaveis;
-    }
-
-    public void setListaResponsaveis(List<ResponsavelBuscaAluno> listaResponsaveis) {
-        this.listaResponsaveis = listaResponsaveis;
     }
 }

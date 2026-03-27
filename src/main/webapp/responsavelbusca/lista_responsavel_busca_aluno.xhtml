@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
+
+            
+
+            <ui:define name="content">
+                <f:view>
+                    <p:panel header="Registos de Responsáveis">
+                        <h:form id="formResponsavel">
+                            <p:dataTable value="#{responsavelBean.listaResponsaveis}" var="resp" 
+                                         paginator="true" rows="10" 
+                                         emptyMessage="Nenhum responsável encontrado.">
+                                
+                                <p:column headerText="ID" width="50">
+                                    <h:outputText value="#{resp.idResponsavel}"/>
+                                </p:column>
+
+                                <p:column headerText="Nome Completo">
+                                    <h:outputText value="#{resp.nomeResponsavel} #{resp.sobrenomeResponsavel}"/>
+                                </p:column>
+
+                                <p:column headerText="Telefone">
+                                    <h:outputText value="#{resp.telefoneResponsavel}"/>
+                                </p:column>
+
+                                <p:column headerText="Endereço (Bairro/Rua/Casa)">
+                                    <h:outputText value="#{resp.bairroResponsavel}, #{resp.ruaResponsavel}, nº #{resp.casaResponsavel}"/>
+                                </p:column>
+
+                                <p:column headerText="Data Nasc.">
+                                    <h:outputText value="#{resp.dataNascimentoResponsavel}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Data Registro">
+                                    <h:outputText value="#{resp.dataRegistoResponsavel}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Operações" width="200">
+                                    <p:commandButton value="Histórico" icon="pi pi-id-card"
+                                                     class="ui-button-raised ui-button-flat" 
+                                                     action="historico_responsavel">
+                                        <f:setPropertyActionListener value="#{resp}" target="#{responsavelBean.selecionado}"/>
+                                    </p:commandButton>
+                                    
+                                    </p:column>
+                                
+                                <p:column headerText="Operações" width="200">
+                                    
+                                    <p:button value="Editar" icon="pi pi-pencil" styleClass="ui-button-warning ml-2"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </h:form>
+                    </p:panel>
+       </f:view>
+            </ui:define>
+
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
