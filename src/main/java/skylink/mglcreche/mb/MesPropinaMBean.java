@@ -9,6 +9,7 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import skylink.mglcreche.dao.AlunoDAO;
 import skylink.mglcreche.dao.MesPropinaDAO;
 import skylink.mglcreche.modelo.Aluno;
 import skylink.mglcreche.modelo.MesPropina;
@@ -23,6 +24,7 @@ public class MesPropinaMBean implements Serializable {
     private List<Aluno> alunosPesquisados;
     private String nomeAluno ;
     private Aluno aluno = new Aluno();
+     private AlunoDAO alunoDAO = new AlunoDAO();
     @PostConstruct
     public void inicializar() {
 
@@ -75,7 +77,7 @@ public class MesPropinaMBean implements Serializable {
     }
     
      public void pesquisaAluno() {
-        alunosPesquisados = mesPropinaDAO.findAllAlunosByNome(nomeAluno);
+        alunosPesquisados = alunoDAO.aleatoryAlunos(nomeAluno);
 
     }
     
