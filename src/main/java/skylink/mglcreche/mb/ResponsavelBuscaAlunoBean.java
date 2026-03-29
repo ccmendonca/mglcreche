@@ -17,26 +17,37 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
     private ResponsavelBuscaAluno responsavel;
     private ResponsavelBuscaAlunoDAO responsavelDAO;
     private List<ResponsavelBuscaAluno> listaResponsaveis;
+    private String nomeResponsavel;
+
+    public String getNomeResponsavel() {
+        return nomeResponsavel;
+    }
+
+    public void setNomeResponsavel(String nomeResponsavel) {
+        this.nomeResponsavel = nomeResponsavel;
+    }
 
     @PostConstruct
     public void init() {
         responsavel = new ResponsavelBuscaAluno();
         responsavelDAO = new ResponsavelBuscaAlunoDAO();
-        listar();
     }
 
-    public void listar() {
-        listaResponsaveis = responsavelDAO.listar();
+    public void listar(String nomeResponsavel) {
+        listaResponsaveis = responsavelDAO.listar(nomeResponsavel);
     }
-
+    
     public String salvar() {
+        String numero = responsavel.getTelefoneResponsavel().substring(5);
+        String[] divs = numero.strip().split("-");
+        String novoNumero = String.join("", divs);
+        responsavel.setTelefoneResponsavel(novoNumero);
         if (responsavelDAO.save(responsavel)) {
 
             responsavel = new ResponsavelBuscaAluno();
-            listar(); 
 
             FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados"));
 
             return "/responsavelbusca/index_responsavel_busca_aluno.xhtml?faces-redirect=true";
         }
@@ -46,13 +57,18 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
 
     public void atualizar() {
         if (responsavelDAO.update(responsavel)) {
-            listar();
+
         }
+    }
+
+    public String editar(ResponsavelBuscaAluno r) {
+        this.responsavel = r;
+        return "cadastroResponsavel?faces-redirect=true";
     }
 
     public void eliminar() {
         if (responsavelDAO.delete(responsavel)) {
-            listar();
+
         }
     }
 
@@ -66,5 +82,10 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
 
     public List<ResponsavelBuscaAluno> getListaResponsaveis() {
         return listaResponsaveis;
+    }
+
+    public void pesquisa() {
+        System.out.println("Dados pesquisado com Sucessso...");
+        listar(nomeResponsavel);
     }
 }

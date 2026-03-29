@@ -20,6 +20,7 @@ public class ResponsavelBuscaAluno implements Serializable {
     private Date dataNascimentoResponsavel;
     private String casaResponsavel;
     private String ruaResponsavel;
+     private String municipioResponsavel;
     private String bairroResponsavel;
     private String telefoneResponsavel;
     private Date dataRegistoResponsavel;
@@ -27,13 +28,14 @@ public class ResponsavelBuscaAluno implements Serializable {
     public ResponsavelBuscaAluno() {
     }
 
-    public ResponsavelBuscaAluno(Integer idResponsavel, String nomeResponsavel, String sobrenomeResponsavel, Date dataNascimentoResponsavel, String casaResponsavel, String ruaResponsavel, String bairroResponsavel, String telefoneResponsavel, Date dataRegistoResponsavel) {
+    public ResponsavelBuscaAluno(Integer idResponsavel, String nomeResponsavel, String sobrenomeResponsavel, Date dataNascimentoResponsavel, String casaResponsavel, String municipioResponsavel, String ruaResponsavel, String bairroResponsavel, String telefoneResponsavel, Date dataRegistoResponsavel) {
         this.idResponsavel = idResponsavel;
         this.nomeResponsavel = nomeResponsavel;
         this.sobrenomeResponsavel = sobrenomeResponsavel;
         this.dataNascimentoResponsavel = dataNascimentoResponsavel;
         this.casaResponsavel = casaResponsavel;
         this.ruaResponsavel = ruaResponsavel;
+        this.municipioResponsavel = municipioResponsavel;
         this.bairroResponsavel = bairroResponsavel;
         this.telefoneResponsavel = telefoneResponsavel;
         this.dataRegistoResponsavel = dataRegistoResponsavel;
@@ -87,6 +89,14 @@ public class ResponsavelBuscaAluno implements Serializable {
         this.ruaResponsavel = ruaResponsavel;
     }
 
+    public String getMunicipioResponsavel() {
+        return municipioResponsavel;
+    }
+
+    public void setMunicipioResponsavel(String municipioResponsavel) {
+        this.municipioResponsavel = municipioResponsavel;
+    }
+ 
     public String getBairroResponsavel() {
         return bairroResponsavel;
     }
@@ -133,5 +143,13 @@ public class ResponsavelBuscaAluno implements Serializable {
         return Objects.equals(this.idResponsavel, other.idResponsavel);
     }
 
+    @Override
+    public String toString() {
+        return "ResponsavelBuscaAluno{" + "idResponsavel=" + idResponsavel + ", nomeResponsavel=" + nomeResponsavel + ", sobrenomeResponsavel=" + sobrenomeResponsavel + ", dataNascimentoResponsavel=" + dataNascimentoResponsavel + ", casaResponsavel=" + casaResponsavel + ", ruaResponsavel=" + ruaResponsavel + ", municipioResponsavel=" + municipioResponsavel + ", bairroResponsavel=" + bairroResponsavel + ", telefoneResponsavel=" + telefoneResponsavel + ", dataRegistoResponsavel=" + dataRegistoResponsavel + '}';
+    }
+
+    
+
+    
     
 }

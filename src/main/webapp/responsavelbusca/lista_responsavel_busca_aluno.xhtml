@@ -10,17 +10,22 @@
 
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
 
-            
+
 
             <ui:define name="content">
                 <f:view>
-                    <p:panel header="Registos de Responsáveis">
+                    <p:panel header="Registos dos Responsáveis">
+                        <h:form id="formPesquisa">
+                            <p:inputText id="nome" value="#{responsavelBean.nomeResponsavel}" required="true" /> 
+                            <p:commandButton id="buttonPesquisa" value="Pesquisar" action="#{responsavelBean.pesquisa}" actionListener="pesquisa" update="formResponsavel:tabela">
+                            </p:commandButton >
+                        </h:form>
                         <h:form id="formResponsavel">
-                            <p:dataTable value="#{responsavelBean.listaResponsaveis}" var="resp" 
+                            <p:dataTable id="tabela" value="#{responsavelBean.listaResponsaveis}" var="resp" 
                                          paginator="true" rows="10" 
                                          emptyMessage="Nenhum responsável encontrado.">
-                                
-                                <p:column headerText="ID" width="50">
+
+                                <p:column headerText="  Nº Registo:" width="50">
                                     <h:outputText value="#{resp.idResponsavel}"/>
                                 </p:column>
 
@@ -32,8 +37,8 @@
                                     <h:outputText value="#{resp.telefoneResponsavel}"/>
                                 </p:column>
 
-                                <p:column headerText="Endereço (Bairro/Rua/Casa)">
-                                    <h:outputText value="#{resp.bairroResponsavel}, #{resp.ruaResponsavel}, nº #{resp.casaResponsavel}"/>
+                                <p:column headerText="Endereço (Municipio/Bairro/Rua/Casa)">
+                                    <h:outputText value="#{resp.municipioResponsavel}, #{resp.bairroResponsavel}, #{resp.ruaResponsavel}, nº #{resp.casaResponsavel}"/>
                                 </p:column>
 
                                 <p:column headerText="Data Nasc.">
@@ -48,28 +53,17 @@
                                     </h:outputText>
                                 </p:column>
 
-                                <p:column headerText="Operações" width="200">
-                                    <p:commandButton value="Histórico" icon="pi pi-id-card"
-                                                     class="ui-button-raised ui-button-flat" 
-                                                     action="historico_responsavel">
-                                        <f:setPropertyActionListener value="#{resp}" target="#{responsavelBean.selecionado}"/>
-                                    </p:commandButton>
-                                    
-                                    </p:column>
-                                
-                                <p:column headerText="Operações" width="200">
-                                    
-                                    <p:button value="Editar" icon="pi pi-pencil" styleClass="ui-button-warning ml-2"/>
+                                <p:column headerText="Operações" width="150">
+
+                                    <p:commandButton value="Editar" action="editar_responsavel_busca" icon="pi pi-pencil" styleClass="ui-button-warning ml-2">
+                                        <f:setPropertyActionListener value="#{resp}" target="#{responsavelBean.responsavel}"/>
+                                    </p:commandButton >
                                 </p:column>
-                                
+
                             </p:dataTable>
                         </h:form>
                     </p:panel>
-       </f:view>
-            </ui:define>
-
-            <ui:define name="bottom">
-                bottom
+                </f:view>
             </ui:define>
 
         </ui:composition>

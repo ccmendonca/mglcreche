@@ -2,21 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:f="jakarta.faces.core"
       xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
       xmlns:p="http://primefaces.org/ui">
 
     <body>
 
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
 
-
-
             <ui:define name="content">
                 <f:view>
                     <h:form> 
                         <p:growl id="growl" sticky="true" />
-                        <p:panel header=" Resgistar o Novo Responsável da Busca do Aluno ">
+                        <p:panel header="Editar Os Dados do Responsavel da busca do Aluno">
 
                             <p:panelGrid columns="4" layout="grid">
 
@@ -28,30 +26,33 @@
                                 <p:calendar id="dataNasc" value="#{responsavelBean.responsavel.dataNascimentoResponsavel}" 
                                             pattern="dd/MM/yyyy" showOn="button" navigator="true" />
                                 <p:outputLabel for="telefone" value="Telefone:" />
-                                <p:inputMask id="telefone" value="#{responsavelBean.responsavel.telefoneResponsavel}" mask="(24) 999 999 999"
-                                             required="true" />
-
+                                <p:inputMask id="telefone" value="#{responsavelBean.responsavel.telefoneResponsavel}" mask="(244) 999999999"
+                                             requiredMessage="O nome é obrigatório."/>
 
                                 <p:outputLabel for="municipio" value="Municipio:" />
-                                <p:inputText id="municipio" value="#{responsavelBean.responsavel.municipioResponsavel}" required="true" />
+                                <p:inputText id="municipio" value="#{responsavelBean.responsavel.municipioResponsavel}" />
                                 <p:outputLabel for="bairro" value="Bairro:" />
-                                <p:inputText id="bairro" value="#{responsavelBean.responsavel.bairroResponsavel}" required="true"/>
+                                <p:inputText id="bairro" value="#{responsavelBean.responsavel.bairroResponsavel}" />
                                 <p:outputLabel for="rua" value="Rua:" />
-                                <p:inputText id="rua" value="#{responsavelBean.responsavel.ruaResponsavel}" required="true" />
+                                <p:inputText id="rua" value="#{responsavelBean.responsavel.ruaResponsavel}" />
                                 <p:outputLabel for="casa" value="Nº da Casa:" />
                                 <p:inputText id="casa" value="#{responsavelBean.responsavel.casaResponsavel}" />
 
                             </p:panelGrid>
 
-                            <p:commandButton  id="save" value="Save" 
-                                              action="#{responsavelBean.salvar}" icon="ui-icon-disk" update="growl">
-                                <f:ajax execute="@form" render="@form"/>
+
+                            <p:commandButton  id="save" value="Salvar Alterações" 
+                                              action="#{responsavelBean.atualizar}" icon="ui-icon-disk" update="growl">
+
                             </p:commandButton>
+
+
 
                         </p:panel>
                     </h:form>
                 </f:view>
             </ui:define>
+
         </ui:composition>
 
     </body>
