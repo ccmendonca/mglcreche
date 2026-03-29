@@ -6,6 +6,7 @@ public class PropinaDetalhe {
     private Propina propina;
     private MesPropina mesPropina;
     private Double valorPropina;
+    
 
     public PropinaDetalhe() {
     }
@@ -16,6 +17,14 @@ public class PropinaDetalhe {
         this.valorPropina = valorPropina;
     }
 
+    
+     public PropinaDetalhe(MesPropina mesPropina, Double valorPropina) {
+        this.mesPropina = mesPropina;
+        this.valorPropina = valorPropina;
+    }
+   
+    
+    
     public Propina getPropina() {
         return propina;
     }

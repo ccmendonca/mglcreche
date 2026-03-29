@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/propinas_template.xhtml">
+
+
+            <ui:define name="content">
+                <p:panel header="Mes(es) Seleccionados">
+
+                    <p:dataTable var="item" value="#{cestoPropinaDetalheBean.cesto}" emptyMessage="Nenhum mẽs seleccionado">
+                        <p:column headerText="Mês">
+                            <h:outputText value="#{item.mesPropina.descricaoMesPropina}"/>
+                        </p:column>
+
+                        <p:column headerText="Preço">
+                            <h:outputText value="#{item.valorPropina}"/>
+                        </p:column>
+
+                        <p:column headerText="Sub Total">
+                            <h:outputText value="#{item.valorPropina * 1}">
+                                <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <f:facet name="footer">
+                        <h2>Total a pagar:</h2>
+                        <h:outputText value="#{cestoPropinaDetalheBean.totalDaInscricao()}" style="font-size: 1.3em; ">
+                            <f:convertNumber type="currency"  pattern="#,##0.00"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:panel>
+
+
+
+
+            </ui:define>
+
+
+        </ui:composition>
+
+    </body>
+</html>
