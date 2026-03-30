@@ -80,12 +80,23 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
         this.responsavel = responsavel;
     }
 
+    
     public List<ResponsavelBuscaAluno> getListaResponsaveis() {
-        return listaResponsaveis;
+    if (listaResponsaveis == null) {
+        listaResponsaveis = new java.util.ArrayList<>();
     }
+    return listaResponsaveis;
+}
 
     public void pesquisa() {
         System.out.println("Dados pesquisado com Sucessso...");
         listar(nomeResponsavel);
     }
+    
+    public void limpar() {
+    responsavel = new ResponsavelBuscaAluno();
+}
+    public void limparLista() {
+    listaResponsaveis = new java.util.ArrayList<>();
+}
 }
