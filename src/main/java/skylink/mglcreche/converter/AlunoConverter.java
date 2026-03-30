@@ -8,19 +8,19 @@ import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-import skylink.mglcreche.dao.AnoLectivoDAO;
-import skylink.mglcreche.modelo.AnoLectivo;
+import skylink.mglcreche.dao.AlunoDAO;
+import skylink.mglcreche.modelo.Aluno;
 
 
 @FacesConverter(value = "anoLectivoConverter")
-public class AnoLectivoConverter implements Converter{
-    AnoLectivoDAO anoLectivoDAO =new AnoLectivoDAO();
+public class AlunoConverter implements Converter{
+    AlunoDAO alunoDAO =new AlunoDAO();
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         Integer id = Integer.parseInt(value);
         try {
-            return anoLectivoDAO.findById(id);
+            return alunoDAO.findById(id);
         } catch (Exception ex) {
             System.err.println("Erro na conversão: " + ex.getMessage());
         }
@@ -32,8 +32,8 @@ public class AnoLectivoConverter implements Converter{
     public String getAsString(FacesContext context, UIComponent component, Object value) {
       
       if (value != null) {
-            AnoLectivo anoLectivo = (AnoLectivo) value;
-            return String.valueOf(anoLectivo.getIdAnoLectivo());
+             Aluno  aluno = ( Aluno) value;
+            return String.valueOf(aluno.getIdAluno());
         }
         return null;
     }
