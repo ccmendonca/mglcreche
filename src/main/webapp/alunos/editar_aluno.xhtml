@@ -2,34 +2,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="jakarta.faces.core">
 
     <body>
 
-        <ui:composition  template="./../WEB-INF/templates/aluno_template.xhtml">
+        <ui:composition template="./../WEB-INF/templates/aluno_template.xhtml">
 
             <ui:define name="content">
                 <h:form>
                      <p:growl id="growl" sticky="true" />
-                    <p:panel header="Registos de Alunos">
+                    <p:panel header="Actualizando dados do aluno(a)">
 
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Nome:"/>
-                            <p:inputText value="#{alunoBean.aluno.nomeAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.nomeAluno}" required="true"/>
                             <p:outputLabel value="Sobrenome:"/>
-                            <p:inputText value="#{alunoBean.aluno.sobrenomeAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.sobrenomeAluno}" required="true"/>
                             <p:outputLabel value="Data de Nascimento:"/>
-                            <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
+                            <p:calendar value="#{alunoMBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
                             <p:outputLabel value="Grupo Sanguíneo:"/>
-                            <p:inputText value="#{alunoBean.aluno.grauSanguineoAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.grauSanguineoAluno}" required="true"/>
                             <p:outputLabel value="Nº Casa:"/>
-                            <p:inputText value="#{alunoBean.aluno.casaAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.casaAluno}" required="true"/>
                             <p:outputLabel value="Rua:"/>
-                            <p:inputText value="#{alunoBean.aluno.ruaAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.ruaAluno}" required="true"/>
                             <p:outputLabel value="Bairro:"/>
-                            <p:inputText value="#{alunoBean.aluno.bairroAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.bairroAluno}" required="true"/>
 
                         </h:panelGrid>
 
@@ -38,27 +38,26 @@
                     <p:panel header="Encarregados de Educação">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Nome Mãe:"/>
-                            <p:inputText value="#{alunoBean.aluno.nomeMaeAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.nomeMaeAluno}" required="true"/>
                             <p:outputLabel value="Sobrenome Mãe:"/>
-                            <p:inputText value="#{alunoBean.aluno.sobrenomeMaeAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.sobrenomeMaeAluno}" required="true"/>
                             <p:outputLabel value="Telefone Mãe:"/>
-                            <p:inputText value="#{alunoBean.aluno.telefoneMaeAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.telefoneMaeAluno}" required="true"/>
                             <p:outputLabel value="Nome Pai:"/>
-                            <p:inputText value="#{alunoBean.aluno.nomePaiAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.nomePaiAluno}" required="true"/>
                             <p:outputLabel value="Sobrenome Pai:"/>
-                            <p:inputText value="#{alunoBean.aluno.sobrenomePaiAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.sobrenomePaiAluno}" required="true"/>
                             <p:outputLabel value="Telefone Pai:"/>
-                            <p:inputText value="#{alunoBean.aluno.telefonePaiAluno}" required="true"/>
+                            <p:inputText value="#{alunoMBean.aluno.telefonePaiAluno}" required="true"/>
 
                         </h:panelGrid>
                     </p:panel>
                   
-                        <p:commandButton  id="save" value="Save" 
-                                     action="#{alunoBean.save}" icon="ui-icon-disk" update="growl">
+                        <p:commandButton  id="update" value="Actualizar" 
+                                          action="#{alunoMBean.update}" icon="ui-icon-disk" update="growl">
                         <f:ajax execute="@form" render="@form"/>
                     </p:commandButton>
                 </h:form>
-
             </ui:define>
 
         </ui:composition>

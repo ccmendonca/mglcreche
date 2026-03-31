@@ -10,17 +10,14 @@ import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Aluno;
 
-
 public class AlunoDAO implements Serializable {
 
     public static final String INSERT = "INSERT INTO aluno (nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String UPDATE = "UPDATE aluno SET id_aluno = ?, nome_aluno = ?, sobrenome_aluno = ?, data_nascimento_aluno = ?,grupo_sanguineo_aluno = ?, casa_aluno = ?, rua_aluno = ?, bairro_aluno = ?, nome_mae_aluno = ?, sobrenome_mae_aluno = ?, telefone_mae_aluno = , nome_pai_aluno = ?, sobrenome_pai_aluno = ?, telefone_pai_aluno = ?, data_registo_aluno = CURRENT_TIMESTAMP WHERE id_aluno = ?";
+    public static final String UPDATE = "UPDATE aluno SET nome_aluno = ?, sobrenome_aluno = ?, data_nascimento_aluno = ?, grupo_sanguineo_aluno = ?, casa_aluno = ?, rua_aluno = ?, bairro_aluno = ?, nome_mae_aluno = ?, sobrenome_mae_aluno = ?, telefone_mae_aluno = ?, nome_pai_aluno = ?, sobrenome_pai_aluno = ?, telefone_pai_aluno = ? WHERE id_aluno = ?";
     public static final String DELETE = "DELETE FROM aluno WHERE id_aluno = ? ";
     public static final String SELECT_ALL = "SELECT * FROM aluno";
     public static final String SELECT_BY_ID = "SELECT * FROM aluno WHERE id_aluno = ? ";
     public static final String SELECT_BY_PARAMETER = "SELECT id_aluno,  nome_aluno,sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, data_registo_aluno FROM aluno WHERE id_aluno LIKE? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
-    
-    
 
     Connection conn = null;
     PreparedStatement ps = null;
@@ -92,21 +89,20 @@ public class AlunoDAO implements Serializable {
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(UPDATE);
-            ps.setInt(1, aluno.getIdAluno());
-            ps.setString(2, aluno.getNomeAluno());
-            ps.setString(3, aluno.getSobrenomeAluno());
-            ps.setDate(4, new java.sql.Date(aluno.getDataNascimentoAluno().getTime()));
-            ps.setString(5, aluno.getGrauSanguineoAluno());
-            ps.setString(6, aluno.getCasaAluno());
-            ps.setString(7, aluno.getRuaAluno());
-            ps.setString(8, aluno.getBairroAluno());
-            ps.setString(9, aluno.getNomeMaeAluno());
-            ps.setString(10, aluno.getSobrenomeMaeAluno());
-            ps.setString(11, aluno.getTelefoneMaeAluno());
-            ps.setString(12, aluno.getNomePaiAluno());
-            ps.setString(13, aluno.getSobrenomePaiAluno());
-            ps.setString(7, aluno.getTelefonePaiAluno());
-            ps.setTimestamp(15, new java.sql.Timestamp(aluno.getDataRegistoAluno().getTime()));
+            ps.setString(1, aluno.getNomeAluno());
+            ps.setString(2, aluno.getSobrenomeAluno());
+            ps.setDate(3, new java.sql.Date(aluno.getDataNascimentoAluno().getTime()));
+            ps.setString(4, aluno.getGrauSanguineoAluno());
+            ps.setString(5, aluno.getCasaAluno());
+            ps.setString(6, aluno.getRuaAluno());
+            ps.setString(7, aluno.getBairroAluno());
+            ps.setString(8, aluno.getNomeMaeAluno());
+            ps.setString(9, aluno.getSobrenomeMaeAluno());
+            ps.setString(10, aluno.getTelefoneMaeAluno());
+            ps.setString(11, aluno.getNomePaiAluno());
+            ps.setString(12, aluno.getSobrenomePaiAluno());
+            ps.setString(13, aluno.getTelefonePaiAluno());
+            ps.setInt(14, aluno.getIdAluno());
 
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
@@ -116,7 +112,7 @@ public class AlunoDAO implements Serializable {
             }
             return flagControlo;
         } catch (SQLException e) {
-            System.err.println("Erro ao actualizar dados: " + e.getMessage());
+            System.err.println("Erro ao actualizar dados: " + e.getLocalizedMessage());
             return false;
         } finally {
             ConnectionDB.closeConnection(conn, ps);
@@ -185,9 +181,8 @@ public class AlunoDAO implements Serializable {
         }
         return alunos;
     }
-   
-    
-      public List<Aluno> aleatoryAlunos(Object especifily) {
+
+    public List<Aluno> aleatoryAlunos(Object especifily) {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -195,10 +190,10 @@ public class AlunoDAO implements Serializable {
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(SELECT_BY_PARAMETER);
-             String padron = "%" + especifily + "%";
+            String padron = "%" + especifily + "%";
             ps.setString(1, padron);
             ps.setString(2, padron);
-             ps.setString(3, padron);
+            ps.setString(3, padron);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Aluno aluno = new Aluno();
@@ -207,7 +202,7 @@ public class AlunoDAO implements Serializable {
             }
 
         } catch (SQLException ex) {
-           System.err.println("Erro ao carregar dados da base de dados: " + ex.getLocalizedMessage());
+            System.err.println("Erro ao carregar dados da base de dados: " + ex.getLocalizedMessage());
         } finally {
             ConnectionDB.closeConnection(conn);
         }

@@ -12,26 +12,28 @@
 
             <ui:define name="content">
                 <f:view>
-                        <h:form>
-                            <h:panelGrid columns="2">
-                                <p:outputLabel value="Código"/>
-                                <h:outputText value="#{alunoBean.selecionado.idAluno}" id="code"/>
-                                <p:outputLabel value="Nome"/>
-                                <h:outputText value="#{alunoBean.selecionado.nomeAluno}" id="name"/>
-                                <p:outputLabel value="Sobrenome"/>
-                                <h:outputText value="#{alunoBean.selecionado.sobrenomeAluno}" id="name"/>
-                                <p:outputLabel value="Data de Nascimento"/>
-                                <h:outputText value="#{alunoBean.selecionado.dataNascimentoAluno}" id="name"/>
-                                <p:outputLabel value="Grupo Sanguíneo"/>
-                                <h:outputText value="#{alunoBean.selecionado.grauSanguineoAluno}" id="name"/>
-                                <p:outputLabel value="Nº Casa"/>
-                                <h:outputText value="#{alunoBean.selecionado.casaAluno}" id="name"/>
-                                <p:outputLabel value="Rua"/>
-                                <h:outputText value="#{alunoBean.selecionado.ruaAluno}" id="name"/>
-                                <p:outputLabel value="Bairro"/>
-                                <h:outputText value="#{alunoBean.selecionado.bairroAluno}" id="name"/>
-                            </h:panelGrid>
-                        </h:form>
+                    <h:form>
+                        <p:fieldset legend="Histórico do Aluno">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Código:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.idAluno}"/>
+                            <p:outputLabel value="Nome:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.nomeAluno}"/>
+                            <p:outputLabel value="Sobrenome:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.sobrenomeAluno}"/>
+                            <p:outputLabel value="Data de Nascimento:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.dataNascimentoAluno}"/>
+                            <p:outputLabel value="Grupo Sanguíneo:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.grauSanguineoAluno}"/>
+                            <p:outputLabel value="Nº Casa:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.casaAluno}"/>
+                            <p:outputLabel value="Rua:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.ruaAluno}"/>
+                            <p:outputLabel value="Bairro:  "/>
+                            <h:outputText value="#{alunoMBean.aluno.bairroAluno}"/>
+                        </h:panelGrid>
+                        </p:fieldset>
+                    </h:form>
                 </f:view>
             </ui:define>
         </ui:composition>
