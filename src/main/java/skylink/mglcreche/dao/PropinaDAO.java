@@ -109,7 +109,7 @@ public class PropinaDAO {
         return propinas;
     }
 
-    public Integer buscaUltimaFactura() {
+    public Propina buscaUltimaPropina() {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -120,8 +120,8 @@ public class PropinaDAO {
             ps = conn.prepareStatement(SELECT_MAX_ID_FACTURA);
             rs = ps.executeQuery();
             if (rs.next()) {
-
-                ultimo = rs.getInt(1);
+                   popularComDados(propina, rs);
+             //   ultimo = rs.getInt(1);
             }
 
         } catch (SQLException ex) {
@@ -129,7 +129,7 @@ public class PropinaDAO {
         } finally {
             ConnectionDB.closeConnection(conn);
         }
-        return ultimo;
+        return propina;
 
     }
 

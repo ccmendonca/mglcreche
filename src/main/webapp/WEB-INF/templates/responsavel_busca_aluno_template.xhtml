@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="default.css" library="css"/>
         <h:outputStylesheet name="layout.css" library="css"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>Gestão de responsaveis pela busca dos alunos da creche</title>
     </h:head>
 
@@ -23,8 +24,9 @@
         <div id="menu">
             <ui:insert name="left">
                <h:panelGrid columns="1">
-                    <p:button value="Home" outcome="index" icon="home"/>
-                   
+                    <p:button value="Home" outcome="/index" icon="home"/>
+                    <p:button value="Novo responsavel" outcome="cadastro_responsavelbusca"/>
+                    <p:button value="Listar Responsavel" outcome="lista_responsavel_busca_aluno"/>
 
                     </h:panelGrid>
             </ui:insert>
@@ -34,7 +36,9 @@
         </div>
 
         <div id="rodape">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom">
+                    <h3> Todos os direitos reservados</h3>
+                </ui:insert>
         </div>
 </div>
     </h:body>

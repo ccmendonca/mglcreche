@@ -2,67 +2,74 @@ package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.sql.Date; 
-import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.ResponsavelBuscaAlunoDAO;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 
-@Named(value = "responsavelBuscaAlunoBean")
+@Named(value = "responsavelBean")
 @SessionScoped
 public class ResponsavelBuscaAlunoBean implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     private ResponsavelBuscaAluno responsavel;
     private ResponsavelBuscaAlunoDAO responsavelDAO;
     private List<ResponsavelBuscaAluno> listaResponsaveis;
+    private String nomeResponsavel;
 
-    public ResponsavelBuscaAlunoBean() {
+    public String getNomeResponsavel() {
+        return nomeResponsavel;
+    }
+
+    public void setNomeResponsavel(String nomeResponsavel) {
+        this.nomeResponsavel = nomeResponsavel;
     }
 
     @PostConstruct
     public void init() {
         responsavel = new ResponsavelBuscaAluno();
         responsavelDAO = new ResponsavelBuscaAlunoDAO();
-        listaResponsaveis = new ArrayList<>();
-        listar();
     }
 
-    public void salvar() {
-        if (responsavel.getDataRegistoResponsavel() == null) {
-
-            responsavel.setDataRegistoResponsavel(new Date(System.currentTimeMillis()));
-        }
-
+    public void listar(String nomeResponsavel) {
+        listaResponsaveis = responsavelDAO.listar(nomeResponsavel);
+    }
+    
+    public String salvar() {
+        String numero = responsavel.getTelefoneResponsavel().substring(5);
+        String[] divs = numero.strip().split("-");
+        String novoNumero = String.join("", divs);
+        responsavel.setTelefoneResponsavel(novoNumero);
         if (responsavelDAO.save(responsavel)) {
-            novo();
-            listar();
+
+            responsavel = new ResponsavelBuscaAluno();
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados"));
+
+            return "/responsavelbusca/index_responsavel_busca_aluno.xhtml?faces-redirect=true";
         }
+
+        return null;
     }
 
     public void atualizar() {
         if (responsavelDAO.update(responsavel)) {
-            listar();
-            novo(); 
+
         }
+    }
+
+    public String editar(ResponsavelBuscaAluno r) {
+        this.responsavel = r;
+        return "cadastroResponsavel?faces-redirect=true";
     }
 
     public void eliminar() {
         if (responsavelDAO.delete(responsavel)) {
-            novo();
-            listar();
+
         }
-    }
-
-    public void listar() {
-        listaResponsaveis = responsavelDAO.findAll();
-    }
-
-    public void novo() {
-        responsavel = new ResponsavelBuscaAluno();
     }
 
     public ResponsavelBuscaAluno getResponsavel() {
@@ -73,11 +80,23 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
         this.responsavel = responsavel;
     }
 
+    
     public List<ResponsavelBuscaAluno> getListaResponsaveis() {
-        return listaResponsaveis;
+    if (listaResponsaveis == null) {
+        listaResponsaveis = new java.util.ArrayList<>();
     }
+    return listaResponsaveis;
+}
 
-    public void setListaResponsaveis(List<ResponsavelBuscaAluno> listaResponsaveis) {
-        this.listaResponsaveis = listaResponsaveis;
+    public void pesquisa() {
+        System.out.println("Dados pesquisado com Sucessso...");
+        listar(nomeResponsavel);
     }
+    
+    public void limpar() {
+    responsavel = new ResponsavelBuscaAluno();
+}
+    public void limparLista() {
+    listaResponsaveis = new java.util.ArrayList<>();
+}
 }

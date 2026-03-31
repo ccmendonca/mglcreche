@@ -9,36 +9,42 @@
 
         <ui:composition template="./../WEB-INF/templates/propinas_template.xhtml">
 
-          
+
 
             <ui:define name="content">
                 <h:form style="font-size: 2rem">
-                  
+
                     #{mesPropinaMBean.aluno.nomeAluno}
-                  
+
                     #{mesPropinaMBean.aluno.sobrenomeAluno}  
-                     <hr/>
+                    <hr/>
                 </h:form>
-                
+
                 <h:form id="cursosseleccionados">
                     <p:dataTable id="dtblmeses" var="item" value="#{mesPropinaMBean.mesPropinas}" scrollable="true" scrollHeight="600" lazy="false">
-                                <p:column headerText="Mês">
-                                    <h:outputText value="#{item.descricaoMesPropina}"/>
-                                </p:column>
+                        <p:column headerText="Mês">
+                            <h:outputText value="#{item.descricaoMesPropina}"/>
+                        </p:column>
 
-                                <p:column headerText="Valor da propina">
-                                    <h:outputText value="#{item.valorMesPropina}"/>
-                                </p:column>
-                                <p:column headerText="Seleccionar o Mẽs">
-                                   
-                                    <p:commandButton value="Pagar esse mês" action="#"/>
-                                </p:column>
-                            </p:dataTable>
-                        </h:form>
-                
+                        <p:column headerText="Valor da propina">
+                            <h:outputText value="#{item.valorMesPropina}"/>
+                        </p:column>
+                        <p:column headerText="Seleccionar o Mẽs">
+
+                        
+                            <p:commandButton value="Pagar este mês" action="#{cestoPropinaDetalheBean.addicionarMesCesto(item)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+                <h:form>
+                    <p:commandButton value="Ver meses seleccionados" action="pagamento_propinas_cesto_meses_seleccionados?faces-redirect=true"/>
+
+                </h:form>
             </ui:define>
 
-         
+
 
         </ui:composition>
 

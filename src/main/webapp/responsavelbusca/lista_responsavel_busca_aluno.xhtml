@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html">
+
+
+    <f:metadata>
+        <f:viewAction action="#{responsavelBean.limparLista}" />
+    </f:metadata>
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
+
+
+
+            <ui:define name="content">
+                <f:view>
+                    <center style="margin: 20px;">
+                        <h:form id="pesquisa">
+                            <p:inputText value="#{responsavelBean.nomeResponsavel}" size="100" placeholder="Escreva dados do responsavel busca do aluno. nome, sobrenome, telefone" /> 
+                            <p:commandButton 
+                                value="Pesquisar" 
+                                action="#{responsavelBean.pesquisa}" 
+                                update=":formResponsavel:tabela"/>
+                        </h:form>
+                    </center>
+                    <h:form id="formResponsavel">
+                        <p:dataTable id="tabela" value="#{responsavelBean.listaResponsaveis}" var="resp" 
+                                     paginator="true" rows="10" 
+                                     emptyMessage="Nenhum(a)responsável encontrado(a).">
+                            <p:column headerText="  Nº Registo">
+                                <h:outputText value="#{resp.idResponsavel}"/>
+                            </p:column>
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{resp.nomeResponsavel} #{resp.sobrenomeResponsavel}"/>
+                            </p:column>
+                            <p:column headerText="Telefone">
+                                <h:outputText value="#{resp.telefoneResponsavel}"/>
+                            </p:column>
+                            <p:column headerText="Endereço">
+                                <h:outputText value="#{resp.municipioResponsavel}, #{resp.bairroResponsavel}, #{resp.ruaResponsavel}, nº #{resp.casaResponsavel}"/>
+                            </p:column>
+                            <p:column headerText="Nascimento">
+                                <h:outputText value="#{resp.dataNascimentoResponsavel}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Data Registro">
+                                <h:outputText value="#{resp.dataRegistoResponsavel}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Operações" width="160">
+                                <p:commandButton value="Editar" action="editar_responsavel_busca" icon="pi pi-pencil" styleClass="ui-button-warning ml-3">
+                                    <f:setPropertyActionListener value="#{resp}" target="#{responsavelBean.responsavel}"/>
+                                </p:commandButton >
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
