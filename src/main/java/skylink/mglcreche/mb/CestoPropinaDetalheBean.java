@@ -63,7 +63,7 @@ public class CestoPropinaDetalheBean implements Serializable {
     }
 
     
-     public long totalDaInscricao() {
+     public long totalAPagar() {
         long s = 0L;
         Iterator<PropinaDetalhe> iterator = this.cesto.iterator();
         while (iterator.hasNext()) {

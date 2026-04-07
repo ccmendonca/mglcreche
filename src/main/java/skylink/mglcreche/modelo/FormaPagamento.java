@@ -1,10 +1,9 @@
-
 package skylink.mglcreche.modelo;
 
 import java.util.Objects;
 
-
 public class FormaPagamento {
+
     private Integer idFormaPagamento;
     private String descricaoFormaPagamento;
 
@@ -56,7 +55,7 @@ public class FormaPagamento {
 
     @Override
     public String toString() {
-        return "FormaPagamento{" + "descricaoFormaPagamento=" + descricaoFormaPagamento + '}';
+        return String.format("%s[idFormaPagamento=%d]", getClass().getSimpleName(), getIdFormaPagamento());
     }
-    
+
 }
