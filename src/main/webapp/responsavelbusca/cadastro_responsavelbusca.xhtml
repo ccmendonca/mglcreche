@@ -6,7 +6,7 @@
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui">
 
- 
+
     <f:metadata>
         <f:viewAction action="#{responsavelBean.limpar}" />
     </f:metadata>
@@ -47,8 +47,25 @@
                                 <p:outputLabel for="casa" value="Nº da Casa:" />
                                 <p:inputText id="casa" value="#{responsavelBean.responsavel.casaResponsavel}" />
 
+                                <div class="g-form-item">
+                                    <p:outputLabel for="sexo" value="Sexo" />
+                                    <p:selectOneMenu 
+                                        id="sexo"
+                                        value="#{responsavelBean.responsavel.sexoResponsavel}" 
+                                        converter="sexoConverter">
+
+                                        <f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true" />
+                                        <f:selectItems
+                                            value="#{responsavelBean.sexos}" 
+                                            var="sexo" 
+                                            itemLabel="#{sexo.descricaoSexo}" 
+                                            itemValue="#{sexo}" />
+                                    </p:selectOneMenu>
+                                </div>
+
                             </p:panelGrid>
 
+                            
                             <p:commandButton  id="save" value="Save" 
                                               action="#{responsavelBean.salvar}" icon="ui-icon-disk" update="growl">
                                 <f:ajax execute="@form" render="@form"/>
