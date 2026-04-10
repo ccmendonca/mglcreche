@@ -10,73 +10,74 @@
 
         <ui:composition template="./../WEB-INF/templates/aluno_template.xhtml">
 
-       
-
-          
-
             <ui:define name="content">
                 
-                 <f:view>
-            <p:panel header="Registos de Alunos">
-                <h:form>
-                    <h:dataTable value="#{alunoBean.alunos}" var="item">
-                        <h:column>
-                            <f:facet name="header">
-                                Nº Registo:        
-                            </f:facet>
-                            <h:outputText value="#{item.idAluno}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Nome:          
-                            </f:facet>
-                            <h:outputText value="#{item.nomeAluno}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Sobrenome:         
-                            </f:facet>
-                            <h:outputText value="#{item.sobrenomeAluno}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Data de Nascimento:          
-                            </f:facet>
-                            <h:outputText value="#{item.dataNascimentoAluno}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Bairro:
-                            </f:facet>
-                            <h:outputText value="#{item.bairroAluno}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Operações
-                            </f:facet>
-                            <p:column width="15%">
-                                <p:commandButton value="Histórico" icon="pi pi-id-card"
-                                                 class="ui-button-raised ui-button-flat" action="historico_aluno">
-                                    <f:setPropertyActionListener value="#{aluno}" target="#{alunoBean.selecionado}"/>
-                                </p:commandButton>
+                  <f:view>
+                    <center style="margin: 20px;">
+                        <h:form id="pesquisa">
+                            <p:inputText value="#{alunoBean.dado}" size="90" placeholder="Escreva parte do número de aluno, nome ou sobrenome"/>
+                            <p:commandButton value="Pesquisar" action="#{alunoBean.findParameter}" update=":frmAlunos:tblAlunos" icon="fa fa-fw fa-search"/>
+                        </h:form>
+                    </center>
+
+                    <h:form id="frmAlunos">
+                        <h:messages showDetail="true" showSummary="true"/>
+                        <p:dataTable id="tblAlunos" value="#{alunoBean.pesquisado}" var="aluno" emptyMessage="Nenhum(a) aluno(a) encontrado(a)" rows="20"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N.º Registo"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.idAluno}"/>
                             </p:column>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                Operações
-                            </f:facet>
-                            <p:button value="Editar"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:form>
-            </p:panel>
-        </f:view>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.nomeAluno} #{aluno.sobrenomeAluno}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Data Nascimento"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.dataNascimentoAluno}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N.º Casa"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.casaAluno}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Rua"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.ruaAluno}"/>
+                            </p:column>                                                     
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Bairro"/>
+                                </f:facet>
+                                <h:outputText value="#{aluno.bairroAluno}"/>
+                            </p:column>
+                                <p:column headerText="Operações">
+                                <p:commandButton value="Histórico" action="#{alunoMBean.selectEstudante(aluno)}"/>
+                                
+                            </p:column>
+                            <p:column headerText="Operações">
+                                <p:commandButton value="Editar" icon="pi pi-pencil" action="#{alunoMBean.selectAluno(aluno)}" title="Ver Detalhes" styleClass="ui-button-warning" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                   
+                </f:view>
                 
             </ui:define>
-
-          
 
         </ui:composition>
 

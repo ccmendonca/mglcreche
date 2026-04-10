@@ -4,11 +4,10 @@
  */
 package skylink.mglcreche.mb;
 
+
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,11 +15,14 @@ import java.util.List;
 import skylink.mglcreche.dao.AlunoDAO;
 import skylink.mglcreche.modelo.Aluno;
 
-@Named(value = "alunoBean")
-@ViewScoped
-public class AlunoBean implements Serializable {
+/**
+ * «claudiomendonca»
+ */
+@Named(value = "alunoMBean")
+@SessionScoped
+public class AlunoMBean implements Serializable {
 
-    @Inject
+   @Inject
     private AlunoDAO alunoDAO;
     private List<Aluno> alunos = new ArrayList<>();
     private String dado;
@@ -38,18 +40,7 @@ public class AlunoBean implements Serializable {
     public void findParameter() {
         pesquisado = alunoDAO.aleatoryAlunos(dado);
     }
-
-    public String save() {
-        if (alunoDAO.save(aluno)) {
-            aluno = new Aluno();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso ao Guarda", "Sucesso ao guardar os dados"));
-            return "index_aluno.faces?faces-redirect=true";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Guardar", "Erro ao guardar os dados"));
-            return null;
-        }
-    }
-
+    
     public String update() {
         alunoDAO.update(aluno);
         aluno = new Aluno();
@@ -59,6 +50,11 @@ public class AlunoBean implements Serializable {
     public String selectAluno(Aluno a) {
         aluno = a;
         return "editar_aluno";
+    }
+    
+    public String selectEstudante(Aluno estudante){
+        aluno = estudante;
+        return "historico_aluno";
     }
 
     public AlunoDAO getAlunoDAO() {
@@ -116,5 +112,6 @@ public class AlunoBean implements Serializable {
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
     }
-
+    
+    
 }

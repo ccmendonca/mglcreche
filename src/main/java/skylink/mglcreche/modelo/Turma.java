@@ -1,13 +1,11 @@
-
 package skylink.mglcreche.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+public class Turma implements Serializable {
 
-public class Turna implements  Serializable{
-    
     private Integer idTurma;
     private String descricaoTurma;
     private AnoLectivo anoLectivo;
@@ -16,17 +14,17 @@ public class Turna implements  Serializable{
     private Boolean activa;
     private Date dataCriacao;
 
-    public Turna() {
+    public Turma() {
     }
 
-    public Turna(Integer idTurma, String descricaoTurma, AnoLectivo anoLectivo, Classe classe, Integer numeroMaximo, Boolean activa) {
+    public Turma(Integer idTurma, String descricaoTurma, AnoLectivo anoLectivo, Classe classe, Integer numeroMaximo, Boolean activa) {
         this.idTurma = idTurma;
         this.descricaoTurma = descricaoTurma;
         this.anoLectivo = anoLectivo;
         this.classe = classe;
         this.numeroMaximo = numeroMaximo;
         this.activa = activa;
-     
+
     }
 
     public Integer getIdTurma() {
@@ -103,7 +101,7 @@ public class Turna implements  Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Turna other = (Turna) obj;
+        final Turma other = (Turma) obj;
         return Objects.equals(this.idTurma, other.idTurma);
     }
 
@@ -111,8 +109,5 @@ public class Turna implements  Serializable{
     public String toString() {
         return "Turna{" + "Turma=" + descricaoTurma + '}';
     }
-    
-    
-   
- 
+
 }
