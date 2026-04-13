@@ -8,18 +8,11 @@
 
     <body>
 
-        <ui:composition template="./../WEB-INF/templates/tabelas_template.xhtml">
+        <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
 
-            <ui:define name="top">
-                top
-            </ui:define>
-
-            <ui:define name="left">
-                left
-            </ui:define>
 
             <ui:define name="content">
-                <f:view>
+                   <f:view>
                     <h:form id="formTurma">
                         <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
 
@@ -44,11 +37,11 @@
                                 <h:selectOneMenu id="anoLectivo"
                                                  value="#{turmaBean.turma.anoLectivo.idAnoLectivo}"
                                                  required="true"
-                                                 requiredMessage="Ano Lectivo é obrigatório">
-                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="" />
+                                                 requiredMessage="Ano Lectivo é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." />
                                     <f:selectItems value="#{turmaBean.anosLectivos}"
                                                    var="al"
-                                                   itemValue="#{al.idAnoLectivo}"
+                                                   itemValue="#{al}"
                                                    itemLabel="#{al.descricaoAnoLectivo}" />
                                 </h:selectOneMenu>
 
@@ -56,11 +49,11 @@
                                 <h:selectOneMenu id="classe"
                                                  value="#{turmaBean.turma.classe.idClasse}"
                                                  required="true"
-                                                 requiredMessage="Classe é obrigatória">
-                                    <f:selectItem itemLabel="Selecione a Classe..." itemValue="" />
-                                    <f:selectItems value="#{turmaBean.c}"
+                                                 requiredMessage="Classe é obrigatória" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione a Classe..." />
+                                    <f:selectItems value="#{turmaBean.classes}"
                                                    var="c"
-                                                   itemValue="#{c.idClasse}"
+                                                   itemValue="#{c}"
                                                    itemLabel="#{c.descricaoClasse}" />
                                 </h:selectOneMenu>
 
@@ -71,12 +64,12 @@
                                               showIcon="true" />
 
                                 <p:outputLabel for="activa" value="Activa:" />
-                                <h:selectOneRadio id="activa"
+                                <h:selectBooleanCheckbox id="activa"
                                                   value="#{turmaBean.turma.activa}"
                                                   required="true">
-                                    <f:selectItem itemLabel="Sim" itemValue="true" />
-                                    <f:selectItem itemLabel="Não" itemValue="false" />
-                                </h:selectOneRadio>
+                                    
+                                    
+                                </h:selectBooleanCheckbox>
 
                             </p:panelGrid>
 
@@ -93,9 +86,7 @@
                 </f:view>
             </ui:define>
 
-            <ui:define name="bottom">
-                bottom
-            </ui:define>
+            
 
         </ui:composition>
 

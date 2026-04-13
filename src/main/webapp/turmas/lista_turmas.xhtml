@@ -9,6 +9,8 @@
     <body>
 
         <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
+
+
             <ui:define name="content">
                 <f:view>
                     <h:form id="formListagem">
@@ -20,7 +22,7 @@
                                 <p:toolbarGroup>
                                     <p:outputLabel for="filtroPesquisa" value="Pesquisar:" />
                                     <p:inputText id="filtroPesquisa"
-                                                 value="#{turmaBean.filtroDescricao}"
+                                                 value="#{turmaBean.turmas}"
                                                  placeholder="Descrição da turma..." />
                                     <p:commandButton value="Pesquisar"
                                                      action="#{turmaBean.pesquisar}"
@@ -102,26 +104,12 @@
                             </p:dataTable>
                         </p:panel>
 
-                        <!-- Diálogo de Confirmação de Eliminação -->
-                        <p:confirmDialog id="dlgConfirmar"
-                                         message="Tem certeza que deseja eliminar esta turma?"
-                                         header="Confirmar Eliminação"
-                                         severity="warn"
-                                         widgetVar="dlgConfirmar">
-                            <p:commandButton value="Sim"
-                                             icon="pi pi-check"
-                                             action="#{turmaBean.excluir}"
-                                             update="growl tabelaTurmas"
-                                             oncomplete="PF('dlgConfirmar').hide()" />
-                            <p:commandButton value="Não"
-                                             icon="pi pi-times"
-                                             onclick="PF('dlgConfirmar').hide()"
-                                             immediate="true"
-                                             styleClass="ui-button-secondary" />
-                        </p:confirmDialog>
-
                     </h:form>
                 </f:view>
+            </ui:define>
+
+            <ui:define name="bottom">
+                Direitos Reservados
             </ui:define>
 
         </ui:composition>
