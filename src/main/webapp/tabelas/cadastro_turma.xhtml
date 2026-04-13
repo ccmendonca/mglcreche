@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/tabelas_template.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="formTurma">
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+
+                        <p:panel header="Registar Nova Turma">
+                            <p:panelGrid columns="4" layout="grid">
+
+                                <p:outputLabel for="descricao" value="Descrição:" />
+                                <p:inputText id="descricao"
+                                             value="#{turmaBean.turma.descricaoTurma}"
+                                             required="true"
+                                             requiredMessage="Descrição é obrigatória" />
+
+                                <p:outputLabel for="numeroMaximo" value="Nº Máximo de Alunos:" />
+                                <p:inputNumber id="numeroMaximo"
+                                               value="#{turmaBean.turma.numeroMaximo}"
+                                               required="true"
+                                               requiredMessage="Número máximo é obrigatório"
+                                               minValue="1"
+                                               maxValue="999" />
+
+                                <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
+                                <h:selectOneMenu id="anoLectivo"
+                                                 value="#{turmaBean.turma.anoLectivo.idAnoLectivo}"
+                                                 required="true"
+                                                 requiredMessage="Ano Lectivo é obrigatório">
+                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="" />
+                                    <f:selectItems value="#{turmaBean.anosLectivos}"
+                                                   var="al"
+                                                   itemValue="#{al.idAnoLectivo}"
+                                                   itemLabel="#{al.descricaoAnoLectivo}" />
+                                </h:selectOneMenu>
+
+                                <p:outputLabel for="classe" value="Classe:" />
+                                <h:selectOneMenu id="classe"
+                                                 value="#{turmaBean.turma.classe.idClasse}"
+                                                 required="true"
+                                                 requiredMessage="Classe é obrigatória">
+                                    <f:selectItem itemLabel="Selecione a Classe..." itemValue="" />
+                                    <f:selectItems value="#{turmaBean.c}"
+                                                   var="c"
+                                                   itemValue="#{c.idClasse}"
+                                                   itemLabel="#{c.descricaoClasse}" />
+                                </h:selectOneMenu>
+
+                                <p:outputLabel for="dataCriacao" value="Data de Criação:" />
+                                <p:datePicker id="dataCriacao"
+                                              value="#{turmaBean.turma.dataCriacao}"
+                                              pattern="dd/MM/yyyy"
+                                              showIcon="true" />
+
+                                <p:outputLabel for="activa" value="Activa:" />
+                                <h:selectOneRadio id="activa"
+                                                  value="#{turmaBean.turma.activa}"
+                                                  required="true">
+                                    <f:selectItem itemLabel="Sim" itemValue="true" />
+                                    <f:selectItem itemLabel="Não" itemValue="false" />
+                                </h:selectOneRadio>
+
+                            </p:panelGrid>
+
+                            <p:separator />
+
+                            <p:commandButton id="btnSalvar"
+                                             value="Guardar"
+                                             action="#{turmaBean.salvar}"
+                                             icon="pi pi-save"
+                                             update="growl formTurma"
+                                             validateClient="true" />
+                        </p:panel>
+                    </h:form>
+                </f:view>
+            </ui:define>
+
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="formListagem">
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+
+                        <p:panel header="Lista de Turmas">
+
+                            <p:toolbar>
+                                <p:toolbarGroup>
+                                    <p:outputLabel for="filtroPesquisa" value="Pesquisar:" />
+                                    <p:inputText id="filtroPesquisa"
+                                                 value="#{turmaBean.filtroDescricao}"
+                                                 placeholder="Descrição da turma..." />
+                                    <p:commandButton value="Pesquisar"
+                                                     action="#{turmaBean.pesquisar}"
+                                                     icon="pi pi-search"
+                                                     update="formListagem"
+                                                     styleClass="ui-button-info" />
+                                    <p:commandButton value="Limpar"
+                                                     action="#{turmaBean.limparPesquisa}"
+                                                     icon="pi pi-times"
+                                                     update="formListagem"
+                                                     immediate="true"
+                                                     styleClass="ui-button-secondary" />
+                                </p:toolbarGroup>
+                            </p:toolbar>
+
+                            <p:separator />
+
+                            <p:dataTable id="tabelaTurmas"
+                                         value="#{turmaBean.turmas}"
+                                         var="t"
+                                         paginator="true"
+                                         rows="10"
+                                         rowsPerPageTemplate="5,10,20"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="Nenhuma turma encontrada."
+                                         selectionMode="single"
+                                         selection="#{turmaBean.turmaSelecionada}"
+                                         rowKey="#{t.idTurma}"
+                                         stripedRows="true">
+
+                                <p:column headerText="Cód." style="width:60px; text-align:center;">
+                                    <h:outputText value="#{t.idTurma}" />
+                                </p:column>
+
+                                <p:column headerText="Descrição" sortBy="#{t.descricaoTurma}">
+                                    <h:outputText value="#{t.descricaoTurma}" />
+                                </p:column>
+
+                                <p:column headerText="Ano Lectivo">
+                                    <h:outputText value="#{t.anoLectivo.descricaoAnoLectivo}" />
+                                </p:column>
+
+                                <p:column headerText="Classe">
+                                    <h:outputText value="#{t.classe.descricaoClasse}" />
+                                </p:column>
+
+                                <p:column headerText="Nº Máximo" style="text-align:center;">
+                                    <h:outputText value="#{t.numeroMaximo}" />
+                                </p:column>
+
+                                <p:column headerText="Data Criação" style="text-align:center;">
+                                    <h:outputText value="#{t.dataCriacao}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Activa" style="text-align:center;">
+                                    <h:outputText value="#{t.activa ? 'Sim' : 'Não'}" />
+                                </p:column>
+
+                                <p:column headerText="Acções" style="width:120px; text-align:center;">
+                                    <p:commandButton icon="pi pi-pencil"
+                                                     title="Editar"
+                                                     action="#{turmaBean.editar}"
+                                                     styleClass="ui-button-warning">
+                                        <f:setPropertyActionListener value="#{t}"
+                                                                     target="#{turmaBean.turmaSelecionada}" />
+                                    </p:commandButton>
+
+                                    <p:commandButton icon="pi pi-trash"
+                                                     title="Eliminar"
+                                                     styleClass="ui-button-danger"
+                                                     oncomplete="PF('dlgConfirmar').show()">
+                                        <f:setPropertyActionListener value="#{t}"
+                                                                     target="#{turmaBean.turmaSelecionada}" />
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
+
+                        <!-- Diálogo de Confirmação de Eliminação -->
+                        <p:confirmDialog id="dlgConfirmar"
+                                         message="Tem certeza que deseja eliminar esta turma?"
+                                         header="Confirmar Eliminação"
+                                         severity="warn"
+                                         widgetVar="dlgConfirmar">
+                            <p:commandButton value="Sim"
+                                             icon="pi pi-check"
+                                             action="#{turmaBean.excluir}"
+                                             update="growl tabelaTurmas"
+                                             oncomplete="PF('dlgConfirmar').hide()" />
+                            <p:commandButton value="Não"
+                                             icon="pi pi-times"
+                                             onclick="PF('dlgConfirmar').hide()"
+                                             immediate="true"
+                                             styleClass="ui-button-secondary" />
+                        </p:confirmDialog>
+
+                    </h:form>
+                </f:view>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,10 +1,12 @@
-
 package skylink.mglcreche.modelo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
+public class Classe implements Serializable {
 
-public class Classe {
+    private static final long serialVersionUID = 1L;
+
     private Integer idClasse;
     private String descricaoClasse;
 
@@ -58,7 +60,4 @@ public class Classe {
     public String toString() {
         return "Classe{" + "descricaoClasse=" + descricaoClasse + '}';
     }
-    
-    
-    
 }

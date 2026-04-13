@@ -6,11 +6,6 @@
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui">
 
-
-    <f:metadata>
-        <f:viewAction action="#{responsavelBean.limpar}" />
-    </f:metadata>
-
     <body>
 
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
@@ -19,58 +14,88 @@
 
             <ui:define name="content">
                 <f:view>
-                    <h:form> 
-
-                        <p:growl id="growl" sticky="true" />
-                        <p:panel header=" Resgistar o Novo Responsável da Busca do Aluno ">
-
+                    <h:form id="formResponsavel">
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+                        <p:panel header="Registar o Novo Responsável da Busca do Aluno">
                             <p:panelGrid columns="4" layout="grid">
 
                                 <p:outputLabel for="nome" value="Nome:" />
-                                <p:inputText id="nome" value="#{responsavelBean.responsavel.nomeResponsavel}" required="true" />
+                                <p:inputText id="nome" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.nomeResponsavel}" 
+                                             required="true" 
+                                             requiredMessage="Nome é obrigatório" />
+
                                 <p:outputLabel for="sobrenome" value="Sobrenome:" />
-                                <p:inputText id="sobrenome" value="#{responsavelBean.responsavel.sobrenomeResponsavel}" required="true" />
+                                <p:inputText id="sobrenome" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.sobrenomeResponsavel}" 
+                                             required="true"
+                                             requiredMessage="Sobrenome é obrigatório" />
+
                                 <p:outputLabel for="dataNasc" value="Data de Nascimento:" />
-                                <p:calendar id="dataNasc" value="#{responsavelBean.responsavel.dataNascimentoResponsavel}" 
-                                            pattern="dd/MM/yyyy" showOn="button" navigator="true" />
+                                <p:datePicker id="dataNasc" 
+                                              value="#{responsavelBuscaAlunoBean.responsavel.dataNascimentoResponsavel}" 
+                                              pattern="dd/MM/yyyy" 
+                                              showIcon="true" 
+                                              />
+
                                 <p:outputLabel for="telefone" value="Telefone:" />
-                                <p:inputMask id="telefone" value="#{responsavelBean.responsavel.telefoneResponsavel}" mask="(24) 999 999 999"
-                                             required="true" />
+                                <p:inputMask id="telefone" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.telefoneResponsavel}" 
+                                             mask="(24) 999 999 999"
+                                             required="true"
+                                             requiredMessage="Telefone é obrigatório" />
 
-
-                                <p:outputLabel for="municipio" value="Municipio:" />
-                                <p:inputText id="municipio" value="#{responsavelBean.responsavel.municipioResponsavel}" required="true" />
+                                
                                 <p:outputLabel for="bairro" value="Bairro:" />
-                                <p:inputText id="bairro" value="#{responsavelBean.responsavel.bairroResponsavel}" required="true"/>
+                                <p:inputText id="bairro" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.bairroResponsavel}" 
+                                             required="true"
+                                             requiredMessage="Bairro é obrigatório" />
+
                                 <p:outputLabel for="rua" value="Rua:" />
-                                <p:inputText id="rua" value="#{responsavelBean.responsavel.ruaResponsavel}" required="true" />
+                                <p:inputText id="rua" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.ruaResponsavel}" 
+                                             required="true"
+                                             requiredMessage="Rua é obrigatória" />
+
                                 <p:outputLabel for="casa" value="Nº da Casa:" />
-                                <p:inputText id="casa" value="#{responsavelBean.responsavel.casaResponsavel}" />
+                                <p:inputText id="casa" 
+                                             value="#{responsavelBuscaAlunoBean.responsavel.casaResponsavel}" />
+                                
+                                <p:outputLabel for="municipio" value="Município:" />
+                                <h:selectOneMenu id="municipio" value="#{responsavelBuscaAlunoBean.responsavel.idMunicipio}" required="true" requiredMessage="Município é obrigatório">
+                                    <f:selectItem itemLabel="Selecione o Municipio..." itemValue="" />
+                                    <f:selectItems value="#{responsavelBuscaAlunoBean.listaMunicipios}"
+                                                   var="m"
+                                                   itemValue="#{m.idMunicipio}"
+                                                   itemLabel="#{m.nomeMunicipio}" />
+                                </h:selectOneMenu>
 
-                                <div class="g-form-item">
-                                    <p:outputLabel for="sexo" value="Sexo" />
-                                    <p:selectOneMenu 
-                                        id="sexo"
-                                        value="#{responsavelBean.responsavel.sexoResponsavel}" 
-                                        converter="sexoConverter">
-
-                                        <f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true" />
-                                        <f:selectItems
-                                            value="#{responsavelBean.sexos}" 
-                                            var="sexo" 
-                                            itemLabel="#{sexo.descricaoSexo}" 
-                                            itemValue="#{sexo}" />
-                                    </p:selectOneMenu>
-                                </div>
+                                <p:outputLabel for="sexo" value="Sexo:" />
+                                <h:selectOneRadio id="sexo" value="#{responsavelBuscaAlunoBean.responsavel.idSexo}" 
+                                                  required="true">
+                                    <f:selectItems value="#{responsavelBuscaAlunoBean.listaSexos}"  var="s" itemValue="#{s.idSexo}"
+                                                   itemLabel="#{s.descricaoSexo}" />
+                                </h:selectOneRadio>
 
                             </p:panelGrid>
 
-                            
-                            <p:commandButton  id="save" value="Save" 
-                                              action="#{responsavelBean.salvar}" icon="ui-icon-disk" update="growl">
-                                <f:ajax execute="@form" render="@form"/>
-                            </p:commandButton>
+                            <p:separator />
 
+                            <p:commandButton id="btnSalvar"
+                                             value="Guardar" 
+                                             action="#{responsavelBuscaAlunoBean.salvar}" 
+                                             icon="pi pi-save"
+                                             update="growl formResponsavel" 
+                                             validateClient="true" />
+
+                            <p:commandButton id="btnNovo"
+                                             value="Novo" 
+                                             action="#{responsavelBuscaAlunoBean.novo}"
+                                             icon="pi pi-plus"
+                                             update="formResponsavel"
+                                             immediate="true"
+                                             styleClass="ui-button-secondary" />
                         </p:panel>
                     </h:form>
                 </f:view>
