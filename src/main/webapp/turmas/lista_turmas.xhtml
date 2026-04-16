@@ -22,7 +22,7 @@
                                 <p:toolbarGroup>
                                     <p:outputLabel for="filtroPesquisa" value="Pesquisar:" />
                                     <p:inputText id="filtroPesquisa"
-                                                 value="#{turmaBean.turmas}"
+                                                 value="#{turmaBean.filtroDescricao}"
                                                  placeholder="Descrição da turma..." />
                                     <p:commandButton value="Pesquisar"
                                                      action="#{turmaBean.pesquisar}"
@@ -73,8 +73,8 @@
                                     <h:outputText value="#{t.numeroMaximo}" />
                                 </p:column>
 
-                                <p:column headerText="Data Criação" style="text-align:center;">
-                                    <h:outputText value="#{t.dataCriacao}">
+                                <p:column headerText="Data Registo" style="text-align:center;">
+                                    <h:outputText value="#{t.dataRegisto}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
                                 </p:column>

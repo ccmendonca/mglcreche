@@ -17,20 +17,20 @@ public class Turma implements Serializable {
     private Classe classe;
     private Integer numeroMaximo;
     private Boolean activa;
-    private Date dataCriacao;
+    private Date dataRegisto;
 
     public Turma() {
     }
 
     public Turma(Integer idTurma, String descricaoTurma, AnoLectivo anoLectivo, 
-                 Classe classe, Integer numeroMaximo, Boolean activa, Date dataCriacao) {
+                 Classe classe, Integer numeroMaximo, Boolean activa, Date dataRegisto) {
         this.idTurma = idTurma;
         this.descricaoTurma = descricaoTurma;
         this.anoLectivo = anoLectivo;
         this.classe = classe;
         this.numeroMaximo = numeroMaximo;
         this.activa = activa;
-        this.dataCriacao = dataCriacao;
+        this.dataRegisto = dataRegisto;
     }
 
     public Integer getIdTurma() {
@@ -81,13 +81,15 @@ public class Turma implements Serializable {
         this.activa = activa;
     }
 
-    public Date getDataCriacao() {
-        return dataCriacao;
+    public Date getDataRegisto() {
+        return dataRegisto;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setDataRegisto(Date dataRegisto) {
+        this.dataRegisto = dataRegisto;
     }
+
+    
 
     @Override
     public int hashCode() {

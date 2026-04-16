@@ -13,15 +13,15 @@ import skylink.mglcreche.modelo.Classe;
 
 public class TurmaDAO {
 
-    private static final String INSERT = "INSERT INTO turma (descricao_turma, id_ano_lectivo, id_classe, numero_maximo, activa, data_criacao) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO turma (descricao_turma, id_ano_lectivo, id_classe, numero_maximo, activa, data_registo) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE turma SET descricao_turma = ?, id_ano_lectivo = ?, id_classe = ?, numero_maximo = ?, activa = ? WHERE id_turma = ?";
     private static final String DELETE = "DELETE FROM turma WHERE id_turma = ?";
-    private static final String BUSCA_POR_ID = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_turma = ?";
-    private static final String LISTAR_TODOS = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe ORDER BY t.descricao_turma";
-    private static final String BUSCA_POR_DESCRICAO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.descricao_turma LIKE ?";
+    private static final String BUSCA_POR_ID = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_turma = ?";
+    private static final String LISTAR_TODOS = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe ORDER BY t.descricao_turma";
+    private static final String BUSCA_POR_DESCRICAO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registoo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.descricao_turma LIKE ?";
     private static final String LISTAR_ATIVAS = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.activa = true ORDER BY t.descricao_turma";
-    private static final String LISTAR_POR_ANO_LECTIVO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_ano_lectivo = ? AND t.activa = true ORDER BY t.descricao_turma";
-    private static final String LISTAR_POR_CLASSE = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_classe = ? ORDER BY t.descricao_turma";
+    private static final String LISTAR_POR_ANO_LECTIVO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_ano_lectivo = ? AND t.activa = true ORDER BY t.descricao_turma";
+    private static final String LISTAR_POR_CLASSE = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_classe = ? ORDER BY t.descricao_turma";
 
     public boolean save(Turma turma) {
         PreparedStatement ps = null;
@@ -53,8 +53,8 @@ public class TurmaDAO {
                 ps.setBoolean(5, true);
             }
 
-            if (turma.getDataCriacao() != null) {
-                ps.setTimestamp(6, new java.sql.Timestamp(turma.getDataCriacao().getTime()));
+            if (turma.getDataRegisto() != null) {
+                ps.setTimestamp(6, new java.sql.Timestamp(turma.getDataRegisto().getTime()));
             } else {
                 ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
             }
@@ -296,7 +296,7 @@ public class TurmaDAO {
             turma.setDescricaoTurma(rs.getString("descricao_turma"));
             turma.setNumeroMaximo(rs.getInt("numero_maximo"));
             turma.setActiva(rs.getBoolean("activa"));
-            turma.setDataCriacao(rs.getTimestamp("data_criacao"));
+            turma.setDataRegisto(rs.getTimestamp("data_registo"));
 
             AnoLectivo anoLectivo = new AnoLectivo();
             anoLectivo.setIdAnoLectivo(rs.getInt("id_ano_lectivo"));

@@ -56,7 +56,7 @@ public class TurmaBean implements Serializable {
         turma.setClasse(new Classe());
         turma.setActiva(true);
         turma.setNumeroMaximo(30);
-        turma.setDataCriacao(new Date());
+        turma.setDataRegisto(new Date());
         turmaSelecionada = null;
     }
 
@@ -193,4 +193,5 @@ public class TurmaBean implements Serializable {
     public void setFiltroDescricao(String filtroDescricao) {
         this.filtroDescricao = filtroDescricao;
     }
+    
 }
