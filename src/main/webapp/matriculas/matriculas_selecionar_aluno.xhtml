@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
+
+            <ui:define name="content">
+                <f:view>
+                    <center style="margin: 20px;">
+                        <h:form id="pesquisa">
+                            <p:inputText value="#{servicoMBean.nomeAluno}" size="90" placeholder="Escreva parte do número de aluno, nome, sobrenome, telefone ou N.º do BI/Passaporte"/>
+                            <p:commandButton value="Pesquisar" action="#{servicoMBean.pesquisaAluno}" update=":frmEstudantes:tblEstudantes" icon="fa fa-fw fa-search"/>
+                        </h:form>
+                    </center>
+
+                    <h:form id="frmEstudantes">
+                        <h:messages showDetail="true" showSummary="true"/>
+                        <p:dataTable id="tblEstudantes" value="#{servicoMBean.alunosPesquisados}" var="item" emptyMessage="Nenhum(a) aluno(a) encontrado(a)" rows="20"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="N.º do(a) aluno(a)"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idAluno}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nomeAluno} #{item.sobrenomeAluno}"/>
+                            </p:column>
+
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nascimento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dataNascimentoAluno}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                                <p:column headerText="Operações">
+                                <p:commandButton value="Matricular Aluno" action="matriculas_selecionar_servicos?faces-redirect=true">
+                                    <f:setPropertyActionListener target="#{servicoMBean.aluno}" value="#{item}"/>
+                                </p:commandButton>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        <p:commandButton value="Concluir" action="matriculas_pagamento_concluir"/>
+                    </h:form>
+                   
+                </f:view>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -9,9 +9,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="default.css" library="css"/>
         <h:outputStylesheet name="layout.css" library="css"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-            <title>Gestão de Alunos</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Gestão de Serviços</title>
     </h:head>
 
     <h:body>
@@ -25,11 +24,9 @@
             <div id="menu">
                 <ui:insert name="left">
                     <h:panelGrid columns="1">
-                        <p:button value="Home" outcome="/index" icon="home"/>
-                        <p:button value="Registar Aluno" outcome="cadastro_aluno"/>
-                        <p:button value="Lista alunos" outcome="lista_alunos"/>
-                        <p:button value="Lista por Idade"/>
-                        <p:button value="Lista entre Datas de Nascimento"/>
+                    <p:button value="Home" outcome="/index" icon="home"/>
+                    <p:button value="Novo Serviço" outcome="/servicos/novo_servico"/>
+                    <p:button value="Todos os Serviços" outcome="/servicos/todos_servicos"/>
 
                     </h:panelGrid>
                 </ui:insert>
@@ -40,7 +37,9 @@
 
             <div id="rodape">
                 <ui:insert name="bottom">
-                    <h3> Todos os direitos reservados</h3>
+
+                    <h3> Todos os Direitos Reservados</h3>
+
                 </ui:insert>
             </div>
         </div>

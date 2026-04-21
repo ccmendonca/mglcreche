@@ -11,7 +11,7 @@
         <h:outputStylesheet name="layout.css" library="css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-            <title>Gestão de Alunos</title>
+            <title>Gestão de Matrículas</title>
     </h:head>
 
     <h:body>
@@ -26,10 +26,10 @@
                 <ui:insert name="left">
                     <h:panelGrid columns="1">
                         <p:button value="Home" outcome="/index" icon="home"/>
-                        <p:button value="Registar Aluno" outcome="cadastro_aluno"/>
-                        <p:button value="Lista alunos" outcome="lista_alunos"/>
-                        <p:button value="Lista por Idade"/>
-                        <p:button value="Lista entre Datas de Nascimento"/>
+                        <p:button value="Serviços" outcome="/servicos/todos_servicos"/>
+                        <p:button value="Matricular Aluno" outcome="/matriculas/matriculas_selecionar_aluno"/>
+                        <p:button value="Últimas Matrículas" outcome="/matriculas/listagem_geral"/>
+                        <p:button value="Listagens Entre Datas" outcome="/matriculas/listagem_entre_datas"/>
 
                     </h:panelGrid>
                 </ui:insert>
@@ -40,10 +40,9 @@
 
             <div id="rodape">
                 <ui:insert name="bottom">
-                    <h3> Todos os direitos reservados</h3>
+                    <h3> Todos os Direitos Reservados</h3>
                 </ui:insert>
             </div>
         </div>
     </h:body>
-
 </html>

@@ -1,9 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSF/JSFManagedBean.java to edit this template
- */
+
 package skylink.mglcreche.mb;
 
+/**
+ * «claudiomendonca»
+ */
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Named;
@@ -13,11 +13,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.AlunoDAO;
+import skylink.mglcreche.dao.MunicipioDAO;
+import skylink.mglcreche.dao.SexoDAO;
 import skylink.mglcreche.modelo.Aluno;
+import skylink.mglcreche.modelo.Municipio;
+import skylink.mglcreche.modelo.Sexo;
 
-/**
- * «claudiomendonca»
- */
 @Named(value = "alunoMBean")
 @SessionScoped
 public class AlunoMBean implements Serializable {
@@ -26,6 +27,10 @@ public class AlunoMBean implements Serializable {
     private AlunoDAO alunoDAO;
     private List<Aluno> alunos = new ArrayList<>();
     private String dado;
+    private SexoDAO sexoDAO = new SexoDAO();
+    private List<Sexo> sexos = new ArrayList<>();
+    private MunicipioDAO municipioDAO = new MunicipioDAO();
+    private List<Municipio> municipios = new ArrayList<>();
     private List<Aluno> pesquisado = new ArrayList<>();
     private String dataNascimento;
     private Aluno selecionado;
@@ -111,6 +116,38 @@ public class AlunoMBean implements Serializable {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+
+    public SexoDAO getSexoDAO() {
+        return sexoDAO;
+    }
+
+    public void setSexoDAO(SexoDAO sexoDAO) {
+        this.sexoDAO = sexoDAO;
+    }
+
+    public List<Sexo> getSexos() {
+        return sexos;
+    }
+
+    public void setSexos(List<Sexo> sexos) {
+        this.sexos = sexos;
+    }
+
+    public MunicipioDAO getMunicipioDAO() {
+        return municipioDAO;
+    }
+
+    public void setMunicipioDAO(MunicipioDAO municipioDAO) {
+        this.municipioDAO = municipioDAO;
+    }
+
+    public List<Municipio> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Municipio> municipios) {
+        this.municipios = municipios;
     }
     
     

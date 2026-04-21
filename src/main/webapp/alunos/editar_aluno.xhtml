@@ -12,7 +12,7 @@
 
             <ui:define name="content">
                 <h:form>
-                     <p:growl id="growl" sticky="true" />
+                    <p:growl id="growl" sticky="true" />
                     <p:panel header="Actualizando dados do aluno(a)">
 
                         <h:panelGrid columns="2">
@@ -22,6 +22,13 @@
                             <p:inputText value="#{alunoMBean.aluno.sobrenomeAluno}" required="true"/>
                             <p:outputLabel value="Data de Nascimento:"/>
                             <p:calendar value="#{alunoMBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
+                            <p:selectOneMenu id="sexo" value="#{alunoBean.aluno.sexo}" required="true" requiredMessage="O campo sexo é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Sexo..." itemValue="" />
+                                <f:selectItems value="#{alunoBean.sexos}"
+                                               var="s"
+                                               itemValue="#{s.idSexo}"
+                                               itemLabel="#{s.descricaoSexo}" />
+                            </p:selectOneMenu>
                             <p:outputLabel value="Grupo Sanguíneo:"/>
                             <p:inputText value="#{alunoMBean.aluno.grauSanguineoAluno}" required="true"/>
                             <p:outputLabel value="Nº Casa:"/>
@@ -30,6 +37,13 @@
                             <p:inputText value="#{alunoMBean.aluno.ruaAluno}" required="true"/>
                             <p:outputLabel value="Bairro:"/>
                             <p:inputText value="#{alunoMBean.aluno.bairroAluno}" required="true"/>
+                            <p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Municipio..." itemValue="" />
+                                <f:selectItems value="#{alunoBean.municipios}"
+                                               var="m"
+                                               itemValue="#{m.idMunicipio}"
+                                               itemLabel="#{m.nomeMunicipio}" />
+                            </p:selectOneMenu>
 
                         </h:panelGrid>
 
@@ -52,9 +66,9 @@
 
                         </h:panelGrid>
                     </p:panel>
-                  
-                        <p:commandButton  id="update" value="Actualizar" 
-                                          action="#{alunoMBean.update}" icon="ui-icon-disk" update="growl">
+
+                    <p:commandButton  id="update" value="Actualizar" 
+                                      action="#{alunoMBean.update}" icon="ui-icon-disk" update="growl">
                         <f:ajax execute="@form" render="@form"/>
                     </p:commandButton>
                 </h:form>

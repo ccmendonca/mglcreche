@@ -28,6 +28,8 @@ public class Aluno implements Serializable{
     private String sobrenomePaiAluno;
     private String telefonePaiAluno;
     private Date dataRegistoAluno;
+    private Sexo sexo;
+    private Municipio municipio;
 
     public Integer getIdAluno() {
         return idAluno;
@@ -149,24 +151,28 @@ public class Aluno implements Serializable{
         this.dataRegistoAluno = dataRegistoAluno;
     }
 
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this.idAluno);
-        hash = 73 * hash + Objects.hashCode(this.nomeAluno);
-        hash = 73 * hash + Objects.hashCode(this.sobrenomeAluno);
-        hash = 73 * hash + Objects.hashCode(this.dataNascimentoAluno);
-        hash = 73 * hash + Objects.hashCode(this.grauSanguineoAluno);
-        hash = 73 * hash + Objects.hashCode(this.casaAluno);
-        hash = 73 * hash + Objects.hashCode(this.ruaAluno);
-        hash = 73 * hash + Objects.hashCode(this.bairroAluno);
-        hash = 73 * hash + Objects.hashCode(this.nomeMaeAluno);
-        hash = 73 * hash + Objects.hashCode(this.sobrenomeMaeAluno);
-        hash = 73 * hash + Objects.hashCode(this.telefoneMaeAluno);
-        hash = 73 * hash + Objects.hashCode(this.nomePaiAluno);
-        hash = 73 * hash + Objects.hashCode(this.sobrenomePaiAluno);
-        hash = 73 * hash + Objects.hashCode(this.telefonePaiAluno);
-        hash = 73 * hash + Objects.hashCode(this.dataRegistoAluno);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.idAluno);
+        hash = 89 * hash + Objects.hashCode(this.sexo);
+        hash = 89 * hash + Objects.hashCode(this.municipio);
         return hash;
     }
 
@@ -182,55 +188,18 @@ public class Aluno implements Serializable{
             return false;
         }
         final Aluno other = (Aluno) obj;
-        if (!Objects.equals(this.nomeAluno, other.nomeAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.sobrenomeAluno, other.sobrenomeAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.grauSanguineoAluno, other.grauSanguineoAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.casaAluno, other.casaAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.ruaAluno, other.ruaAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.bairroAluno, other.bairroAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.nomeMaeAluno, other.nomeMaeAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.sobrenomeMaeAluno, other.sobrenomeMaeAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefoneMaeAluno, other.telefoneMaeAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.nomePaiAluno, other.nomePaiAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.sobrenomePaiAluno, other.sobrenomePaiAluno)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefonePaiAluno, other.telefonePaiAluno)) {
-            return false;
-        }
         if (!Objects.equals(this.idAluno, other.idAluno)) {
             return false;
         }
-        if (!Objects.equals(this.dataNascimentoAluno, other.dataNascimentoAluno)) {
+        if (!Objects.equals(this.sexo, other.sexo)) {
             return false;
         }
-        return Objects.equals(this.dataRegistoAluno, other.dataRegistoAluno);
+        return Objects.equals(this.municipio, other.municipio);
     }
 
     @Override
     public String toString() {
-        return "Aluno{" + "idAluno=" + idAluno + ", nomeAluno=" + nomeAluno + ", sobrenomeAluno=" + sobrenomeAluno + ", dataNascimentoAluno=" + dataNascimentoAluno + ", grauSanguineoAluno=" + grauSanguineoAluno + ", casaAluno=" + casaAluno + ", ruaAluno=" + ruaAluno + ", bairroAluno=" + bairroAluno + ", nomeMaeAluno=" + nomeMaeAluno + ", sobrenomeMaeAluno=" + sobrenomeMaeAluno + ", telefoneMaeAluno=" + telefoneMaeAluno + ", nomePaiAluno=" + nomePaiAluno + ", sobrenomePaiAluno=" + sobrenomePaiAluno + ", telefonePaiAluno=" + telefonePaiAluno + ", dataRegistoAluno=" + dataRegistoAluno + '}';
+        return "Aluno{" + "idAluno=" + idAluno + ", nomeAluno=" + nomeAluno + ", sobrenomeAluno=" + sobrenomeAluno + ", dataNascimentoAluno=" + dataNascimentoAluno + ", grauSanguineoAluno=" + grauSanguineoAluno + ", casaAluno=" + casaAluno + ", ruaAluno=" + ruaAluno + ", bairroAluno=" + bairroAluno + ", nomeMaeAluno=" + nomeMaeAluno + ", sobrenomeMaeAluno=" + sobrenomeMaeAluno + ", telefoneMaeAluno=" + telefoneMaeAluno + ", nomePaiAluno=" + nomePaiAluno + ", sobrenomePaiAluno=" + sobrenomePaiAluno + ", telefonePaiAluno=" + telefonePaiAluno + ", dataRegistoAluno=" + dataRegistoAluno + ", sexo=" + sexo + ", municipio=" + municipio + '}';
     }
-    
     
 }

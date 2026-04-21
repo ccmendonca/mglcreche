@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
+
+            <ui:define name="content">
+                <p:panel header="Serviços Seleccionados">
+
+                    <p:dataTable var="item" value="#{cestoMatriculaDetalheMBean.cesto}" emptyMessage="Nenhum serviço seleccionado">
+                        <p:column headerText="Serviço">
+                            <h:outputText value="#{item.servico.descricaoServico}"/>
+                        </p:column>
+
+                        <p:column headerText="Preço">
+                            <h:outputText value="#{item.precoServico}"/>
+                        </p:column>
+
+                        <p:column headerText="Sub Total">
+                            <h:outputText value="#{item.precoServico * 1}">
+                                <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <f:facet name="footer">
+                        <h2>Total a pagar:</h2>
+                        <h:outputText value="#{cestoMatriculaDetalheMBean.totalAPagar()}" style="font-size: 1.3em; ">
+                            <f:convertNumber type="currency"  pattern="#,##0.00"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:panel>
+            </ui:define>
+            
+        </ui:composition>
+
+    </body>
+</html>

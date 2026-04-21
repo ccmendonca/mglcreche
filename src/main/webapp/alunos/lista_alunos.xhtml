@@ -49,21 +49,21 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="N.º Casa"/>
+                                    <h:outputText value="Grupo Sanguíneo"/>
                                 </f:facet>
-                                <h:outputText value="#{aluno.casaAluno}"/>
+                                <h:outputText value="#{aluno.grauSanguineoAluno}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Rua"/>
+                                    <h:outputText value="Género"/>
                                 </f:facet>
-                                <h:outputText value="#{aluno.ruaAluno}"/>
+                                <h:outputText value="#{aluno.sexo.descricaoSexo}"/>
                             </p:column>                                                     
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Bairro"/>
+                                    <h:outputText value="Município"/>
                                 </f:facet>
-                                <h:outputText value="#{aluno.bairroAluno}"/>
+                                <h:outputText value="#{aluno.municipio.nomeMunicipio}"/>
                             </p:column>
                                 <p:column headerText="Operações">
                                 <p:commandButton value="Histórico" action="#{alunoMBean.selectEstudante(aluno)}"/>
