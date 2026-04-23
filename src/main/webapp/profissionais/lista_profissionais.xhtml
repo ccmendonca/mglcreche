@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/profissionais_templete.xhtml">
+
+            <ui:define name="content">
+                <main>
+                    <h1 class="page-title">Funcionários</h1>
+                    <h:form>
+                        <p:toolbar  styleClass="toolbar-space" >
+                            <p:toolbarGroup style="gap: .5rem">
+                                <p:inputText id="nome" value="#{profissionalAleatoryMBean.name}" size="60" placeholder="Pesquisa por nº de contribuinte, nome ou sobrenome"/>
+
+                                <p:commandButton value="Procurar" icon="pi pi-search" actionListener="#{profissionalAleatoryMBean.opcional}"
+                                                 update="ft:tbprofissional"/>
+                            </p:toolbarGroup>
+
+                            <p:toolbarGroup style="gap: 1rem">
+                                <p:linkButton value="Categorias" outcome="/profissionais/categorias_profissionais"  styleClass="ui-button-outlined" />
+                                <p:linkButton value="Novo Funcionário" icon="pi pi-plus" outcome="/profissionais/cadastro_profissionais" />
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </h:form>
+                    <h:form id="ft">
+                        <p:dataTable id="tbprofissional" value="#{profissionalAleatoryMBean.pesquisado}" var="profissional" rows="10"
+                                     rowKey="#{profissional.codigo}" emptyMessage="Nenhum profissional encontrado"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
+
+                            <f:facet name="header">
+                            </f:facet>
+                            <p:column headerText="Nº Contribuinte">
+                                <h:outputText value="#{profissional.numeroContribuinte}"/>
+                            </p:column>
+                            <p:column headerText="Nome" sortable="true">
+                                <h:outputText value="#{profissional.nome}" />
+                            </p:column>
+                            <p:column headerText="Sobrenome">
+                                <h:outputText value="#{profissional.sobrenome}"/>
+                            </p:column>
+                            <p:column headerText="Data Nascimento" sortable="true">
+                                <h:outputText value="#{profissional.dataNascimento}"/>
+                            </p:column>
+                            <p:column headerText="Sexo">
+                                <h:outputText value="#{profissional.sexo.descricaoSexo}"/>
+                            </p:column>
+                            <p:column headerText="Município">
+                                <h:outputText value="#{profissional.municipio.nomeMunicipio}"/>
+                            </p:column>
+                            <p:column headerText="Categoria">
+                                <h:outputText value="#{profissional.categoriaprofissional.descricao}"/>
+                            </p:column>
+                            <p:column width="14rem" style="text-align: center;" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="Operações"/>
+                                </f:facet>
+                                <div class="action-column">
+                                    <p:commandButton value="Detalhes"  icon="pi pi-info-circle"
+                                                     action="/profissionais/detalhes_profissionais">
+
+                                        <f:setPropertyActionListener value="#{profissional}" target="#{profissionalMBean.selecionado}"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="Editar" icon="pi pi-pencil" action="#{profissionalMBean.selecionar(profissional)}" title="Ver Detalhes" styleClass="ui-button-warning" />
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </main>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

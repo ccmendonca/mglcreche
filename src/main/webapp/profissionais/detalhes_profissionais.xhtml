@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/profissionais_templete.xhtml">
+
+            <ui:define name="content">
+                <p:toolbar>
+            <p:toolbarGroup>
+                <h:panelGrid columns="2">
+                    <p:button icon="pi pi-arrow-left" outcome="/profissionais/index_profissionais"
+                              class="ui-button-flat ui-button-raised ui-button-help"/>
+                    <h1>Dados do Profissional</h1>
+                </h:panelGrid>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <h:form>
+            <p:dataTable id="tbprofissional" value="#{profissionalMBean.selecionado}" var="profissional"
+                         rowKey="#{profissional.codigo}">
+
+                <p:column headerText="Nº Contribuinte">
+                    <h:outputText value="#{profissionalMBean.selecionado.numeroContribuinte}"/>
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{profissional.nome}"/>
+                </p:column>
+                <p:column headerText="Sobrenome">
+                    <h:outputText value="#{profissional.sobrenome}"/>
+                </p:column>
+                <p:column headerText="Data Nascimento">
+                    <h:outputText value="#{profissional.dataNascimento}"/>
+                </p:column>
+                <p:column headerText="Sexo:">
+                    <h:outputText value="#{profissional.sexo.descricaoSexo}"/>
+                </p:column>
+                <p:column headerText="Município">
+                    <h:outputText value="#{profissional.municipio.nomeMunicipio}"/>
+                </p:column>
+                <p:column headerText="Categoria Profissional">
+                    <h:outputText value="#{profissional.categoriaprofissional.descricao}"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+            </ui:define>
+            
+        </ui:composition>
+
+    </body>
+</html>

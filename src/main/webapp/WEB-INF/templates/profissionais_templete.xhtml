@@ -11,7 +11,7 @@
         <h:outputStylesheet name="layout.css" library="css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-            <title>Gestão de Alunos</title>
+            <title>Gestão de Profissionais</title>
     </h:head>
 
     <h:body>
@@ -26,11 +26,7 @@
                 <ui:insert name="left">
                     <h:panelGrid columns="1">
                         <p:button value="Home" outcome="/index" icon="home"/>
-                        <p:button value="Registar Aluno" outcome="cadastro_aluno"/>
-                        <p:button value="Lista alunos" outcome="lista_alunos"/>
-                        <p:button value="Lista por Idade"/>
-                        <p:button value="Lista entre Datas de Nascimento"/>
-
+                        <p:button value="Profissionais" outcome="/profissionais/lista_profissionais"/>
                     </h:panelGrid>
                 </ui:insert>
             </div>

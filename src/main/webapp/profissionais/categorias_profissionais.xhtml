@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/profissionais_templete.xhtml">
+
+            <ui:define name="content">
+                <main>
+                    <h1 class="page-title">Categorias</h1>
+                    <h:form>
+                        <p:toolbar styleClass="toolbar-space">
+                            <p:toolbarGroup>
+
+                                <p:button value="Voltar" icon="pi pi-arrow-left" outcome="/profissionais/index_profissionais"
+                                          styleClass="ui-button-help ui-button-flat" />
+                            </p:toolbarGroup>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Novo Registo" type="button" icon="pi pi-external-link" onclick="PF('dlg').show()"/>
+                            </p:toolbarGroup>
+
+                        </p:toolbar>
+                        <p:dataTable id="dt-categoriaprofissional" widgetVar="dtCategoriaProfissional" value="#{categoriaProfissionalMBean.catProfissionais}" var="catprofissional"
+                                     rowKey="#{catprofissional.codigo}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
+
+                            <p:column headerText="Descrição">
+                                <h:outputText value="#{catprofissional.descricao}"/>
+                            </p:column>
+
+                            <p:column width="14rem" style="text-align: center;" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="Acções"/>
+                                </f:facet>
+                                <div class="action-column">
+
+                                    <p:commandButton value="Editar" icon="pi pi-pencil" action="#{profissionalBean.selecionar(profissional)}" title="Ver Detalhes" styleClass="ui-button-warning" />
+                                    <p:commandButton value="Eliminar"  icon="pi pi-trash"
+                                                     action="/profissionais/detalhes_profissionais" styleClass="ui-button-danger">
+
+                                        <f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.selecionado}"/>
+                                    </p:commandButton>
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                    <h:form>
+                        <p:dialog header="Nova Categoria" widgetVar="dlg" minHeight="50" width="350" showEffect="fade" modal="true">
+                            <div style="display: flex; flex-direction: column; gap:1rem;">
+                                <p:outputLabel for="@next" value="Descrição" />
+                                <p:inputText value="#{categoriaProfissionalMBean.categoriaProfissional.descricao}" placeholder="Ex.: Professor" required="true" requiredMessage="Preecha a descrição"/>
+                            </div>
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" action="#{categoriaProfissionalMBean.guardar()}" ajax="false"/>
+                            </f:facet>
+                        </p:dialog>
+                    </h:form>
+                </main>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

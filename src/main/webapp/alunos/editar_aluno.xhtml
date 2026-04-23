@@ -22,7 +22,7 @@
                             <p:inputText value="#{alunoMBean.aluno.sobrenomeAluno}" required="true"/>
                             <p:outputLabel value="Data de Nascimento:"/>
                             <p:calendar value="#{alunoMBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
-                            <p:selectOneMenu id="sexo" value="#{alunoBean.aluno.sexo}" required="true" requiredMessage="O campo sexo é obrigatório" converter="omnifaces.SelectItemsConverter">
+                            <p:selectOneMenu id="sexo" value="#{alunoBean.aluno.sexo.idSexo}" required="true" requiredMessage="O campo sexo é obrigatório" converter="omnifaces.SelectItemsConverter">
                                 <f:selectItem itemLabel="Selecione o Sexo..." itemValue="" />
                                 <f:selectItems value="#{alunoBean.sexos}"
                                                var="s"
@@ -37,7 +37,7 @@
                             <p:inputText value="#{alunoMBean.aluno.ruaAluno}" required="true"/>
                             <p:outputLabel value="Bairro:"/>
                             <p:inputText value="#{alunoMBean.aluno.bairroAluno}" required="true"/>
-                            <p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
+                            <p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio.idMunicipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
                                 <f:selectItem itemLabel="Selecione o Municipio..." itemValue="" />
                                 <f:selectItems value="#{alunoBean.municipios}"
                                                var="m"
