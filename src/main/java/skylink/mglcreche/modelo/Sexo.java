@@ -58,7 +58,7 @@ public class Sexo {
 
     @Override
     public String toString() {
-        return "Sexo{" + "idSexo=" + idSexo + ", descricaoSexo=" + descricaoSexo + '}';
+           return String.format("%s[idSexo=%d]", getClass().getSimpleName(), getIdSexo());
     }
    
     

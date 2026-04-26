@@ -50,6 +50,6 @@ public class Municipio implements Serializable {
 
     @Override
     public String toString() {
-        return "Municipio{" + "idMunicipio=" + idMunicipio + ", nomeMunicipio=" + nomeMunicipio + ", idProvincia=" + idProvincia + '}';
+     return String.format("%s[idMunicipio=%d]", getClass().getSimpleName(), getIdMunicipio());   
     }
 }

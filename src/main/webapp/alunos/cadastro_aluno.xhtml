@@ -23,9 +23,9 @@
                             <p:outputLabel value="Data de Nascimento:"/>
                             <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
                             <p:outputLabel for="sexo" value="Sexo:" />
-                            <h:selectOneRadio id="sexo" value="#{alunoBean.aluno.sexo.idSexo}" 
-                                              required="true">
-                                <f:selectItems value="#{alunoBean.sexos}"  var="sx" itemValue="#{sx.idSexo}"
+                            <h:selectOneRadio id="sexo" value="#{alunoBean.aluno.sexo}" 
+                                             converter="omnifaces.SelectItemsConverter" required="true">
+                                <f:selectItems value="#{alunoBean.sexos}"  var="sx" itemValue="#{sx}"
                                                itemLabel="#{sx.descricaoSexo}" />
                             </h:selectOneRadio>
                             <p:outputLabel value="Grupo Sanguíneo:"/>
@@ -37,11 +37,11 @@
                             <p:outputLabel value="Bairro:"/>
                             <p:inputText value="#{alunoBean.aluno.bairroAluno}" required="true"/>
                             <p:outputLabel for="municipio" value="Município:" />
-                            <p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio.idMunicipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
+                            <p:selectOneMenu id="municipio" value="#{alunoBean.aluno.municipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
                                 <f:selectItem itemLabel="Selecione o Municipio..."/>
                                 <f:selectItems value="#{alunoBean.municipios}"
                                                var="m"
-                                               itemValue="#{m.idMunicipio}"
+                                               itemValue="#{m}"
                                                itemLabel="#{m.nomeMunicipio}" />
                             </p:selectOneMenu>
 
