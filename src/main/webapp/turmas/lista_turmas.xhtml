@@ -30,12 +30,11 @@
                                                      update="tabelaTurmas growl"
                                                      styleClass="ui-button-info" />
                                     <p:commandButton value="Limpar"
-                                                     action="#{turmaBean.limparPesquisa()}"
+                                                     action="#{turmaBean.limparPesquisa}"
                                                      icon="pi pi-times"
                                                      update="formListagem"
-                                                     immediate="true"
-                                                     styleClass="ui-button-secondary" 
-                                                     style="margin-left: 5px" />
+                                                     process="@this"
+                                                     styleClass="ui-button-secondary" />
                                 </p:toolbarGroup>
                             </p:toolbar>
 

@@ -72,7 +72,7 @@ public class Turma implements Serializable {
         this.classe = classe;
     }
 
-    // GETTER E SETTER DA SALA
+    
     public Sala getSala() {
         return sala;
     }
