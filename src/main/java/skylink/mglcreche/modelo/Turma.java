@@ -3,9 +3,10 @@ package skylink.mglcreche.modelo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
 /**
  *
- * @Henriques
+ * @author Henriques
  */
 public class Turma implements Serializable {
 
@@ -15,19 +16,25 @@ public class Turma implements Serializable {
     private String descricaoTurma;
     private AnoLectivo anoLectivo;
     private Classe classe;
+    private Sala sala; 
     private Integer numeroMaximo;
     private Boolean activa;
     private Date dataRegisto;
 
     public Turma() {
+      
+        this.anoLectivo = new AnoLectivo();
+        this.classe = new Classe();
+        this.sala = new Sala();
     }
 
     public Turma(Integer idTurma, String descricaoTurma, AnoLectivo anoLectivo, 
-                 Classe classe, Integer numeroMaximo, Boolean activa, Date dataRegisto) {
+                 Classe classe, Sala sala, Integer numeroMaximo, Boolean activa, Date dataRegisto) {
         this.idTurma = idTurma;
         this.descricaoTurma = descricaoTurma;
         this.anoLectivo = anoLectivo;
         this.classe = classe;
+        this.sala = sala;
         this.numeroMaximo = numeroMaximo;
         this.activa = activa;
         this.dataRegisto = dataRegisto;
@@ -65,6 +72,15 @@ public class Turma implements Serializable {
         this.classe = classe;
     }
 
+    // GETTER E SETTER DA SALA
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
     public Integer getNumeroMaximo() {
         return numeroMaximo;
     }
@@ -88,8 +104,6 @@ public class Turma implements Serializable {
     public void setDataRegisto(Date dataRegisto) {
         this.dataRegisto = dataRegisto;
     }
-
-    
 
     @Override
     public int hashCode() {

@@ -10,64 +10,41 @@ import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Turma;
 import skylink.mglcreche.modelo.AnoLectivo;
 import skylink.mglcreche.modelo.Classe;
+import skylink.mglcreche.modelo.Sala;
 
 public class TurmaDAO {
 
-    private static final String INSERT = "INSERT INTO turma (descricao_turma, id_ano_lectivo, id_classe, numero_maximo, activa, data_registo) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE turma SET descricao_turma = ?, id_ano_lectivo = ?, id_classe = ?, numero_maximo = ?, activa = ? WHERE id_turma = ?";
+    private static final String INSERT = "INSERT INTO turma (descricao_turma, id_ano_lectivo, id_classe, id_sala, numero_maximo, activa, data_registo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE turma SET descricao_turma = ?, id_ano_lectivo = ?, id_classe = ?, id_sala = ?, numero_maximo = ?, activa = ? WHERE id_turma = ?";
     private static final String DELETE = "DELETE FROM turma WHERE id_turma = ?";
-    private static final String BUSCA_POR_ID = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_turma = ?";
-    private static final String LISTAR_TODOS = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe ORDER BY t.descricao_turma";
-    private static final String BUSCA_POR_DESCRICAO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registoo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.descricao_turma LIKE ?";
-    private static final String LISTAR_ATIVAS = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_criacao, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.activa = true ORDER BY t.descricao_turma";
-    private static final String LISTAR_POR_ANO_LECTIVO = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_ano_lectivo = ? AND t.activa = true ORDER BY t.descricao_turma";
-    private static final String LISTAR_POR_CLASSE = "SELECT t.id_turma, t.descricao_turma, t.id_ano_lectivo, t.id_classe, t.numero_maximo, t.activa, t.data_registo, al.descricao_ano_lectivo, c.descricao_classe FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe WHERE t.id_classe = ? ORDER BY t.descricao_turma";
+    
+    private static final String BUSCA_POR_ID = "SELECT t.*, al.descricao_ano_lectivo, c.descricao_classe, s.descricao_sala FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe JOIN sala s ON t.id_sala = s.id_sala WHERE t.id_turma = ?";
+    private static final String LISTAR_TODOS = "SELECT t.*, al.descricao_ano_lectivo, c.descricao_classe, s.descricao_sala FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe JOIN sala s ON t.id_sala = s.id_sala ORDER BY t.descricao_turma";
+    private static final String BUSCA_POR_DESCRICAO = "SELECT t.*, al.descricao_ano_lectivo, c.descricao_classe, s.descricao_sala FROM turma t JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo JOIN classe c ON t.id_classe = c.id_classe JOIN sala s ON t.id_sala = s.id_sala WHERE t.descricao_turma LIKE ? ORDER BY t.descricao_turma";
 
     public boolean save(Turma turma) {
-        PreparedStatement ps = null;
         Connection conn = null;
-        boolean flagControlo = false;
+        PreparedStatement ps = null;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(INSERT);
 
             ps.setString(1, turma.getDescricaoTurma());
-
-            if (turma.getAnoLectivo() != null) {
-                ps.setInt(2, turma.getAnoLectivo().getIdAnoLectivo());
-            } else {
-                ps.setNull(2, java.sql.Types.INTEGER);
-            }
-
-            if (turma.getClasse() != null) {
-                ps.setInt(3, turma.getClasse().getIdClasse());
-            } else {
-                ps.setNull(3, java.sql.Types.INTEGER);
-            }
-
-            ps.setInt(4, turma.getNumeroMaximo());
-
-            if (turma.getActiva() != null) {
-                ps.setBoolean(5, turma.getActiva());
-            } else {
-                ps.setBoolean(5, true);
-            }
-
+            ps.setInt(2, (turma.getAnoLectivo() != null) ? turma.getAnoLectivo().getIdAnoLectivo() : 0);
+            ps.setInt(3, (turma.getClasse() != null) ? turma.getClasse().getIdClasse() : 0);
+            ps.setInt(4, (turma.getSala() != null) ? turma.getSala().getIdSala() : 0); 
+            ps.setInt(5, turma.getNumeroMaximo());
+            ps.setBoolean(6, (turma.getActiva() != null) ? turma.getActiva() : true);
+            
             if (turma.getDataRegisto() != null) {
-                ps.setTimestamp(6, new java.sql.Timestamp(turma.getDataRegisto().getTime()));
+                ps.setTimestamp(7, new java.sql.Timestamp(turma.getDataRegisto().getTime()));
             } else {
-                ps.setTimestamp(6, new java.sql.Timestamp(System.currentTimeMillis()));
+                ps.setTimestamp(7, new java.sql.Timestamp(System.currentTimeMillis()));
             }
 
-            int retorno = ps.executeUpdate();
-            if (retorno > 0) {
-                System.out.println("Dados inseridos com sucesso: " + ps.getUpdateCount());
-                flagControlo = true;
-            }
-            return flagControlo;
-
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir dados: " + e.getMessage());
+            System.err.println("SEVERE: Erro ao inserir turma: " + e.getMessage());
             return false;
         } finally {
             ConnectionDB.closeConnection(conn, ps);
@@ -75,49 +52,24 @@ public class TurmaDAO {
     }
 
     public boolean update(Turma turma) {
-        if (turma == null || turma.getIdTurma() == null) {
-            return false;
-        }
-        PreparedStatement ps = null;
+        if (turma == null || turma.getIdTurma() == null) return false;
         Connection conn = null;
-        boolean flagControlo = false;
+        PreparedStatement ps = null;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(UPDATE);
 
             ps.setString(1, turma.getDescricaoTurma());
+            ps.setInt(2, turma.getAnoLectivo().getIdAnoLectivo());
+            ps.setInt(3, turma.getClasse().getIdClasse());
+            ps.setInt(4, turma.getSala().getIdSala());
+            ps.setInt(5, turma.getNumeroMaximo());
+            ps.setBoolean(6, turma.getActiva());
+            ps.setInt(7, turma.getIdTurma());
 
-            if (turma.getAnoLectivo() != null) {
-                ps.setInt(2, turma.getAnoLectivo().getIdAnoLectivo());
-            } else {
-                ps.setNull(2, java.sql.Types.INTEGER);
-            }
-
-            if (turma.getClasse() != null) {
-                ps.setInt(3, turma.getClasse().getIdClasse());
-            } else {
-                ps.setNull(3, java.sql.Types.INTEGER);
-            }
-
-            ps.setInt(4, turma.getNumeroMaximo());
-
-            if (turma.getActiva() != null) {
-                ps.setBoolean(5, turma.getActiva());
-            } else {
-                ps.setBoolean(5, true);
-            }
-
-            ps.setInt(6, turma.getIdTurma());
-
-            int retorno = ps.executeUpdate();
-            if (retorno > 0) {
-                System.out.println("Dados actualizados com sucesso: " + ps.getUpdateCount());
-                flagControlo = true;
-            }
-            return flagControlo;
-
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erro ao actualizar dados: " + e.getMessage());
+            System.err.println("SEVERE: Erro ao atualizar turma: " + e.getMessage());
             return false;
         } finally {
             ConnectionDB.closeConnection(conn, ps);
@@ -125,191 +77,81 @@ public class TurmaDAO {
     }
 
     public boolean delete(Turma turma) {
+        if (turma == null || turma.getIdTurma() == null) return false;
         Connection conn = null;
         PreparedStatement ps = null;
-        boolean flagControlo = false;
-        if (turma == null || turma.getIdTurma() == null) {
-            System.err.println("O campo anterior nao pode ser nulo");
-            return false;
-        }
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(DELETE);
             ps.setInt(1, turma.getIdTurma());
-
-            int retorno = ps.executeUpdate();
-            if (retorno > 0) {
-                System.out.println("Dados eliminados com sucesso: " + ps.getUpdateCount());
-                flagControlo = true;
-            }
-            return flagControlo;
-
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erro ao eliminar dados: " + e.getMessage());
+            System.err.println("SEVERE: Erro ao eliminar turma: " + e.getMessage());
             return false;
         } finally {
             ConnectionDB.closeConnection(conn, ps);
         }
     }
 
-    public Turma buscarPorId(Integer id) {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        Turma turma = new Turma();
-
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(BUSCA_POR_ID);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (!rs.next()) {
-                System.err.println("Não foi encontrado nenhum registo com o id: " + id);
-            } else {
-                popularComDados(turma, rs);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
-        }
-
-        return turma;
-    }
-
     public List<Turma> listar() {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
         List<Turma> lista = new ArrayList<>();
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(LISTAR_TODOS);
-            rs = ps.executeQuery();
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(LISTAR_TODOS);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Turma turma = new Turma();
-                popularComDados(turma, rs);
-                lista.add(turma);
+                Turma t = new Turma();
+                popularComDados(t, rs);
+                lista.add(t);
             }
         } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
-        }
-        return lista;
-    }
-
-    public List<Turma> listarAtivas() {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        List<Turma> lista = new ArrayList<>();
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(LISTAR_ATIVAS);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Turma turma = new Turma();
-                popularComDados(turma, rs);
-                lista.add(turma);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
+            System.err.println("Erro ao listar: " + ex.getMessage());
         }
         return lista;
     }
 
     public List<Turma> buscarPorDescricao(String descricao) {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
         List<Turma> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(BUSCA_POR_DESCRICAO);
             ps.setString(1, "%" + descricao + "%");
             rs = ps.executeQuery();
             while (rs.next()) {
-                Turma turma = new Turma();
-                popularComDados(turma, rs);
-                lista.add(turma);
+                Turma t = new Turma();
+                popularComDados(t, rs);
+                lista.add(t);
             }
         } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
+            System.err.println("Erro ao buscar por descrição: " + ex.getMessage());
         } finally {
             ConnectionDB.closeConnection(conn, ps, rs);
         }
         return lista;
     }
 
-    public List<Turma> listarPorAnoLectivo(Integer idAnoLectivo) {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        List<Turma> lista = new ArrayList<>();
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(LISTAR_POR_ANO_LECTIVO);
-            ps.setInt(1, idAnoLectivo);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Turma turma = new Turma();
-                popularComDados(turma, rs);
-                lista.add(turma);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
-        }
-        return lista;
-    }
+    private void popularComDados(Turma turma, ResultSet rs) throws SQLException {
+        turma.setIdTurma(rs.getInt("id_turma"));
+        turma.setDescricaoTurma(rs.getString("descricao_turma"));
+        turma.setNumeroMaximo(rs.getInt("numero_maximo"));
+        turma.setActiva(rs.getBoolean("activa"));
+        turma.setDataRegisto(rs.getTimestamp("data_registo"));
 
-    public List<Turma> listarPorClasse(Integer idClasse) {
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        List<Turma> lista = new ArrayList<>();
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(LISTAR_POR_CLASSE);
-            ps.setInt(1, idClasse);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Turma turma = new Turma();
-                popularComDados(turma, rs);
-                lista.add(turma);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
-        }
-        return lista;
-    }
+        AnoLectivo ano = new AnoLectivo();
+        ano.setIdAnoLectivo(rs.getInt("id_ano_lectivo"));
+        ano.setDescricaoAnoLectivo(rs.getString("descricao_ano_lectivo"));
+        turma.setAnoLectivo(ano);
 
-    private void popularComDados(Turma turma, ResultSet rs) {
-        try {
-            turma.setIdTurma(rs.getInt("id_turma"));
-            turma.setDescricaoTurma(rs.getString("descricao_turma"));
-            turma.setNumeroMaximo(rs.getInt("numero_maximo"));
-            turma.setActiva(rs.getBoolean("activa"));
-            turma.setDataRegisto(rs.getTimestamp("data_registo"));
+        Classe classe = new Classe();
+        classe.setIdClasse(rs.getInt("id_classe"));
+        classe.setDescricaoClasse(rs.getString("descricao_classe"));
+        turma.setClasse(classe);
 
-            AnoLectivo anoLectivo = new AnoLectivo();
-            anoLectivo.setIdAnoLectivo(rs.getInt("id_ano_lectivo"));
-            anoLectivo.setDescricaoAnoLectivo(rs.getString("descricao_ano_lectivo"));
-            turma.setAnoLectivo(anoLectivo);
-
-            Classe classe = new Classe();
-            classe.setIdClasse(rs.getInt("id_classe"));
-            classe.setDescricaoClasse(rs.getString("descricao_classe"));
-            turma.setClasse(classe);
-
-        } catch (SQLException ex) {
-            System.err.println("Erro ao carregar dados: " + ex.getLocalizedMessage());
-        }
+        Sala sala = new Sala();
+        sala.setIdSala(rs.getInt("id_sala"));
+        sala.setDescricaoSala(rs.getString("descricao_sala"));
+        turma.setSala(sala);
     }
 }

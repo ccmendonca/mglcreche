@@ -10,9 +10,8 @@
 
         <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
 
-
             <ui:define name="content">
-                   <f:view>
+                <f:view>
                     <h:form id="formTurma">
                         <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
 
@@ -31,14 +30,16 @@
                                                required="true"
                                                requiredMessage="Número máximo é obrigatório"
                                                minValue="1"
-                                               maxValue="999" />
+                                               maxValue="999" 
+                                               decimalPlaces="0" />
 
                                 <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
                                 <h:selectOneMenu id="anoLectivo"
-                                                 value="#{turmaBean.turma.anoLectivo.idAnoLectivo}"
+                                                 value="#{turmaBean.turma.anoLectivo}"
                                                  required="true"
-                                                 requiredMessage="Ano Lectivo é obrigatório" converter="omnifaces.SelectItemsConverter">
-                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." />
+                                                 requiredMessage="Ano Lectivo é obrigatório" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="#{null}" noSelectionOption="true" />
                                     <f:selectItems value="#{turmaBean.anosLectivos}"
                                                    var="al"
                                                    itemValue="#{al}"
@@ -47,14 +48,29 @@
 
                                 <p:outputLabel for="classe" value="Classe:" />
                                 <h:selectOneMenu id="classe"
-                                                 value="#{turmaBean.turma.classe.idClasse}"
+                                                 value="#{turmaBean.turma.classe}"
                                                  required="true"
-                                                 requiredMessage="Classe é obrigatória" converter="omnifaces.SelectItemsConverter">
-                                    <f:selectItem itemLabel="Selecione a Classe..." />
+                                                 requiredMessage="Classe é obrigatória" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione a Classe..." itemValue="#{null}" noSelectionOption="true" />
                                     <f:selectItems value="#{turmaBean.classes}"
                                                    var="c"
                                                    itemValue="#{c}"
                                                    itemLabel="#{c.descricaoClasse}" />
+                                </h:selectOneMenu>
+
+                            
+                                <p:outputLabel for="sala" value="Sala:" />
+                                <h:selectOneMenu id="sala"
+                                                 value="#{turmaBean.turma.sala}"
+                                                 required="true"
+                                                 requiredMessage="A Sala é obrigatória" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione a Sala..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{turmaBean.salas}"
+                                                   var="s"
+                                                   itemValue="#{s}"
+                                                   itemLabel="#{s.descricaoSala}" />
                                 </h:selectOneMenu>
 
                                 <p:outputLabel for="dataRegisto" value="Data de Registo:" />
@@ -65,11 +81,7 @@
 
                                 <p:outputLabel for="activa" value="Activa:" />
                                 <h:selectBooleanCheckbox id="activa"
-                                                  value="#{turmaBean.turma.activa}"
-                                                  required="true">
-                                    
-                                    
-                                </h:selectBooleanCheckbox>
+                                                         value="#{turmaBean.turma.activa}" />
 
                             </p:panelGrid>
 
@@ -85,8 +97,6 @@
                     </h:form>
                 </f:view>
             </ui:define>
-
-            
 
         </ui:composition>
 

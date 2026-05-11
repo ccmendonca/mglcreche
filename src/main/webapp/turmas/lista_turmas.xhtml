@@ -10,7 +10,6 @@
 
         <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
 
-
             <ui:define name="content">
                 <f:view>
                     <h:form id="formListagem">
@@ -20,21 +19,23 @@
 
                             <p:toolbar>
                                 <p:toolbarGroup>
-                                    <p:outputLabel for="filtroPesquisa" value="Pesquisar:" />
+                                    <p:outputLabel for="filtroPesquisa" value="Pesquisar: " style="margin-right: 10px" />
                                     <p:inputText id="filtroPesquisa"
                                                  value="#{turmaBean.filtroDescricao}"
-                                                 placeholder="Descrição da turma..." />
+                                                 placeholder="Descrição da turma..." 
+                                                 style="width: 250px; margin-right: 10px" />
                                     <p:commandButton value="Pesquisar"
                                                      action="#{turmaBean.pesquisar}"
                                                      icon="pi pi-search"
-                                                     update="formListagem"
+                                                     update="tabelaTurmas growl"
                                                      styleClass="ui-button-info" />
                                     <p:commandButton value="Limpar"
                                                      action="#{turmaBean.limparPesquisa}"
                                                      icon="pi pi-times"
                                                      update="formListagem"
                                                      immediate="true"
-                                                     styleClass="ui-button-secondary" />
+                                                     styleClass="ui-button-secondary" 
+                                                     style="margin-left: 5px" />
                                 </p:toolbarGroup>
                             </p:toolbar>
 
@@ -46,7 +47,7 @@
                                          paginator="true"
                                          rows="10"
                                          rowsPerPageTemplate="5,10,20"
-                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorPosition="bottom"
                                          emptyMessage="Nenhuma turma encontrada."
                                          selectionMode="single"
                                          selection="#{turmaBean.turmaSelecionada}"
@@ -69,32 +70,39 @@
                                     <h:outputText value="#{t.classe.descricaoClasse}" />
                                 </p:column>
 
-                                <p:column headerText="Nº Máximo" style="text-align:center;">
+                             
+                                <p:column headerText="Sala">
+                                    <h:outputText value="#{t.sala.descricaoSala}" />
+                                </p:column>
+
+                                <p:column headerText="Nº Máximo" style="width:100px; text-align:center;">
                                     <h:outputText value="#{t.numeroMaximo}" />
                                 </p:column>
 
-                                <p:column headerText="Data Registo" style="text-align:center;">
+                                <p:column headerText="Data Registo" style="width:110px; text-align:center;">
                                     <h:outputText value="#{t.dataRegisto}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
                                 </p:column>
 
-                                <p:column headerText="Activa" style="text-align:center;">
-                                    <h:outputText value="#{t.activa ? 'Sim' : 'Não'}" />
+                                <p:column headerText="Activa" style="width:80px; text-align:center;">
+                                    <p:tag value="#{t.activa ? 'Sim' : 'Não'}" 
+                                           severity="#{t.activa ? 'success' : 'danger'}" />
                                 </p:column>
 
                                 <p:column headerText="Acções" style="width:120px; text-align:center;">
                                     <p:commandButton icon="pi pi-pencil"
                                                      title="Editar"
                                                      action="#{turmaBean.editar}"
-                                                     styleClass="ui-button-warning">
+                                                     styleClass="ui-button-warning rounded-button"
+                                                     style="margin-right: 5px">
                                         <f:setPropertyActionListener value="#{t}"
                                                                      target="#{turmaBean.turmaSelecionada}" />
                                     </p:commandButton>
 
                                     <p:commandButton icon="pi pi-trash"
                                                      title="Eliminar"
-                                                     styleClass="ui-button-danger"
+                                                     styleClass="ui-button-danger rounded-button"
                                                      oncomplete="PF('dlgConfirmar').show()">
                                         <f:setPropertyActionListener value="#{t}"
                                                                      target="#{turmaBean.turmaSelecionada}" />
@@ -104,12 +112,28 @@
                             </p:dataTable>
                         </p:panel>
 
+                  
+                        <p:confirmDialog widgetVar="dlgConfirmar" 
+                                         message="Deseja realmente eliminar esta turma?" 
+                                         header="Confirmação" 
+                                         severity="alert">
+                            <p:commandButton value="Sim" 
+                                             action="#{turmaBean.excluir}" 
+                                             update="tabelaTurmas growl" 
+                                             oncomplete="PF('dlgConfirmar').hide()" 
+                                             styleClass="ui-button-danger" />
+                            <p:commandButton value="Não" 
+                                             onclick="PF('dlgConfirmar').hide()" 
+                                             type="button" 
+                                             styleClass="ui-button-secondary" />
+                        </p:confirmDialog>
+
                     </h:form>
                 </f:view>
             </ui:define>
 
             <ui:define name="bottom">
-                Direitos Reservados
+                &copy; 2026 - Gestão de Creche - Todos os direitos reservados.
             </ui:define>
 
         </ui:composition>
