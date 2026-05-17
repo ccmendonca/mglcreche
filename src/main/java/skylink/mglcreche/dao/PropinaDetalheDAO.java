@@ -8,7 +8,7 @@ import skylink.mglcreche.modelo.PropinaDetalhe;
 
 public class PropinaDetalheDAO {
 
-    private static final String INSERT = "INSERT INTO proprina_detalhes(id_proprina, id_mes_propina, valor_mes_proprina)VALUES(?, ?, ?)";
+    private static final String INSERT = "INSERT INTO proprina_detalhes(id_propina, id_mes_propina, valor_mes_proprina)VALUES(?, ?, ?)";
     private static final String UPDATE = "";
     private static final String DELETE = "";
     private static final String SELECT_ALL = "";

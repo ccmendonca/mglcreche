@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/propinas_template.xhtml">
+
+
+
+            <ui:define name="content">
+                 <h:form id="frmDadosDoAluno">
+                        <p:panel  id="pnlDadosDoAluno" header="Pagamento de propina/Dados do(a) aluno(a)">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Nome:" for="nome" />
+                                <p:inputText id="nome" value="#{propinaMBean.propina.aluno.nomeAluno} #{propinaMBean.propina.aluno.sobrenomeAluno}" readonly="true" size="50"/>
+                                 <p:outputLabel value="Data de nascimento" for="nascimento" />
+                                 <p:inputText id="nascimento" value="#{propinaMBean.propina.aluno.dataNascimentoAluno}" readonly="true">
+                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                 </p:inputText> 
+                                <h:panelGroup/>
+                                <h:panelGroup>
+                                    <h:panelGrid columns="9">
+                                        <p:outputLabel value="Nome do pai:" for="nomePai" />
+                                        <p:inputText id="nomePai" value="#{propinaMBean.propina.aluno.nomePaiAluno}" readonly="true" size="40"/>
+                                        <p:outputLabel value="Nome da mãe:" for="nomeMae" />
+                                        <p:inputText id="nomeMae" value="#{propinaMBean.propina.aluno.nomeMaeAluno}" readonly="true" size="40"/>
+                                       
+                                    </h:panelGrid>
+                                </h:panelGroup>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                <h:form id="cursosseleccionados">
+                    <p:dataTable id="dtblmeses" var="item" value="#{mesPropinaMBean.mesPropinas}" scrollable="true" scrollHeight="600" lazy="false">
+                        <p:column headerText="Mês">
+                            <h:outputText value="#{item.descricaoMesPropina}"/>
+                        </p:column>
+
+                        <p:column headerText="Valor da propina">
+                            <h:outputText value="#{item.valorMesPropina}"/>
+                        </p:column>
+                        <p:column headerText="Seleccionar o Mẽs">
+
+                        
+                            <p:commandButton value="Pagar este mês" action="#{cestoPropinaDetalheBean.addicionarMesCesto(item)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+                <h:form>
+                    <p:commandButton value="Ver meses seleccionados" action="pagamento_propinas_cesto_meses_seleccionados?faces-redirect=true"/>
+
+                </h:form>
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

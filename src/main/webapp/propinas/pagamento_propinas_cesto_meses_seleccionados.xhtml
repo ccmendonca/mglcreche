@@ -39,7 +39,12 @@
                     </f:facet>
                 </p:panel>
 
-
+                 <h:form>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Cancelar Aluguel" action="#{cestoPropinaDetalheBean.cancelarPagamentoPropina}" ajax="false"/>
+                            <p:commandButton value="Confirmar e concluir" action="pagamento_propinas_pagar_concluir?faces-redirect=true" ajax="false"/>
+                        </h:panelGrid>
+                    </h:form>
 
 
             </ui:define>

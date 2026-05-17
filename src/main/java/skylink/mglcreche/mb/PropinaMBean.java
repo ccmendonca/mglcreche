@@ -1,10 +1,10 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ import skylink.mglcreche.modelo.FormaPagamento;
 import skylink.mglcreche.modelo.Propina;
 
 @Named(value = "propinaMBean")
-@ViewScoped
+@SessionScoped
 public class PropinaMBean implements Serializable {
 
     private Propina propina = new Propina();
+    private List<Propina> propinas = new ArrayList<>();
     private PropinaDAO propinaDAO = new PropinaDAO();
     private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
     private List<FormaPagamento> formaPagamentos = new ArrayList();
@@ -28,6 +29,7 @@ public class PropinaMBean implements Serializable {
     @PostConstruct
     public void init() {
         formaPagamentos = formaPagamentoDAO.findAll();
+        propinas = propinaDAO.findAll();
     }
 
     public Propina getPropina() {
@@ -46,15 +48,23 @@ public class PropinaMBean implements Serializable {
         this.formaPagamentos = formaPagamentos;
     }
 
+    public List<Propina> getPropinas() {
+        return propinas;
+    }
+
+    public void setPropinas(List<Propina> propinas) {
+        this.propinas = propinas;
+    }
+
     
     
     
     public void registarPropina() {
         if (propinaDAO.save(propina)) {
-            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Propina criada com sucesso!");
+            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Propina registada com sucesso!");
             facesContext.addMessage(null, info);
         } else {
-            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao criada com sucesso!");
+            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Erro ao resgistar com sucesso!");
             facesContext.addMessage(null, info);
         }
 

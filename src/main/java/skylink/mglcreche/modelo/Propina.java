@@ -12,20 +12,23 @@ public class Propina {
     private AnoLectivo anoLectivo;
     private FormaPagamento formaPagamento;
     private Date dataHoraRegisto;
+    private String observacoes;
     
 
     public Propina() {
     }
 
-    public Propina(Integer idPropina, Date dataPagamento, Aluno aluno, AnoLectivo anoLectivo, FormaPagamento formaPagamento, Date dataHoraRegisto) {
+    public Propina(Integer idPropina, Date dataPagamento, Aluno aluno, AnoLectivo anoLectivo, FormaPagamento formaPagamento, Date dataHoraRegisto, String observacoes) {
         this.idPropina = idPropina;
         this.dataPagamento = dataPagamento;
         this.aluno = aluno;
         this.anoLectivo = anoLectivo;
         this.formaPagamento = formaPagamento;
         this.dataHoraRegisto = dataHoraRegisto;
+        this.observacoes = observacoes;
     }
 
+   
    
    
 
@@ -77,6 +80,14 @@ public class Propina {
 
     public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
 
     

@@ -2,10 +2,10 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,12 +15,9 @@ import skylink.mglcreche.dao.TurmaDAO;
 import skylink.mglcreche.modelo.Matricula;
 import skylink.mglcreche.modelo.Turma;
 
-/**
- * «claudiomendonca»
- */
 
 @Named(value = "matriculaMBean")
-@ViewScoped
+@SessionScoped
 public class MatriculaMBean implements Serializable {
 
     private Matricula matricula = new Matricula();

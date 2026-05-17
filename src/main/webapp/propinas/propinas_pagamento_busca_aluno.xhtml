@@ -73,13 +73,13 @@
                             </p:column>
                             
                                 <p:column headerText="Operações">
-                                <p:commandButton value="Pagar a propina" action="propinas_seleccionar_meses?faces-redirect=true">
-                                    <f:setPropertyActionListener target="#{mesPropinaMBean.aluno}" value="#{item}"/>
+                                <p:commandButton value="Pagar a propina" action="pagamento_propinas_seleccionar_meses?faces-redirect=true">
+                                    <f:setPropertyActionListener target="#{propinaMBean.propina.aluno}" value="#{item}"/>
                                 </p:commandButton>
                             </p:column>
                             
                         </p:dataTable>
-                        <p:commandButton value="Concluir" action="propinas_pagamento_concluir"/>
+                      
                     </h:form>
                    
                 </f:view>

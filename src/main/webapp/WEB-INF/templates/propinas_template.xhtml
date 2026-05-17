@@ -7,7 +7,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <h:outputStylesheet name="default.css" library="css"/>
         <h:outputStylesheet name="layout.css" library="css"/>
         <title>Gestão de alunos</title>
@@ -26,9 +26,12 @@
                     <h:panelGrid columns="1">
                         <p:button value="Home" outcome="/index" icon="home"/>
 
-                          <p:button value="Mêses e propinas" outcome="/propinas/mes_propina_novo" icon="home"/>
-                              <p:button value="Pagar Propina" outcome="/propinas/propinas_pagamento" icon="home"/>
-                          
+                        <p:button value="Mêses e propinas" outcome="/propinas/mes_propina_novo" icon="home"/>
+                        <p:button value="Pagar Propina" outcome="/propinas/propinas_pagamento_busca_aluno" icon="home"/>
+                         <p:button value="Lista todos" outcome="/propinas/pagamento_propinas_lista_todos" icon="home"/>
+                        
+                        
+
                     </h:panelGrid>
                 </ui:insert>
             </div>

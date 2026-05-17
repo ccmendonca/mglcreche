@@ -17,8 +17,20 @@ public class MatriculaDetalhe implements Serializable {
     private Integer quantidadeServico;
     private Servico servico;
 
-    public MatriculaDetalhe(Servico servico, Double precoServico) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  
+ public MatriculaDetalhe(Servico servico, Double precoServico) {
+          this.servico = servico;
+        this.precoServico = precoServico;      
+      
+    }
+    public MatriculaDetalhe(Matricula matricula, Double precoServico, Integer quantidadeServico, Servico servico) {
+        this.matricula = matricula;
+        this.precoServico = precoServico;
+        this.quantidadeServico = quantidadeServico;
+        this.servico = servico;
+    }
+
+    public MatriculaDetalhe() {
     }
 
     public Matricula getMatricula() {

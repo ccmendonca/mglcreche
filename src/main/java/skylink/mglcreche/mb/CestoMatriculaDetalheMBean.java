@@ -48,7 +48,10 @@ public class CestoMatriculaDetalheMBean implements Serializable {
     public String adicionarServicoCesto(Servico servico) {
         int index = verificaExistenciaServico(servico);
         if (index == -1) {
+            
             this.cesto.add(new MatriculaDetalhe(servico, servico.getPrecoServico()));
+             FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sucessi", "Serviço adiccionado ao  cesto!");
+            facesContext.addMessage(null, info);
         } else {
             FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Serviço já colocado no cesto!");
             facesContext.addMessage(null, info);
@@ -56,6 +59,10 @@ public class CestoMatriculaDetalheMBean implements Serializable {
         return null;
     }
 
+    
+    
+    
+    
     
      public long totalAPagar() {
         long t = 0L;

@@ -12,13 +12,14 @@
             <ui:define name="content">
                 <h:form style="font-size: 2rem">
 
-                    #{servicoMBean.aluno.nomeAluno}
+                    #{matriculaMBean.matricula.aluno.nomeAluno}
 
-                    #{servicoMBean.aluno.sobrenomeAluno}  
+                    #{matriculaMBean.matricula.aluno.sobrenomeAluno}  
                     <hr/>
                 </h:form>
 
                 <h:form id="mesesseleccionados">
+                    <h:messages showDetail="true"/>
                     <p:dataTable id="dtblservicos" var="item" value="#{servicoMBean.servicos}" scrollable="true" scrollHeight="600" lazy="false">
                         <p:column headerText="Serviço">
                             <h:outputText value="#{item.descricaoServico}"/>
@@ -28,15 +29,14 @@
                             <h:outputText value="#{item.precoServico}"/>
                         </p:column>
                         <p:column headerText="Seleccionar o Serviço">
-
-                            <p:commandButton value="Selecionar" action="#{cestoMatriculaDetalheMBean.adicionarServicoCesto(servico)}"/>
+                            <p:commandButton value="Selecionar" action="#{cestoMatriculaDetalheMBean.adicionarServicoCesto(item)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
 
 
                 <h:form>
-                    <p:commandButton value="Ver serviços seleccionados" action="matricula_cesto_servicos_selecionados?faces-redirect=true"/>
+                    <p:commandButton value="Ver serviços seleccionados" action="matricula_cesto_servicos_selecionados?faces-redirect=true" />
 
                 </h:form>
             </ui:define>

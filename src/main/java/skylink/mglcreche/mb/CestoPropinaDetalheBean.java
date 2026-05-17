@@ -3,12 +3,16 @@ package skylink.mglcreche.mb;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import skylink.mglcreche.dao.PropinaDAO;
 import skylink.mglcreche.dao.PropinaDetalheDAO;
 import skylink.mglcreche.modelo.MesPropina;
@@ -22,7 +26,7 @@ public class CestoPropinaDetalheBean implements Serializable {
     private PropinaDAO propinaDAO = new PropinaDAO();
     private PropinaDetalheDAO propinaDetalheDAO = new PropinaDetalheDAO();
     private List<PropinaDetalhe> cesto = new ArrayList();
-     @Inject
+    @Inject
     PropinaMBean propinaMBean;
     @Inject
     FacesContext facesContext;
@@ -34,12 +38,6 @@ public class CestoPropinaDetalheBean implements Serializable {
     public void setCesto(List<PropinaDetalhe> cesto) {
         this.cesto = cesto;
     }
-    
-    
-    
-    
-    
-    
 
     private int verificaExistenciaMes(MesPropina mesPropina) {
         for (int i = 0; i < this.cesto.size(); i++) {
@@ -62,8 +60,7 @@ public class CestoPropinaDetalheBean implements Serializable {
         return null;
     }
 
-    
-     public long totalAPagar() {
+    public long totalAPagar() {
         long s = 0L;
         Iterator<PropinaDetalhe> iterator = this.cesto.iterator();
         while (iterator.hasNext()) {
@@ -73,29 +70,54 @@ public class CestoPropinaDetalheBean implements Serializable {
 
         return s;
     }
-    
-     public String registarPropina(List<PropinaDetalhe> itens) {
 
-        propinaMBean.registarPropina();
-        //busca a ultima factura registada
-        Propina proprinaActual = propinaDAO.buscaUltimaPropina();
-
-        //percorre o carrinho e regista cada item
-        for (PropinaDetalhe item : itens) {
-            item.setPropina(proprinaActual);
-            item.setMesPropina(item.getMesPropina());
-            item.setValorPropina(item.getValorPropina());
-           
-            propinaDetalheDAO.save(item);
-        }
+    public void cancelarPagamentoPropina() {
         cesto.clear();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
-        FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "Propina N.º" + proprinaActual.getIdPropina() + " - Dados guardados com sucesso ", "");
-        facesContext.addMessage("msg", info);
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
-        return "/propinas/propinas_pagamento?faces-redirect=true";
-
+        try {
+            externalContext.redirect("propinas_pagamento_busca_aluno.faces");
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informção", "Pagamento da propina cancelado com sucesso"));
+        } catch (IOException ex) {
+            Logger.getLogger(CestoPropinaDetalheBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
+
+    public String registarPropina(List<PropinaDetalhe> itens) {
+        propinaMBean.registarPropina();
+        Propina proprinaActual = propinaDAO.findById(propinaDAO.buscaUltimaFactura());
+      // Integer formaPagamento = propinaDAO.buscaIdFormaPagamento(proprinaActual.getIdPropina());
+        if (propinaDAO.buscaIdFormaPagamento(proprinaActual.getIdPropina()) == 4) {
+            for (PropinaDetalhe item : itens) {
+                item.setPropina(proprinaActual);
+                item.setMesPropina(item.getMesPropina());
+                item.setValorPropina(0.0);
+
+                propinaDetalheDAO.save(item);
+            }
+            cesto.clear();
+
+            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "N.º" + proprinaActual.getIdPropina() + "", "");
+            facesContext.addMessage("msg", info);
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            return "/propinas/propinas_pagamento_busca_aluno?faces-redirect=true";
+
+        } else {
+            //percorre o carrinho e regista cada item
+            for (PropinaDetalhe item : itens) {
+                item.setPropina(proprinaActual);
+                item.setMesPropina(item.getMesPropina());
+                item.setValorPropina(item.getValorPropina());
+
+                propinaDetalheDAO.save(item);
+            }
+            cesto.clear();
+
+            FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "Propina N.º" + proprinaActual.getIdPropina() + "", "");
+            facesContext.addMessage("msg", info);
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+            return "/propinas/propinas_pagamento_busca_aluno?faces-redirect=true";
+        }
+    }
+
 }

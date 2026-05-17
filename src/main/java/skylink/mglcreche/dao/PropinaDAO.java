@@ -1,4 +1,3 @@
-
 package skylink.mglcreche.dao;
 
 import java.sql.Connection;
@@ -9,18 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Aluno;
+import skylink.mglcreche.modelo.AnoLectivo;
 import skylink.mglcreche.modelo.FormaPagamento;
 import skylink.mglcreche.modelo.Propina;
 
 public class PropinaDAO {
 
-    private static final String INSERT = "INSERT INTO proprina(id_aluno, id_ano_lectivo, id_forma_pagamento) VALUES(?,?,? )";
+    private static final String INSERT = "INSERT INTO propina(id_aluno, id_ano_lectivo, id_forma_pagamento, observacoes) VALUES(?,?,?, ? )";
     private static final String UPDATE = "";
     private static final String DELETE = "";
-    private static final String SELECT_ALL = "";
-    private static final String SELECT_BY_ID = "";
+    private static final String SELECT_ALL = "SELECT p.id_propina, data_pagamento, a.id_aluno, nome_aluno, sobrenome_aluno, descricao_ano_lectivo, descricao_forma_pagamento, observacoes, data_hora_registo FROM propina p INNER JOIN aluno a ON p.id_aluno=a.id_aluno INNER JOIN ano_lectivo av ON p.id_ano_lectivo = av.id_ano_lectivo INNER JOIN forma_pagamento fp ON p.id_forma_pagamento =fp.id_forma_pagamento";
+    private static final String SELECT_BY_ID = "SELECT p.id_propina, data_pagamento, a.id_aluno, nome_aluno, sobrenome_aluno, descricao_ano_lectivo, descricao_forma_pagamento, observacoes, data_hora_registo FROM propina p INNER JOIN aluno a ON p.id_aluno=a.id_aluno INNER JOIN ano_lectivo av ON p.id_ano_lectivo = av.id_ano_lectivo INNER JOIN forma_pagamento fp ON p.id_forma_pagamento =fp.id_forma_pagamento WHERE p.id_propina = ?";
 
     private static final String SELECT_MAX_ID_FACTURA = "SELECT MAX(id_propina) FROM propina";
+    private static final String SELECT_FORMA_PAGAMENTO = "SELECT id_forma_pagamento FROM propina where id_propina = ?";
 
     public boolean save(Propina propina) {
         PreparedStatement ps = null;
@@ -36,6 +37,7 @@ public class PropinaDAO {
             ps.setInt(1, propina.getAluno().getIdAluno());
             ps.setInt(2, propina.getAnoLectivo().getIdAnoLectivo());
             ps.setInt(3, propina.getFormaPagamento().getIdFormaPagamento());
+            ps.setString(4, propina.getObservacoes());
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
                 System.out.println("PropinaDAO:save:Dados inseridos com sucesso: " + ps.getUpdateCount());
@@ -106,46 +108,71 @@ public class PropinaDAO {
         return propinas;
     }
 
-    public Propina buscaUltimaPropina() {
+     public Integer buscaIdFormaPagamento(Integer idPropina) {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
-        Propina propina = new Propina();
+
+        Integer formaPagamento = null;
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_FORMA_PAGAMENTO);
+            ps.setInt(1, idPropina);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                formaPagamento = rs.getInt(1);
+            }
+            System.out.println("PropinaDAO: buscaIdFormaPagamento -> Forma de pagamento" + formaPagamento);
+        } catch (SQLException ex) {
+            System.out.println("PropinaDAO: buscaIdFormaPagamento -> Erro ao carregar dados" + ex.getMessage());
+        } finally {
+            ConnectionDB.closeConnection((Connection) conn);
+        }
+        return formaPagamento;
+    }
+    
+    public Integer buscaUltimaFactura() {
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+
         Integer ultimo = null;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(SELECT_MAX_ID_FACTURA);
             rs = ps.executeQuery();
             if (rs.next()) {
-                   popularComDados(propina, rs);
-             //   ultimo = rs.getInt(1);
+                ultimo = rs.getInt(1);
             }
-
+            System.out.println("PropinaDAO: buscaUltimaPropina -> Maior propina" + ultimo);
         } catch (SQLException ex) {
             System.out.println("PropinaDAO: buscaUltimaFactura -> Erro ao carregar dados" + ex.getMessage());
         } finally {
-            ConnectionDB.closeConnection(conn);
+            ConnectionDB.closeConnection((Connection) conn);
         }
-        return propina;
-
+        return ultimo;
     }
 
     public void popularComDados(Propina propina, ResultSet rs) {
         try {
-
-            propina.setIdPropina(rs.getInt("id_proprina"));
-            propina.setDataPagamento(rs.getDate("data_pagamento"));
+            propina.setIdPropina(rs.getInt("p.id_propina"));
+            propina.setDataPagamento(rs.getDate("p.data_pagamento"));
             propina.setDataHoraRegisto(rs.getTimestamp("data_hora_registo"));
+            propina.setObservacoes(rs.getString("observacoes"));
             Aluno aluno = new Aluno();
-            aluno.setIdAluno(rs.getInt("id_aluno"));
+            aluno.setIdAluno(rs.getInt("a.id_aluno"));
             aluno.setNomeAluno(rs.getString("nome_aluno"));
             aluno.setSobrenomeAluno(rs.getString("sobrenome_aluno"));
             propina.setAluno(aluno);
             FormaPagamento formaPagamento = new FormaPagamento();
-            formaPagamento.setDescricaoFormaPagamento(rs.getString("fp.descricao_forma_de_pagamento"));
+            formaPagamento.setDescricaoFormaPagamento(rs.getString("fp.descricao_forma_pagamento"));
+            AnoLectivo anoLectivo = new AnoLectivo();
+            anoLectivo.setDescricaoAnoLectivo(rs.getString("descricao_ano_lectivo"));
+            propina.setFormaPagamento(formaPagamento);
+            propina.setAnoLectivo(anoLectivo);
 
         } catch (SQLException ex) {
-            System.err.println("Error on fill data Propina: " + ex.getLocalizedMessage());
+            System.err.println("Error on fill data PropinaDAO: " + ex.getLocalizedMessage());
         }
 
     }

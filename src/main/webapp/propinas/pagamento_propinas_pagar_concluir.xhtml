@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/propinas_template.xhtml">
+
+
+            <ui:define name="content">
+
+                <f:view>
+                    <h:form id="frmDadosDoAluno">
+                        <p:panel  id="pnlDadosDoAluno" header="Pagamento de propina/Dados do(a) aluno(a)">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Nome:" for="nome" />
+                                <p:inputText id="nome" value="#{propinaMBean.propina.aluno.nomeAluno} #{propinaMBean.propina.aluno.sobrenomeAluno}" readonly="true" size="50"/>
+                                <p:outputLabel value="Data de nascimento" for="nascimento" />
+                                <p:inputText id="nascimento" value="#{propinaMBean.propina.aluno.dataNascimentoAluno}" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:inputText> 
+
+                                <p:outputLabel value="Nome do pai:" for="nomePai" />
+                                <p:inputText id="nomePai" value="#{propinaMBean.propina.aluno.nomePaiAluno}" readonly="true" size="40"/>
+                                <p:outputLabel value="Nome da mãe:" for="nomeMae" />
+                                <p:inputText id="nomeMae" value="#{propinaMBean.propina.aluno.nomeMaeAluno}" readonly="true" size="40"/>
+
+
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+
+                    <h:form id="frmNovoPagamentoPropina">
+                        <p:growl id="msg"/>
+                        <h:inputHidden value="#{propinaMBean.propina.aluno}" converter="alunoConverter"/>
+                        <h:panelGrid columns="3" style="margin: 2px auto ;">
+                            <h:panelGroup>
+                                <p:panel header="Ano Lectivo:">
+                                    <h:selectOneMenu value="#{propinaMBean.propina.anoLectivo}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigatorio">
+                                         <f:selectItem itemLabel="Escolha o ano lectivo" noSelectionOption="true" />
+                                        <f:selectItems value="#{anoLectivoMBean.anosLectivos}" var="al" itemValue="#{al}" itemLabel="#{al.descricaoAnoLectivo}"/>
+                                    </h:selectOneMenu >
+                                    <h:message for="modalidade_pagamento" style="color: red;"/>
+                                </p:panel>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:panel header="Modalidade de pagamento:">
+                                    <h:selectOneRadio value="#{propinaMBean.propina.formaPagamento}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigagorios">
+                                        <f:selectItems value="#{propinaMBean.formaPagamentos}" var="fp" itemValue="#{fp}" itemLabel="#{fp.descricaoFormaPagamento}"/>
+                                    </h:selectOneRadio>
+                                    <h:message for="modalidade_pagamento" style="color: red;"/>
+                                </p:panel>
+                            </h:panelGroup>
+                             <h:panelGroup>
+                                <p:panel header="Observações:">
+                                    <p:inputTextarea value="#{propinaMBean.propina.observacoes}" rows="2" cols="100"/>
+                                </p:panel>
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+                       
+
+                        <p:panel header="Mes(es) Seleccionados">
+
+                            <p:dataTable var="item" value="#{cestoPropinaDetalheBean.cesto}" emptyMessage="Nenhum mẽs seleccionado">
+                                <p:column headerText="Mês">
+                                    <h:outputText value="#{item.mesPropina.descricaoMesPropina}"/>
+                                </p:column>
+
+                                <p:column headerText="Preço">
+                                    <h:outputText value="#{item.valorPropina}"/>
+                                </p:column>
+
+                                <p:column headerText="Sub Total">
+                                    <h:outputText value="#{item.valorPropina * 1}">
+                                        <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <f:facet name="footer">
+                                <h2>Total a pagar:</h2>
+                                <h:outputText value="#{cestoPropinaDetalheBean.totalAPagar()}" style="font-size: 1.3em; ">
+                                    <f:convertNumber type="currency"  pattern="#,##0.00"/>
+                                </h:outputText>
+                            </f:facet>
+                        </p:panel>
+
+
+                        <p:commandButton value="Imprimir Recibo" action="#{cestoPropinaDetalheBean.registarPropina(cestoPropinaDetalheBean.cesto)}"  rendered="#{cestoPropinaDetalheBean.cesto.size()>0}"  update="msg" />
+
+
+                    </h:form>
+
+                </f:view>
+
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

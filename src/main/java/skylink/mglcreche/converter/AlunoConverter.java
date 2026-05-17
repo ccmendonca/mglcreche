@@ -4,37 +4,40 @@
  */
 package skylink.mglcreche.converter;
 
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.ConverterException;
 import jakarta.faces.convert.FacesConverter;
-import skylink.mglcreche.dao.AlunoDAO;
+import java.util.HashMap;
+import java.util.Map;
 import skylink.mglcreche.modelo.Aluno;
 
 
-@FacesConverter(value = "anoLectivoConverter")
+@FacesConverter(value = "alunoConverter")
 public class AlunoConverter implements Converter{
-    AlunoDAO alunoDAO =new AlunoDAO();
-    
-    @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Integer id = Integer.parseInt(value);
-        try {
-            return alunoDAO.findById(id);
-        } catch (Exception ex) {
-            System.err.println("Erro na conversão: " + ex.getMessage());
-        }
-        return null;
-    }
-    
+      private static Map<String, Aluno> mapa = new HashMap<>();
 
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-      
-      if (value != null) {
-             Aluno  aluno = ( Aluno) value;
-            return String.valueOf(aluno.getIdAluno());
+    public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+      try {
+            return mapa.get(value);
+        } catch (NumberFormatException e) {
+            throw new ConverterException(
+                    new FacesMessage("Invalid ID"), e);
         }
-        return null;
     }
+
+    @Override
+    public String getAsString(FacesContext fc, UIComponent uic, Object value) {
+       if(value instanceof Aluno) {
+            Aluno aluno = (Aluno) value;
+            mapa.put(String.valueOf(aluno.getIdAluno()), aluno);
+            return String.valueOf(aluno.getIdAluno());
+        } else {
+            return "";
+        }
+    }
+    
 }

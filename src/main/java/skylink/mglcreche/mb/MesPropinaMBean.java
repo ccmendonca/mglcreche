@@ -77,6 +77,7 @@ public class MesPropinaMBean implements Serializable {
     }
     
      public void pesquisaAluno() {
+         System.out.println("Pesquisa aluno >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         alunosPesquisados = alunoDAO.aleatoryAlunos(nomeAluno);
 
     }

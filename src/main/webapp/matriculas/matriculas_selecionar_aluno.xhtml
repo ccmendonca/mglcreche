@@ -50,12 +50,12 @@
                             </p:column>
                                 <p:column headerText="Operações">
                                 <p:commandButton value="Matricular Aluno" action="matriculas_selecionar_servicos?faces-redirect=true">
-                                    <f:setPropertyActionListener target="#{servicoMBean.aluno}" value="#{item}"/>
+                                    <f:setPropertyActionListener target="#{matriculaMBean.matricula.aluno}" value="#{item}"/>
                                 </p:commandButton>
                             </p:column>
                             
                         </p:dataTable>
-                        <p:commandButton value="Concluir" action="matriculas_pagamento_concluir"/>
+                      
                     </h:form>
                    
                 </f:view>
