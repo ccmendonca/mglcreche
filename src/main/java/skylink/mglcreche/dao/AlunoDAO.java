@@ -17,9 +17,9 @@ public class AlunoDAO implements Serializable {
     public static final String INSERT = "INSERT INTO aluno (nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, id_sexo, id_municipio) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String UPDATE = "UPDATE aluno SET nome_aluno = ?, sobrenome_aluno = ?, data_nascimento_aluno = ?, grupo_sanguineo_aluno = ?, casa_aluno = ?, rua_aluno = ?, bairro_aluno = ?, nome_mae_aluno = ?, sobrenome_mae_aluno = ?, telefone_mae_aluno = ?, nome_pai_aluno = ?, sobrenome_pai_aluno = ?, telefone_pai_aluno = ?, id_sexo = ?, id_municipio = ? WHERE id_aluno = ?";
     public static final String DELETE = "DELETE FROM aluno WHERE id_aluno = ? ";
-    public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio";
-    public static final String SELECT_BY_ID = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno = ? ";
-    public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
+    public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio";
+    public static final String SELECT_BY_ID = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno = ? ";
+    public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
 
     Connection conn = null;
     PreparedStatement ps = null;
@@ -36,6 +36,16 @@ public class AlunoDAO implements Serializable {
             Sexo sexo = new Sexo();
             sexo.setDescricaoSexo(rs.getString("descricao_sexo"));
             aluno.setSexo(sexo);
+            aluno.setGrauSanguineoAluno(rs.getString("grupo_sanguineo_aluno"));
+            aluno.setCasaAluno(rs.getString("casa_aluno"));
+            aluno.setRuaAluno(rs.getString("rua_aluno"));
+            aluno.setBairroAluno(rs.getString("bairro_aluno"));
+            aluno.setNomeMaeAluno(rs.getString("nome_mae_aluno"));
+            aluno.setSobrenomeMaeAluno(rs.getString("sobrenome_mae_aluno"));
+            aluno.setTelefoneMaeAluno(rs.getString("telefone_mae_aluno"));
+            aluno.setNomePaiAluno(rs.getString("nome_pai_aluno"));
+            aluno.setSobrenomePaiAluno(rs.getString("sobrenome_pai_aluno"));
+            aluno.setTelefonePaiAluno(rs.getString("telefone_pai_aluno"));
             Municipio municipio = new Municipio();
             municipio.setNomeMunicipio(rs.getString("nome_municipio"));
             aluno.setMunicipio(municipio);

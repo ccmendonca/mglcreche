@@ -1,26 +1,96 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="jakarta.faces.facelets">
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
 
     <body>
 
         <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
 
-            <ui:define name="top">
-                top
-            </ui:define>
-
-            <ui:define name="left">
-                left
-            </ui:define>
-
             <ui:define name="content">
-                content
-            </ui:define>
+                <f:view>
+                    <h:form id="frmDadosDoAluno">
+                        <p:panel  id="pnlDadosDoAluno" header="Inscrição do(a) aluno(a)/Dados do(a) aluno(a)">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Nome:" for="nome" />
+                                <p:inputText id="nome" value="#{matriculaMBean.matricula.aluno.nomeAluno} #{matriculaMBean.matricula.aluno.sobrenomeAluno}" readonly="true" size="50"/>
+                                <p:outputLabel value="Data de nascimento" for="nascimento" />
+                                <p:inputText id="nascimento" value="#{matriculaMBean.matricula.aluno.dataNascimentoAluno}" readonly="true">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:inputText> 
 
-            <ui:define name="bottom">
-                bottom
+                                <p:outputLabel value="Nome do pai:" for="nomePai" />
+                                <p:inputText id="nomePai" value="#{matriculaMBean.matricula.aluno.nomePaiAluno}" readonly="true" size="40"/>
+                                <p:outputLabel value="Nome da mãe:" for="nomeMae" />
+                                <p:inputText id="nomeMae" value="#{matriculaMBean.matricula.aluno.nomeMaeAluno}" readonly="true" size="40"/>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+
+                    <h:form id="frmNovoPagamentoMatricula">
+                        <p:growl id="msg"/>
+                        <h:inputHidden value="#{matriculaMBean.matricula.aluno}" converter="alunoConverter"/>
+                        <h:panelGrid columns="3" style="margin: 2px auto ;">
+                            <h:panelGroup>
+                                <p:panel header="Turma:">
+                                    <p:selectOneMenu value="#{turmaBean.turma.idTurma}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigatorio">
+                                         <f:selectItem itemLabel="Selecione a turma" noSelectionOption="true" />
+                                         <f:selectItems value="#{turmaBean.turmas}" var="tm" itemValue="#{tm.idTurma}" itemLabel="#{tm.descricaoTurma}"/>
+                                    </p:selectOneMenu >
+                                    <h:message for="modalidade_pagamento" style="color: red;"/>
+                                </p:panel>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:panel header="Modalidade de pagamento:">
+                                    <p:selectOneRadio value="#{matriculaMBean.matricula.formaPagamento}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigagorios">
+                                        <f:selectItems value="#{matriculaMBean.formaPagamentos}" var="fp" itemValue="#{fp}" itemLabel="#{fp.descricaoFormaPagamento}"/>
+                                    </p:selectOneRadio>
+                                    <h:message for="modalidade_pagamento" style="color: red;"/>
+                                </p:panel>
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+                       
+
+                        <p:panel header="Serviços selecionados">
+
+                            <p:dataTable var="item" value="#{cestoMatriculaDetalheMBean.cesto}" emptyMessage="Nenhum serviço seleccionado">
+                                <p:column headerText="Serviço">
+                                    <h:outputText value="#{item.servico.descricaoServico}"/>
+                                </p:column>
+
+                                <p:column headerText="Preço">
+                                    <h:outputText value="#{item.precoServico}"/>
+                                </p:column>
+
+                                <p:column headerText="Sub Total">
+                                    <h:outputText value="#{item.precoServico * 1}">
+                                        <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <f:facet name="footer">
+                                <h2>Total a pagar:</h2>
+                                <h:outputText value="#{cestoMatriculaDetalheMBean.totalAPagar()}" style="font-size: 1.3em; ">
+                                    <f:convertNumber type="currency"  pattern="#,##0.00"/>
+                                </h:outputText>
+                            </f:facet>
+                        </p:panel>
+
+
+                        <p:commandButton value="Imprimir Recibo" action="#{cestoMatriculaDetalheMBean.registarMatricula(cestoMatriculaDetalheMBean.cesto)}"  rendered="#{cestoMatriculaDetalheMBean.cesto.size()>0}"  update="msg" />
+
+
+                    </h:form>
+
+                </f:view>
             </ui:define>
 
         </ui:composition>

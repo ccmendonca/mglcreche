@@ -11,36 +11,73 @@
         <ui:composition template="./../WEB-INF/templates/servicos_templete.xhtml">
 
             <ui:define name="content">
-                <f:view>
-                    
-                    
-                    <p:panel header="Servicços disponiveis">
+                  <main>
+                    <h1 class="page-title">Serviços</h1>
+                    <h:form>
+                        <p:toolbar styleClass="toolbar-space">
+                            <p:toolbarGroup>
 
-                    <p:dataTable var="item" value="#{servicoMBean.servicos}" emptyMessage="Nenhum mẽs seleccionado">
-                        <p:column headerText="Mês">
-                            <h:outputText value="#{item.idServico}"/>
-                        </p:column>
+                                <p:button value="Voltar" icon="pi pi-arrow-left" outcome="/matriculas/index_matriculas"
+                                          styleClass="ui-button-help ui-button-flat" />
+                            </p:toolbarGroup>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Novo Registo" type="button" icon="pi pi-external-link" onclick="PF('dlg').show()"/>
+                            </p:toolbarGroup>
 
-                        <p:column headerText="Preço">
-                            <h:outputText value="#{item.descricaoServico}"/>
-                        </p:column>
+                        </p:toolbar>
+                        <p:dataTable id="dt-servico" widgetVar="dtservico" value="#{servicoMBean.servicos}" var="servico" rows="20"
+                                     rowKey="#{servico.idServico}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
 
-                        <p:column headerText="Preço">
-                            <h:outputText value="#{item.precoServico}">
-                                <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
-                            </h:outputText>
-                        </p:column>
+                            <p:column headerText="Descrição">
+                                <h:outputText value="#{servico.descricaoServico}"/>
+                            </p:column>
+                            <p:column headerText="Preço">
+                                <h:outputText value="#{servico.precoServico}"/>
+                            </p:column>
 
-                    </p:dataTable>
-
-                   
-                </p:panel>
-
-                    
-                    
-                </f:view>
-
-                
+                            <p:column width="14rem" style="text-align: center;" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="Acções"/>
+                                </f:facet>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                    <h:form>
+                        <p:dialog header="Nova Serviço" widgetVar="dlg" minHeight="50" width="450" showEffect="fade" modal="true">
+                            <h:panelGrid columns="1">
+                            <h:panelGroup>
+                                <div class="field">
+                                    <p:outputLabel value="Código:" for="@next"/>
+                                    <p:inputNumber value="#{servicoMBean.servico.idServico}" disabled="true"
+                                                   placeholder="Código do Serviço"/>
+                                    <p:tooltip value="O valor é gerado automaticamente!" for="@previous"/>
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <h:panelGroup>
+                                <div style="height: 80px">
+                                    <p:outputLabel for="@next" value="Descrição:"/>
+                                    <p:inputText value="#{servicoMBean.servico.descricaoServico}" placeholder="Ex.: Bebês do Colo" required="true" requiredMessage="Preecha a descrição"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div style="height: 80px">
+                                    <p:outputLabel for="@next" value="Valor:" />
+                                    <p:inputText value="#{servicoMBean.servico.precoServico}"/>
+                                </div>
+                            </h:panelGroup>
+                            </h:panelGrid>
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" action="#{servicoMBean.save()}" ajax="false"/>
+                            </f:facet>
+                        </p:dialog>
+                    </h:form>
+                </main>
             </ui:define>
 
         </ui:composition>

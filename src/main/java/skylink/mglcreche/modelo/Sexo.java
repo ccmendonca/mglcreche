@@ -1,10 +1,13 @@
 
 package skylink.mglcreche.modelo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Sexo {
+public class Sexo implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private Integer idSexo;
     private String descricaoSexo;

@@ -1,5 +1,6 @@
 package skylink.mglcreche.mb;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -42,6 +43,10 @@ public class TurmaBean implements Serializable {
 
     private String filtroDescricao;
 
+    @PostConstruct
+    public void inicializar(){
+        turmas = turmaDAO.listar();
+    }
     public TurmaBean() {
         turmaDAO = new TurmaDAO();
         anoLectivoDAO = new AnoLectivoDAO();

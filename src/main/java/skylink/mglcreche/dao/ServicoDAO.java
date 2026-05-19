@@ -16,7 +16,7 @@ import skylink.mglcreche.modelo.Servico;
 
 public class ServicoDAO {
 
-    public static final String INSERT = "INSERT INTO (descricao_servico, preco_servico) VALUES (?,?)";
+    public static final String INSERT = "INSERT INTO servico (descricao_servico, preco_servico) VALUES (?,?)";
     public static final String UPDATE = "UPDATE servico SET descricao_servico = ?, preco_servico = ? WHERE id_servico = ?";
     public static final String DELETE = "DELETE FROM servico WHERE id_servico = ? ";
     public static final String SELECT_ALL = "SELECT * FROM servico";

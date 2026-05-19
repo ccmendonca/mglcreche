@@ -1,28 +1,86 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="jakarta.faces.facelets">
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
     <body>
 
         <ui:composition template="./../WEB-INF/templates/profissionais_templete.xhtml">
 
-            <ui:define name="top">
-                top
-            </ui:define>
-
-            <ui:define name="left">
-                left
-            </ui:define>
-
             <ui:define name="content">
-                content
-            </ui:define>
+                <h:form>
+                    <p:growl id="growl" sticky="true" />
+                    <p:panel header="Registos de Profissionais">
 
-            <ui:define name="bottom">
-                bottom
-            </ui:define>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Nº Contribuinte"/>
+                            <p:inputText value="#{profissionalMBean.profissional.numeroContribuinte}" required="true"/>
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.nome}" required="true"/>
+                            <p:outputLabel value="Sobrenome:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.sobrenome}" required="true"/>
+                            <p:outputLabel value="Data de Nascimento:"/>
+                            <p:calendar value="#{profissionalMBean.profissional.dataNascimento}" required="true" pattern="dd/MM/yyyy"/>
+                            <p:outputLabel for="sexo" value="Sexo:" />
+                            <h:selectOneRadio id="sexo" value="#{profissionalMBean.profissional.sexo}" 
+                                              converter="omnifaces.SelectItemsConverter" required="true">
+                                <f:selectItems value="#{profissionalMBean.sexos}"  var="sx" itemValue="#{sx}"
+                                               itemLabel="#{sx.descricaoSexo}" />
+                            </h:selectOneRadio>
+                            <p:outputLabel value="Nº Casa:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.numeroCasa}" required="true"/>
+                            <p:outputLabel value="Rua:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.rua}" required="true"/>
+                            <p:outputLabel value="Bairro:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.bairro}" required="true"/>
+                            <p:outputLabel for="municipio" value="Município:" />
+                            <p:selectOneMenu id="municipio" value="#{profissionalMBean.profissional.municipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Municipio..."/>
+                                <f:selectItems value="#{profissionalMBean.municipios}"
+                                               var="m"
+                                               itemValue="#{m}"
+                                               itemLabel="#{m.nomeMunicipio}" />
+                            </p:selectOneMenu>
 
+
+                        </h:panelGrid>
+
+                    </p:panel>
+
+                    <p:panel header="Outros Dados">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Telefone Unitel:"/>
+                            <p:inputMask value="#{profissionalMBean.profissional.telefoneUnitel}" mask="(24) 999 999 999" required="true"/>
+                            <p:outputLabel value="Email:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.email}" required="true"/>
+                            <p:outputLabel value="Habilitações Literárias:" />
+                            <p:selectOneMenu value="#{profissionalMBean.profissional.habilitacoesLiterarias}">
+                                <f:selectItems value="#{['Ensino Médio', 'Ensino Superior', 'Mestrado']}"
+                                               var="habilitacao" itemValue="#{habilitacao}" itemLabel="#{habilitacao}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="categoria" value="Categoria:" />
+                            <p:selectOneMenu id="categoria" value="#{profissionalMBean.profissional.categoriaprofissional}" required="true" requiredMessage="O campo categoria é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione a Categoria..."/>
+                                <f:selectItems value="#{profissionalMBean.categorias}"
+                                               var="c"
+                                               itemValue="#{c}"
+                                               itemLabel="#{c.descricao}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Observações:"/>
+                            <p:inputText value="#{profissionalMBean.profissional.observacoes}" required="true"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:commandButton  id="update" value="Actualizar" 
+                                      action="#{profissionalMBean.editar}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
+
+                </h:form>
+            </ui:define>
         </ui:composition>
 
     </body>

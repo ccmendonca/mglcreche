@@ -4,17 +4,22 @@ package skylink.mglcreche.mb;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.dao.MatriculaDetalheDAO;
 import skylink.mglcreche.modelo.Matricula;
 import skylink.mglcreche.modelo.MatriculaDetalhe;
 import skylink.mglcreche.modelo.Servico;
+import skylink.mglcreche.modelo.Turma;
 
 /**
  * «claudiomendonca»
@@ -29,6 +34,7 @@ public class CestoMatriculaDetalheMBean implements Serializable {
     private Servico servico = new Servico();
     private MatriculaDetalheDAO MatriculadetalheDAO = new MatriculaDetalheDAO();
     private List<MatriculaDetalhe> cesto = new ArrayList<>();
+    private Turma turma = new Turma();
     
     @Inject
     MatriculaMBean matriculaMBean;
@@ -60,7 +66,17 @@ public class CestoMatriculaDetalheMBean implements Serializable {
     }
 
     
-    
+    public void cancelarPagamentoMatricula() {
+        cesto.clear();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+        try {
+            externalContext.redirect("matriculas_selecionar_aluno.faces");
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informção", "Inscrição da/o aluna/o cancelada"));
+        } catch (IOException ex) {
+            Logger.getLogger(CestoMatriculaDetalheMBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
     
@@ -77,6 +93,7 @@ public class CestoMatriculaDetalheMBean implements Serializable {
     
      public String registarMatricula(List<MatriculaDetalhe> itens) {
 
+         
         matriculaMBean.registarMatricula();
         //busca a ultima factura registada
         Matricula matriculaActual = matriculaDAO.buscaUltimaMatricula();
@@ -152,5 +169,13 @@ public class CestoMatriculaDetalheMBean implements Serializable {
 
     public void setServico(Servico servico) {
         this.servico = servico;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 }

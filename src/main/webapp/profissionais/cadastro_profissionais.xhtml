@@ -11,191 +11,74 @@
         <ui:composition template="./../WEB-INF/templates/profissionais_templete.xhtml">
 
             <ui:define name="content">
-                <main>
-            <h1 class="page-title">Cadastrar Novo Funcionário</h1>
+                <h:form>
+                    <p:growl id="growl" sticky="true" />
+                    <p:panel header="Registos de Profissionais">
 
-            <h:form>
-                <p:toolbar>
-                    <p:toolbarGroup>
-                        <p:button
-                            value="Voltar"
-                            icon="pi pi-arrow-left"
-                            outcome="/profissionais/index_profissionais"
-                            class="ui-button-flat ui-button-flat ui-button-help"
-                            />
-                    </p:toolbarGroup>
-                    <p:toolbarGroup>
-                        <p:commandButton
-                            value="Guardar"
-                            action="#{profissionalAleatoryMBean.adicionar}"
-                            ajax="false"
-                            >
-                        </p:commandButton>
-                    </p:toolbarGroup>
-                </p:toolbar>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Nº Contribuinte"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.numeroContribuinte}" required="true"/>
+                            <p:outputLabel value="Nome:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.nome}" required="true"/>
+                            <p:outputLabel value="Sobrenome:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.sobrenome}" required="true"/>
+                            <p:outputLabel value="Data de Nascimento:"/>
+                            <p:calendar value="#{profissionalAleatoryMBean.profissional.dataNascimento}" required="true" pattern="dd/MM/yyyy"/>
+                            <p:outputLabel for="sexo" value="Sexo:" />
+                            <h:selectOneRadio id="sexo" value="#{profissionalAleatoryMBean.profissional.sexo}" 
+                                              converter="omnifaces.SelectItemsConverter" required="true">
+                                <f:selectItems value="#{profissionalAleatoryMBean.sexos}"  var="sx" itemValue="#{sx}"
+                                               itemLabel="#{sx.descricaoSexo}" />
+                            </h:selectOneRadio>
+                            <p:outputLabel value="Nº Casa:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.numeroCasa}" required="true"/>
+                            <p:outputLabel value="Rua:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.rua}" required="true"/>
+                            <p:outputLabel value="Bairro:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.bairro}" required="true"/>
+                            <p:outputLabel for="municipio" value="Município:" />
+                            <p:selectOneMenu id="municipio" value="#{profissionalAleatoryMBean.profissional.municipio}" required="true" requiredMessage="O campo município é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Municipio..."/>
+                                <f:selectItems value="#{profissionalAleatoryMBean.municipios}"
+                                               var="m"
+                                               itemValue="#{m}"
+                                               itemLabel="#{m.nomeMunicipio}" />
+                            </p:selectOneMenu>
 
-                <p:tabView multiViewState="true" id="tabViewMVS">
-                    <p:tab title="Dados Pessoais">
-                        <p class="m-0">
-                            <div class="g-form-item">
-                                <p:outputLabel value="Nº Contribuinte" for="@next" />
-                                <p:inputText
-                                    value="#{profissionalAleatoryMBean.profissional.numeroContribuinte}"
-                                    required="true"
-                                    />
-                            </div>
 
-                            <div class="group-form">
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Nome" for="@next" />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.nome}"
-                                        required="true"
-                                        />
-                                </div>
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Sobrenome" for="@next" />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.sobrenome}"
-                                        required="true"
-                                        />
-                                </div>
-                            </div>
-                            <div class="group-form">
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Data de Nascimento" for="@next" />
-                                    <p:datePicker
-                                        value="#{profissionalAleatoryMBean.profissional.dataNascimento}"
-                                        required="true"
-                                        />
-                                </div>
+                        </h:panelGrid>
 
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Sexo" for="@next" />
-                                    <p:selectOneRadio
-                                        value="#{profissionalAleatoryMBean.profissional.sexo}"
-                                        required="true">
-                                        <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
-                                        <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-                                    </p:selectOneRadio>
-                                </div>
-                            </div>
-                        </p>
-                    </p:tab>
-                    <p:tab title="Profissional">
-                        <p class="m-0">
-                            <div class="g-form-item">
-                                <p:outputLabel for="@next" value="Categoria" />
-                                <p:selectOneMenu
-                                    value="#{profissionalAleatoryMBean.profissional.categoriaprofissional}"
-                                    converter="categoriaProfissionalConverter"
-                                    editable="false"
-                                    >
-                                    <f:selectItems
-                                        value="#{profissionalAleatoryMBean.catProfissionais}"
-                                        var="cat"
-                                        itemValue="#{cat}"
-                                        itemLabel="#{cat.descricao}"
-                                        />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel value="Habilitações Literárias" />
-                                <p:selectOneMenu value="#{profissionalAleatoryMBean.profissional.habilitacoesLiterarias}">
-                                    <f:selectItems value="#{['Ensino Médio', 'Ensino Superior', 'Mestrado']}"
-                                                   var="habilitacao" itemValue="#{habilitacao}" itemLabel="#{habilitacao}"/>
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel value="Observações " />
-                                <p:inputTextarea
-                                    value="#{profissionalAleatoryMBean.profissional.observacoes}"
-                                    />
-                            </div>
-                        </p>
-                    </p:tab>
-                    <p:tab title="Endereço">
-                        <p class="m-0">
-                            <div class="group-form">
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Rua:    " />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.rua}"
-                                        />
-                                </div>
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Casa nº    " />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.numeroCasa}"
-                                        />
-                                </div>
-                            </div>
-                            <div class="group-form">
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Bairro:    " />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.bairro}"
-                                        />
-                                </div>
-                                <div class="g-form-item item-inline">
-                                    <p:outputLabel value="Distrito:    " />
-                                    <p:inputText
-                                        value="#{profissionalAleatoryMBean.profissional.distrito}"
-                                        />
-                                </div>
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel for="@next" value="Município: *   " />
-                                <p:selectOneMenu
-                                    value="#{profissionalAleatoryMBean.profissional.municipality}"
-                                    converter="municipioConverter" filter="true">
-                                    <f:selectItem
-                                        itemLabel="Seleccione um município"
-                                        noSelectionOption="true"
-                                        itemValue="#{null}"
-                                        value="#{null}"
-                                        />
-                                    <f:selectItems
-                                        value="#{municipioBean.municipios}"
-                                        var="mun"
-                                        itemValue="#{mun}"
-                                        itemLabel="#{mun.name}"
-                                        />
-                                </p:selectOneMenu>
-                            </div>
-                        </p>
-                    </p:tab>
-                    <p:tab title="Contacto">
-                        <p class="m-0">
-                            <div class="g-form-item">
-                                <p:outputLabel value="Nº Unitel:     " />
-                                <p:inputText
-                                    value="#{profissionalAleatoryMBean.profissional.telefoneUnitel}"
-                                    />
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel value="Nº Movicel:     " />
-                                <p:inputText
-                                    value="#{profissionalAleatoryMBean.profissional.telefoneMovicel}"
-                                    />
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel value="Nº Africell:      " />
-                                <p:inputText
-                                    value="#{profissionalAleatoryMBean.profissional.telefoneAfricell}"
-                                    />
-                            </div>
-                            <div class="g-form-item">
-                                <p:outputLabel value="Nº Fixo:     " />
-                                <p:inputText
-                                    value="#{profissionalAleatoryMBean.profissional.telefoneFixo}"
-                                    />
-                            </div>
-                        </p>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
-        </main>
+                    </p:panel>
+
+                    <p:panel header="Outros Dados">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Telefone Unitel:"/>
+                            <p:inputMask value="#{profissionalAleatoryMBean.profissional.telefoneUnitel}" mask="(24) 999 999 999" required="true"/>
+                            <p:outputLabel value="Email:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.email}" required="true"/>
+                            <p:outputLabel value="Habilitações Literárias:" />
+                            <p:selectOneMenu value="#{profissionalAleatoryMBean.profissional.habilitacoesLiterarias}">
+                                <f:selectItems value="#{['Ensino Médio', 'Ensino Superior', 'Mestrado']}"
+                                               var="habilitacao" itemValue="#{habilitacao}" itemLabel="#{habilitacao}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="categoria" value="Categoria:" />
+                            <p:selectOneMenu id="categoria" value="#{profissionalAleatoryMBean.profissional.categoriaprofissional}" required="true" requiredMessage="O campo categoria é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione a Categoria..."/>
+                                <f:selectItems value="#{profissionalAleatoryMBean.categorias}"
+                                               var="c"
+                                               itemValue="#{c}"
+                                               itemLabel="#{c.descricao}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Observações:"/>
+                            <p:inputText value="#{profissionalAleatoryMBean.profissional.observacoes}" required="true"/>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:commandButton  id="save" value="Guardar" 
+                                      action="#{profissionalAleatoryMBean.adicionar}" icon="ui-icon-disk" update="growl">
+                        <f:ajax execute="@form" render="@form"/>
+                    </p:commandButton>
+                </h:form>
             </ui:define>
             
         </ui:composition>

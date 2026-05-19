@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
 
     <body>
 
@@ -14,8 +15,12 @@
 
                     #{matriculaMBean.matricula.aluno.nomeAluno}
 
-                    #{matriculaMBean.matricula.aluno.sobrenomeAluno}  
-                    <hr/>
+                    #{matriculaMBean.matricula.aluno.sobrenomeAluno}
+                    <p:outputLabel value="Data de nascimento" for="nascimento" />
+                    <p:inputText id="nascimento" value="#{matriculaMBean.matricula.aluno.dataNascimentoAluno}" readonly="true">
+                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                 </p:inputText> 
+                        <hr/>
                 </h:form>
 
                 <h:form id="mesesseleccionados">
@@ -40,7 +45,7 @@
 
                 </h:form>
             </ui:define>
-            
+
         </ui:composition>
 
     </body>

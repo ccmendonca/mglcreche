@@ -37,6 +37,12 @@
                         </h:outputText>
                     </f:facet>
                 </p:panel>
+                <h:form>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Cancelar Inscrição" action="#{cestoMatriculaDetalheMBean.cancelarPagamentoMatricula}" ajax="false"/>
+                            <p:commandButton value="Confirmar e Concluir" action="matriculas_pagamento_concluir?faces-redirect=true" ajax="false"/>
+                        </h:panelGrid>
+                    </h:form>
             </ui:define>
             
         </ui:composition>

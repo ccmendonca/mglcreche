@@ -39,6 +39,8 @@ public class AlunoMBean implements Serializable {
     @PostConstruct
     public void inicializar() {
         alunos = alunoDAO.findAll();
+        sexos = sexoDAO.findAll();
+        municipios = municipioDAO.findAll();
         aluno = new Aluno();
     }
 

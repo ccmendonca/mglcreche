@@ -6,11 +6,13 @@ import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.CategoriaProfissionalDAO;
 import skylink.mglcreche.dao.MunicipioDAO;
 import skylink.mglcreche.dao.ProfissionalDAO;
 import skylink.mglcreche.dao.SexoDAO;
+import skylink.mglcreche.modelo.CategoriaProfissional;
 import skylink.mglcreche.modelo.Municipio;
 import skylink.mglcreche.modelo.Profissional;
 import skylink.mglcreche.modelo.Sexo;
@@ -25,21 +27,28 @@ public class ProfissionalMBean implements Serializable {
 
     @Inject
     private transient ProfissionalDAO profissionalDAO;
-    private MunicipioDAO municipioDao;
-    private CategoriaProfissionalDAO categoriaProfissionalDAO;
+    private MunicipioDAO municipioDao = new MunicipioDAO();
+    private CategoriaProfissionalDAO categoriaProfissionalDAO = new CategoriaProfissionalDAO();
+    private List<CategoriaProfissional> categorias = new ArrayList<>();
     private List<Profissional> profissionais;
     private List<Profissional> pesquisado;
     private Profissional selecionado;
     private String name;
     private Profissional profissional = new Profissional();
     private Municipio municipio = new Municipio();
+    private List<Municipio> municipios = new ArrayList<>();
     private String dataDeNascimento;
-    private Sexo sexo;
-    private SexoDAO sexoDAO;
+    private List<Sexo> sexos = new ArrayList<>();
+    private Sexo sexo = new Sexo();
+    private SexoDAO sexoDAO = new SexoDAO();
+    private CategoriaProfissional categoriaProfissional = new CategoriaProfissional();
 
     @PostConstruct
     public void init() {
         profissionais = profissionalDAO.findAll();
+        sexos = sexoDAO.findAll();
+        municipios = municipioDao.findAll();
+        categorias = categoriaProfissionalDAO.findAll();
         profissional = new Profissional();
     }
 
@@ -67,12 +76,36 @@ public class ProfissionalMBean implements Serializable {
         return "editar_profissionais";
     }
 
-    public Profissional getProfissional() {
-        return profissional;
+    public ProfissionalDAO getProfissionalDAO() {
+        return profissionalDAO;
     }
 
-    public void setProfissional(Profissional profissional) {
-        this.profissional = profissional;
+    public void setProfissionalDAO(ProfissionalDAO profissionalDAO) {
+        this.profissionalDAO = profissionalDAO;
+    }
+
+    public MunicipioDAO getMunicipioDao() {
+        return municipioDao;
+    }
+
+    public void setMunicipioDao(MunicipioDAO municipioDao) {
+        this.municipioDao = municipioDao;
+    }
+
+    public CategoriaProfissionalDAO getCategoriaProfissionalDAO() {
+        return categoriaProfissionalDAO;
+    }
+
+    public void setCategoriaProfissionalDAO(CategoriaProfissionalDAO categoriaProfissionalDAO) {
+        this.categoriaProfissionalDAO = categoriaProfissionalDAO;
+    }
+
+    public List<CategoriaProfissional> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<CategoriaProfissional> categorias) {
+        this.categorias = categorias;
     }
 
     public List<Profissional> getProfissionais() {
@@ -99,36 +132,12 @@ public class ProfissionalMBean implements Serializable {
         this.name = name;
     }
 
-    public String getDataDeNascimento() {
-        return dataDeNascimento;
+    public Profissional getProfissional() {
+        return profissional;
     }
 
-    public void setDataDeNascimento(String dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
-    }
-
-    public ProfissionalDAO getProfissionalDAO() {
-        return profissionalDAO;
-    }
-
-    public void setProfissionalDAO(ProfissionalDAO profissionalDAO) {
-        this.profissionalDAO = profissionalDAO;
-    }
-
-    public MunicipioDAO getMunicipioDao() {
-        return municipioDao;
-    }
-
-    public void setMunicipioDao(MunicipioDAO municipioDao) {
-        this.municipioDao = municipioDao;
-    }
-
-    public CategoriaProfissionalDAO getCategoriaProfissionalDAO() {
-        return categoriaProfissionalDAO;
-    }
-
-    public void setCategoriaProfissionalDAO(CategoriaProfissionalDAO categoriaProfissionalDAO) {
-        this.categoriaProfissionalDAO = categoriaProfissionalDAO;
+    public void setProfissional(Profissional profissional) {
+        this.profissional = profissional;
     }
 
     public Municipio getMunicipio() {
@@ -137,6 +146,30 @@ public class ProfissionalMBean implements Serializable {
 
     public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
+    }
+
+    public List<Municipio> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Municipio> municipios) {
+        this.municipios = municipios;
+    }
+
+    public String getDataDeNascimento() {
+        return dataDeNascimento;
+    }
+
+    public void setDataDeNascimento(String dataDeNascimento) {
+        this.dataDeNascimento = dataDeNascimento;
+    }
+
+    public List<Sexo> getSexos() {
+        return sexos;
+    }
+
+    public void setSexos(List<Sexo> sexos) {
+        this.sexos = sexos;
     }
 
     public Sexo getSexo() {
@@ -153,6 +186,14 @@ public class ProfissionalMBean implements Serializable {
 
     public void setSexoDAO(SexoDAO sexoDAO) {
         this.sexoDAO = sexoDAO;
+    }
+
+    public CategoriaProfissional getCategoriaProfissional() {
+        return categoriaProfissional;
+    }
+
+    public void setCategoriaProfissional(CategoriaProfissional categoriaProfissional) {
+        this.categoriaProfissional = categoriaProfissional;
     }
     
 }

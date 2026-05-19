@@ -24,7 +24,7 @@
                             <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
                             <p:outputLabel for="sexo" value="Sexo:" />
                             <h:selectOneRadio id="sexo" value="#{alunoBean.aluno.sexo}" 
-                                             converter="omnifaces.SelectItemsConverter" required="true">
+                                              converter="omnifaces.SelectItemsConverter" required="true">
                                 <f:selectItems value="#{alunoBean.sexos}"  var="sx" itemValue="#{sx}"
                                                itemLabel="#{sx.descricaoSexo}" />
                             </h:selectOneRadio>
@@ -57,13 +57,13 @@
                             <p:outputLabel value="Sobrenome Mãe:"/>
                             <p:inputText value="#{alunoBean.aluno.sobrenomeMaeAluno}" required="true"/>
                             <p:outputLabel value="Telefone Mãe:"/>
-                            <p:inputText value="#{alunoBean.aluno.telefoneMaeAluno}" required="true"/>
+                            <p:inputMask value="#{alunoBean.aluno.telefoneMaeAluno}" mask="(24) 999 999 999" required="true"/>
                             <p:outputLabel value="Nome Pai:"/>
                             <p:inputText value="#{alunoBean.aluno.nomePaiAluno}" required="true"/>
                             <p:outputLabel value="Sobrenome Pai:"/>
                             <p:inputText value="#{alunoBean.aluno.sobrenomePaiAluno}" required="true"/>
                             <p:outputLabel value="Telefone Pai:"/>
-                            <p:inputText value="#{alunoBean.aluno.telefonePaiAluno}" required="true"/>
+                            <p:inputMask value="#{alunoBean.aluno.telefonePaiAluno}" mask="(24) 999 999 999" required="true"/>
 
                         </h:panelGrid>
                     </p:panel>

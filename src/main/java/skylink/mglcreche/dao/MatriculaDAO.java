@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Aluno;
+import skylink.mglcreche.modelo.FormaPagamento;
 import skylink.mglcreche.modelo.Matricula;
 import skylink.mglcreche.modelo.Turma;
 
@@ -21,14 +22,15 @@ import skylink.mglcreche.modelo.Turma;
 
 public class MatriculaDAO {
     
-    public static final String INSERT = "INSERT INTO matricula (id_aluno, id_turma) VALUES (?,?)";
+    public static final String INSERT = "INSERT INTO matricula (id_aluno, id_turma, id_forma_pagamento) VALUES (?,?,?)";
     public static final String UPDATE = "UPDATE matricula SET id_aluno = ?, id_turma WHERE id_matricula = ?";
     public static final String DELETE = "DELETE matricula WHERE id_matricula = ? ";
     public static final String SELECT_ALL = "SELECT * FROM matricula";
     public static final String SELECT_BY_ID = "SELECT * FROM matricula WHERE id_matricula = ? ";
     public static final String SELECT_MAX_ID_MATRICULA = "SELECT MAX(id_matricula) FROM matricula";
     public static final String SELECT_BETEEWN_DATES = "SELECT * FROM matricula WHRE data_matricula BETWEEN ? AND ?";
-
+    private static final String SELECT_FORMA_PAGAMENTO = "SELECT id_forma_pagamento FROM propina where id_propina = ?";
+    
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -44,11 +46,15 @@ public class MatriculaDAO {
             aluno.setIdAluno(rs.getInt("id_aluno"));
             aluno.setNomeAluno(rs.getNString("nome_aluno"));
             aluno.setSobrenomeAluno(rs.getNString("sobrenome_aluno"));
+            aluno.setDataNascimentoAluno(rs.getDate("data_nascimento_aluno"));
             matricula.setAluno(aluno);
             Turma turma = new Turma();
             turma.setIdTurma(rs.getInt("id_turma"));
             turma.setDescricaoTurma(rs.getString("descricao_turma"));
             matricula.setTurma(turma);
+            FormaPagamento formaPagamento = new FormaPagamento();
+            formaPagamento.setDescricaoFormaPagamento(rs.getString("fp.descricao_forma_pagamento"));
+            matricula.setFormaPagamento(formaPagamento);
             
         } catch (SQLException e) {
             System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
@@ -68,6 +74,7 @@ public class MatriculaDAO {
             ps = conn.prepareStatement(INSERT);
             ps.setInt(1, matricula.getAluno().getIdAluno());
             ps.setInt(2, matricula.getTurma().getIdTurma());
+            ps.setInt(3, matricula.getFormaPagamento().getIdFormaPagamento());
             
             int retorno = ps.executeUpdate();
             
@@ -118,6 +125,25 @@ public class MatriculaDAO {
         }
         
         return matriculas;
+    }
+    
+    public Integer buscaIdFormaPagamento(Integer idMatricula) {
+        Integer formaPagamento = null;
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_FORMA_PAGAMENTO);
+            ps.setInt(1, idMatricula);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                formaPagamento = rs.getInt(1);
+            }
+            System.out.println("MatriculaDAO: buscaIdFormaPagamento -> Forma de pagamento" + formaPagamento);
+        } catch (SQLException ex) {
+            System.out.println("MatriculaDAO: buscaIdFormaPagamento -> Erro ao carregar dados" + ex.getMessage());
+        } finally {
+            ConnectionDB.closeConnection((Connection) conn);
+        }
+        return formaPagamento;
     }
     
     public List<Matricula> findById(Integer id){

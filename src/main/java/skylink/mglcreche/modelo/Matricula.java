@@ -17,6 +17,7 @@ public class Matricula  implements Serializable {
     private Date dataMatricula;
     private Aluno aluno;
     private Turma turma;
+    private FormaPagamento formaPagamento;
 
     public Integer getIdMatricula() {
         return idMatricula;
@@ -50,6 +51,14 @@ public class Matricula  implements Serializable {
         this.turma = turma;
     }
 
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

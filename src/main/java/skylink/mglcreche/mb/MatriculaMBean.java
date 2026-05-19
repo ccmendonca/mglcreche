@@ -10,8 +10,10 @@ import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import skylink.mglcreche.dao.FormaPagamentoDAO;
 import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.dao.TurmaDAO;
+import skylink.mglcreche.modelo.FormaPagamento;
 import skylink.mglcreche.modelo.Matricula;
 import skylink.mglcreche.modelo.Turma;
 
@@ -26,13 +28,16 @@ public class MatriculaMBean implements Serializable {
     private Turma turma = new Turma();
     private TurmaDAO turmaDAO = new TurmaDAO();
     private List<Turma> turmas = new ArrayList<>();
+    private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
+    private List<FormaPagamento> formaPagamentos = new ArrayList();
+    private FormaPagamento formapagamento = new FormaPagamento();
     
     @Inject
     FacesContext facesContext;
     
     @PostConstruct
     public void inicializar(){
-        
+        formaPagamentos = formaPagamentoDAO.findAll();
         turmas = turmaDAO.listar();
     }
     
@@ -102,4 +107,29 @@ public class MatriculaMBean implements Serializable {
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
+
+    public FormaPagamentoDAO getFormaPagamentoDAO() {
+        return formaPagamentoDAO;
+    }
+
+    public void setFormaPagamentoDAO(FormaPagamentoDAO formaPagamentoDAO) {
+        this.formaPagamentoDAO = formaPagamentoDAO;
+    }
+
+    public List<FormaPagamento> getFormaPagamentos() {
+        return formaPagamentos;
+    }
+
+    public void setFormaPagamentos(List<FormaPagamento> formaPagamentos) {
+        this.formaPagamentos = formaPagamentos;
+    }
+
+    public FormaPagamento getFormapagamento() {
+        return formapagamento;
+    }
+
+    public void setFormapagamento(FormaPagamento formapagamento) {
+        this.formapagamento = formapagamento;
+    }
+    
 }
