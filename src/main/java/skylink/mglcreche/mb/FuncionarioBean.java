@@ -18,10 +18,10 @@ public class FuncionarioBean {
     GestorImpressao gestorImpressao;
     
     public void imprimirListaGeralFuncionarios(ActionEvent event){
-        String relatorio = "profissionais_lista.jasper";
+        String relatorio = "funcionario.jasper";
         HashMap parametros = new HashMap();
         //parametros.put("Título", "Gestão de Creche");
-        parametros.put("Autor", "Skylink");
+       /// parametros.put("Autor", "Skylink");
         gestorImpressao.imprimirPDF(relatorio, parametros);
     }
     
