@@ -14,9 +14,34 @@ import skylink.mglcreche.modelo.Classe;
  * @Henriques
  */
 public class ClasseDAO implements Serializable {
-
+    private static final String INSERT = "INSERT INTO classe(descricao_classe) VALUES (?)";
     private static final String SELECT_ALL = "SELECT id_classe, descricao_classe FROM classe ORDER BY descricao_classe";
     private static final String SELECT_BY_ID = "SELECT id_classe, descricao_classe FROM classe WHERE id_classe = ?";
+    
+    
+     public boolean save(Classe classe) {
+        PreparedStatement ps = null;
+        Connection conn = null;
+        boolean flagControlo = false;
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(INSERT);
+            ps.setString(1, classe.getDescricaoClasse());
+
+            int retorno = ps.executeUpdate();
+            if (retorno > 0) {
+                System.out.println("Dados inseridos com sucesso: " + ps.getUpdateCount());
+                flagControlo = true;
+            }
+            return flagControlo;
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao inserir dados: " + e.getMessage());
+            return false;
+        } finally {
+            ConnectionDB.closeConnection(conn, ps);
+        }
+    }
 
     public List<Classe> findAll() {
         List<Classe> lista = new ArrayList<>();

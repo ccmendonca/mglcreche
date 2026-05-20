@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/classes_template.xhtml">
+
+            <ui:define name="content">
+                  <main>
+                    <h1 class="page-title">Serviços</h1>
+                    <h:form>
+                        <p:toolbar styleClass="toolbar-space">
+                          
+                            <p:toolbarGroup>
+                                <p:commandButton value="Novo Registo" type="button" icon="pi pi-external-link" onclick="PF('dlg').show()"/>
+                            </p:toolbarGroup>
+
+                        </p:toolbar>
+                        <p:dataTable id="dt-classe" widgetVar="dtclasse" value="#{classeMBean.classes}" var="item" rows="20"
+                                     rowKey="#{item.idClasse}"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="10,20,{ShowAll|'All'}">
+
+                            <p:column headerText="N.º">
+                                <h:outputText value="#{item.idClasse}"/>
+                            </p:column>
+                            <p:column headerText="Preço">
+                                <h:outputText value="#{item.descricaoClasse}"/>
+                            </p:column>
+
+                            <p:column width="14rem" style="text-align: center;" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="Acções"/>
+                                </f:facet>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                    <h:form>
+                        <p:dialog header="Nova Classe" widgetVar="dlg" minHeight="50" width="450" showEffect="fade" modal="true">
+                           
+                        <h:panelGrid columns="2">
+                            <h:panelGroup>
+                                <div style="height: 80px">
+                                    <p:outputLabel for="@next" value="Descrição:"/>
+                                    <p:inputText value="#{classeMBean.classe.descricaoClasse}" placeholder="Ex.: 2.ª Classe" required="true" requiredMessage="Preecha a descrição"/>
+                                </div>
+                            </h:panelGroup>
+                           
+                            </h:panelGrid>
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" action="#{classeMBean.save()}" ajax="false"/>
+                            </f:facet>
+                        </p:dialog>
+                    </h:form>
+                </main>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
