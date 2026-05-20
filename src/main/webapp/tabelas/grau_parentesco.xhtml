@@ -18,10 +18,10 @@
                 <p:growl id="growl" sticky="true" />
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Grau de parentesco"/>
-                    <h:inputText value="#{grauParentescoMB.grauParentesco.descricaoGrauParentesco}" required="true" requiredMessage="Campo obrigatório"/>
+                    <h:inputText value="#{grauParentescoMBean.grauParentesco.descricaoGrauParentesco}" required="true" requiredMessage="Campo obrigatório"/>
 
-                    <p:commandButton style="float: right" id="save" value="Save" 
-                                     action="#{grauParentescoMB.save}" icon="ui-icon-disk" update="growl">
+                    <p:commandButton id="save" value="Save" 
+                                     action="#{grauParentescoMBean.save}" icon="ui-icon-disk" update="growl">
                         <f:ajax execute="@form" render="@form"/>
                     </p:commandButton>
                 </h:panelGrid>

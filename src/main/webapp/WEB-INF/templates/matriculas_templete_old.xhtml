@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="default.css" library="css"/>
+        <h:outputStylesheet name="layout.css" library="css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+            <title>Gestão de Matrículas</title>
+    </h:head>
+
+    <h:body>
+        <div id="container">
+            <div id="topo">
+                <ui:insert name="top">
+                    <h2>Sistema de Gestão de Creche</h2>
+                </ui:insert>
+            </div>
+
+            <div id="menu">
+                <ui:insert name="left">
+                    <h:panelGrid columns="1">
+                        <p:button value="Home" outcome="/index" icon="home"/>
+                        <p:button value="Serviços" outcome="/servicos/todos_servicos"/>
+                        <p:button value="Matricular Aluno" outcome="/matriculas/matriculas_selecionar_aluno"/>
+                        <p:button value="Últimas Matrículas" outcome="/matriculas/listagem_geral"/>
+                        <p:button value="Listagens Entre Datas" outcome="/matriculas/listagem_entre_datas"/>
+
+                    </h:panelGrid>
+                </ui:insert>
+            </div>
+            <div id="conteudo" >
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+            <div id="rodape">
+                <ui:insert name="bottom">
+                    <h3> Todos os Direitos Reservados</h3>
+                </ui:insert>
+            </div>
+        </div>
+    </h:body>
+</html>

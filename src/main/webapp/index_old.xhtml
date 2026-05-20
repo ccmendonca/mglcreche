@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+
+    <h:head>
+        <title>Gestão de creche</title>
+        <h:outputStylesheet name="default.css" library="css"/>
+        <h:outputStylesheet name="layout.css" library="css"/>
+    </h:head>
+    <h:body>
+        <h1 style="text-align: center; font-size: 2rem; color: #2D82BA">Sistema de gestão de creche</h1>
+        <div id="containerhome">
+            
+            <div class="boxhome">
+                <h:link value="Gestão de alunos" outcome="/alunos/index_aluno"/>
+
+            </div>
+            <div class="boxhome">
+                <h:link value="Responsável de busca" outcome="/responsavelbusca/index_responsavel_busca_aluno"/>
+
+            </div>
+            
+             <div class="boxhome">
+                <h:link value="Gestao de tabelas" outcome="tabelas/index_tabelas"/>
+
+            </div>
+            
+              <div class="boxhome">
+                <h:link value="Propinas" outcome="propinas/index_propinas"/>
+
+            </div>
+            
+            <div class="boxhome">
+                <h:link value="Gestão de Matrículas" outcome="matriculas/index_matriculas"/>
+
+            </div>
+            
+            <div class="boxhome">
+                <h:link value="Profissionais" outcome="profissionais/index_profissionais"/>
+
+            </div>
+            
+           <div class="boxhome">
+                <h:link value="Turmas" outcome="turmas/index_turma"/>
+
+            </div>
+        </div>
+    </h:body>
+</html>

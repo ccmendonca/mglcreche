@@ -2,45 +2,117 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="jakarta.faces.html">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="default.css" library="css"/>
-        <h:outputStylesheet name="layout.css" library="css"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Gestão de responsaveis pela busca dos alunos da creche</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Gestão de Creche</title>
+        <h:outputStylesheet name="layout.css" library="css" />
+
     </h:head>
 
     <h:body>
-        <div id="container">
-        <div id="topo">
-            <ui:insert name="top">
-                <h2>Sistema de gestão de creche</h2>
-            </ui:insert>
-        </div>
+        <div class="container">
 
-        <div id="menu">
-            <ui:insert name="left">
-               <h:panelGrid columns="1">
-                    <p:button value="Home" outcome="/index" icon="home"/>
-                    <p:button value="Novo responsavel" outcome="cadastro_responsavelbusca"/>
-                    <p:button value="Listar Responsavel" outcome="lista_responsavel_busca_aluno"/>
+            <div id="top">
 
-                    </h:panelGrid>
-            </ui:insert>
-        </div>
-        <div id="conteudo" >
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+            </div>
 
-        <div id="rodape">
-            <ui:insert name="bottom">
-                    <h3> Todos os direitos reservados</h3>
+            <header class="header">
+                <ui:insert name="top">                       
+                    <h1>Sistema de Gestão de Creche</h1>
+                    <p>Nossa Senhora de Fátima</p>
                 </ui:insert>
+            </header>
+
+
+
+            <!-- Painel de Navegação -->
+            <nav class="nav">
+
+                <ui:insert name="left">
+                    <h3>Menu Principal</h3>
+                    <ul>
+                        <li><a href="index_responsavel_busca_aluno.faces">&#x1F3E0;Home</a></li>
+
+                        <li><a href="#">📝 Sobre</a></li>
+                        <li><a href="#">💼 Serviços</a></li>
+                        <li><a href="#">📞 Contato</a></li>
+                        <li><a href="#">📊 Blog</a></li>
+                        <li><a href="#">🔍 Portfólio</a></li>
+                    </ul>    
+
+                </ui:insert>
+
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="main">
+
+                <ui:insert name="content">
+                    <div class="card">
+                        <h2>✨ Bem-vindo ao CSS Grid</h2>
+                        <p>CSS Grid Layout é um sistema de layout bidimensional que permite criar designs web complexos e responsivos de forma simples e intuitiva. Diferente do Flexbox (unidimensional), o Grid trabalha com linhas e colunas simultaneamente.</p>
+                    </div>
+
+                    <div class="card">
+                        <h2>🎯 Vantagens do CSS Grid</h2>
+                        <ul>
+                            <li><strong>Layout bidimensional:</strong> Controla linhas e colunas ao mesmo tempo</li>
+                            <li><strong>Flexível:</strong> Cria layouts complexos com poucas linhas de código</li>
+                            <li><strong>Responsivo:</strong> Facilmente adaptável com media queries</li>
+                            <li><strong>Organização:</strong> Estrutura clara do código com grid-template-areas</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h2>🖼️ Demonstração de Grid</h2>
+                        <p>Este é um sub-grid demonstrando como o CSS Grid pode criar layouts automáticos:</p>
+                        <div class="grid-demo">
+                            <div class="grid-item">Item 1</div>
+                            <div class="grid-item">Item 2</div>
+                            <div class="grid-item">Item 3</div>
+                            <div class="grid-item">Item 4</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>📱 Media Queries em Ação</h2>
+                        <p>Redimensione a janela do navegador para ver as media queries funcionando:</p>
+                        <ul>
+                            <li><strong>Desktop (>768px):</strong> Layout com 3 colunas (sidebar + conteúdo)</li>
+                            <li><strong>Tablet (≤768px):</strong> Layout empilhado, menu horizontal</li>
+                            <li><strong>Mobile (≤480px):</strong> Layout otimizado para telas pequenas</li>
+                        </ul>
+                    </div>
+
+                </ui:insert>
+
+            </main>
+
+            <!-- Rodapé -->
+            <footer class="footer">
+
+                <ui:insert name="bottom">
+                    <p>&copy; 2026 - Desenvolvido Skylink</p>
+                    <p>📧 contato@exemplo.com | 📱 (11) 99999-9999</p>
+                    <p>🎨 Design responsivo utilizando <strong>CSS Grid</strong> e <strong>Media Queries</strong></p>
+
+
+                </ui:insert>
+
+
+
+            </footer>
+
+
+
+
+            <div id="bottom">
+
+            </div>
         </div>
-</div>
     </h:body>
 
 </html>
