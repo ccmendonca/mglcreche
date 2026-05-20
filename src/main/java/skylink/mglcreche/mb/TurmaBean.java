@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import skylink.mglcreche.modelo.Matricula;
 
 /**
  * Henriques
@@ -39,7 +40,7 @@ public class TurmaBean implements Serializable {
     private final AnoLectivoDAO anoLectivoDAO;
     private final ClasseDAO classeDAO;
     private final SalaDAO salaDAO;
-
+    private Matricula matricula = new Matricula();
     private String filtroDescricao;
 
     @PostConstruct
@@ -217,6 +218,14 @@ public class TurmaBean implements Serializable {
         this.filtroDescricao = filtroDescricao;
     }
 
+    public Matricula getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(Matricula matricula) {
+        this.matricula = matricula;
+    }
+    
     private void addMensagem(FacesMessage.Severity SEVERITY_WARN, String aviso, String seleccione_uma_turma_para_editar) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

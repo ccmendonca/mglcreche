@@ -38,9 +38,9 @@
                         <h:panelGrid columns="3" style="margin: 2px auto ;">
                             <h:panelGroup>
                                 <p:panel header="Turma:">
-                                    <p:selectOneMenu value="#{turmaBean.turma.idTurma}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigatorio">
+                                    <p:selectOneMenu value="#{turmaBean.matricula.turma}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Campo obrigatorio">
                                          <f:selectItem itemLabel="Selecione a turma" noSelectionOption="true" />
-                                         <f:selectItems value="#{turmaBean.turmas}" var="tm" itemValue="#{tm.idTurma}" itemLabel="#{tm.descricaoTurma}"/>
+                                         <f:selectItems value="#{turmaBean.turmas}" var="tm" itemValue="#{tm}" itemLabel="#{tm.descricaoTurma}"/>
                                     </p:selectOneMenu >
                                     <h:message for="modalidade_pagamento" style="color: red;"/>
                                 </p:panel>
