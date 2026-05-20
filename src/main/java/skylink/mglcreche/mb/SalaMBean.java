@@ -27,8 +27,6 @@ public class SalaMBean implements Serializable {
         
         salas = salaDAO.findAll();
     }
-
- 
     public List<Sala> getSalas() {
         return salas;
     }

@@ -34,7 +34,6 @@ public class ServicoMBean implements Serializable {
     
     @PostConstruct
     public void inicializar() {
-
         servicos = servicoDAO.findAll();
     }
     
