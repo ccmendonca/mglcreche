@@ -17,6 +17,7 @@ public class Turma implements Serializable {
     private AnoLectivo anoLectivo;
     private Classe classe;
     private Sala sala; 
+    private Periodo periodo;
     private Integer numeroMaximo;
     private Boolean activa;
     private Date dataRegisto;
@@ -28,17 +29,7 @@ public class Turma implements Serializable {
         this.sala = new Sala();
     }
 
-    public Turma(Integer idTurma, String descricaoTurma, AnoLectivo anoLectivo, 
-                 Classe classe, Sala sala, Integer numeroMaximo, Boolean activa, Date dataRegisto) {
-        this.idTurma = idTurma;
-        this.descricaoTurma = descricaoTurma;
-        this.anoLectivo = anoLectivo;
-        this.classe = classe;
-        this.sala = sala;
-        this.numeroMaximo = numeroMaximo;
-        this.activa = activa;
-        this.dataRegisto = dataRegisto;
-    }
+   
 
     public Integer getIdTurma() {
         return idTurma;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package skylink.mglcreche.bdutil;
 
 import java.sql.Connection;
@@ -15,8 +10,8 @@ public class ConnectionDB {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/mglcreche?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String DRIVERMYSQL8 = "com.mysql.cj.jdbc.Driver";
-    private static final String USER = "informatica";
-    private static final String PASSWORD = "Hangalo%123*";
+    private static final String USER = "root";
+    private static final String PASSWORD = "root";
     
 
   

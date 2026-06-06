@@ -8,25 +8,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
-import skylink.mglcreche.modelo.Classe;
+import skylink.mglcreche.modelo.Trimestre;
+
 /**
  *
  * @Henriques
  */
-public class ClasseDAO implements Serializable {
-    private static final String INSERT = "INSERT INTO classe(descricao_classe) VALUES (?)";
-    private static final String SELECT_ALL = "SELECT id_classe, descricao_classe FROM classe ORDER BY descricao_classe";
-    private static final String SELECT_BY_ID = "SELECT id_classe, descricao_classe FROM classe WHERE id_classe = ?";
+public class TrimestreDAO implements Serializable {
     
-    
-     public boolean save(Classe classe) {
+    private static final long serialVersionUID = 1L;
+
+    private static final String INSERT = "INSERT INTO trimestre(descricao_trimestre) VALUES (?)";
+    private static final String SELECT_ALL = "SELECT id_trimestre, descricao_trimestre FROM trimestre ORDER BY descricao_trimestre";
+    private static final String SELECT_BY_ID = "SELECT id_trimestre, descricao_trimestre FROM trimestre WHERE id_trimestre = ?";
+
+    public boolean save(Trimestre trimestre) {
         PreparedStatement ps = null;
         Connection conn = null;
         boolean flagControlo = false;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(INSERT);
-            ps.setString(1, classe.getDescricaoClasse());
+            ps.setString(1, trimestre.getDescricaoTrimestre());
 
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
@@ -43,41 +46,41 @@ public class ClasseDAO implements Serializable {
         }
     }
 
-    public List<Classe> findAll() {
-        List<Classe> lista = new ArrayList<>();
+    public List<Trimestre> findAll() {
+        List<Trimestre> lista = new ArrayList<>();
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(SELECT_ALL);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Classe c = new Classe();
-                c.setIdClasse(rs.getInt("id_classe"));
-                c.setDescricaoClasse(rs.getString("descricao_classe"));
-                lista.add(c);
+                Trimestre t = new Trimestre();
+                t.setIdTrimestre(rs.getInt("id_trimestre"));
+                t.setDescricaoTrimestre(rs.getString("descricao_trimestre"));
+                lista.add(t);
             }
 
         } catch (SQLException e) {
-            System.err.println("Erro ao carregar classes: " + e.getLocalizedMessage());
+            System.err.println("Erro ao carregar trimestres: " + e.getLocalizedMessage());
         }
         return lista;
     }
 
-    public Classe findById(Integer id) {
+    public Trimestre findById(Integer id) {
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(SELECT_BY_ID)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    Classe c = new Classe();
-                    c.setIdClasse(rs.getInt("id_classe"));
-                    c.setDescricaoClasse(rs.getString("descricao_classe"));
-                    return c;
+                    Trimestre t = new Trimestre();
+                    t.setIdTrimestre(rs.getInt("id_trimestre"));
+                    t.setDescricaoTrimestre(rs.getString("descricao_trimestre"));
+                    return t;
                 }
             }
 
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar classe por id: " + e.getLocalizedMessage());
+            System.err.println("Erro ao buscar trimestre por id: " + e.getLocalizedMessage());
         }
         return null;
     }

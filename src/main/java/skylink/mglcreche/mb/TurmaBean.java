@@ -8,11 +8,11 @@ import jakarta.inject.Named;
 import skylink.mglcreche.modelo.Turma;
 import skylink.mglcreche.modelo.AnoLectivo;
 import skylink.mglcreche.modelo.Classe;
-import skylink.mglcreche.modelo.Sala; // Importação adicionada
+import skylink.mglcreche.modelo.Sala; 
 import skylink.mglcreche.dao.TurmaDAO;
 import skylink.mglcreche.dao.AnoLectivoDAO;
 import skylink.mglcreche.dao.ClasseDAO;
-import skylink.mglcreche.dao.SalaDAO; // Importação adicionada
+import skylink.mglcreche.dao.SalaDAO; 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

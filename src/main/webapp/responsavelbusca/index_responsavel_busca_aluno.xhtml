@@ -8,11 +8,19 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:p="http://primefaces.org/ui"
                 template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
-     <ui:define name="left">
+    <ui:define name="left">
 
         <h3>Menu Gestão dos responsáveis</h3>
         <ul>
-            <li><a href="../index.faces">&#x1F3E0;Home</a></li>       
+            <li><a href="../index.faces">&#x1F3E0;Home</a></li> 
+            <h:panelGrid columns="1">
+                
+                <p:button value="Novo responsavel" outcome="cadastro_responsavelbusca"/>
+                
+                
+                <p:button value="Listar Responsavel" outcome="lista_responsavel_busca_aluno"/>
+
+            </h:panelGrid>
 
         </ul>
 
@@ -20,8 +28,8 @@
 
     <ui:define name="content">
 
-         <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-                <p style="text-align: center; font-size: 2rem;">Gestão dos responsáveis dos alunos</p>
+        <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
+        <p style="text-align: center; font-size: 2rem;">Gestão dos responsáveis dos alunos</p>
 
     </ui:define>
 
