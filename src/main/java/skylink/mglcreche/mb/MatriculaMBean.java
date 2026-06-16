@@ -38,7 +38,7 @@ public class MatriculaMBean implements Serializable {
     @PostConstruct
     public void inicializar(){
         formaPagamentos = formaPagamentoDAO.findAll();
-        turmas = turmaDAO.listar();
+        turmas = turmaDAO.findAll();
     }
     
     public void registarMatricula() {

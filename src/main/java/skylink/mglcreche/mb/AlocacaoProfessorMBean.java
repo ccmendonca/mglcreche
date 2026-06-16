@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.dao.AlocacaoProfessorDAO;
 import skylink.mglcreche.dao.AnoLectivoDAO;
+import skylink.mglcreche.dao.DisciplinaDAO;
+import skylink.mglcreche.dao.TrimestreDAO;
 import skylink.mglcreche.dao.TurmaDAO;
 import skylink.mglcreche.modelo.AlocacaoProfessor;
 import skylink.mglcreche.modelo.AnoLectivo;
+import skylink.mglcreche.modelo.Disciplina;
+import skylink.mglcreche.modelo.Trimestre;
 import skylink.mglcreche.modelo.Turma;
 
 /**
@@ -190,5 +194,4 @@ public class AlocacaoProfessorMBean implements Serializable {
     public void setAlocacaoProfessor(AlocacaoProfessor alocacaoProfessor) {
         this.alocacaoProfessor = alocacaoProfessor;
     }
-
 }

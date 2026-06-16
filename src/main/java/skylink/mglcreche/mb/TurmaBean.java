@@ -48,7 +48,7 @@ public class TurmaBean implements Serializable {
         salas = salaDAO.findAll();
         anosLectivos = anoLectivoDAO.findAll();
         classes = classeDAO.findAll();
-        turmas = turmaDAO.listar();
+        turmas = turmaDAO.findAll();
     }
     public TurmaBean() {
         turmaDAO = new TurmaDAO();
@@ -146,7 +146,7 @@ public class TurmaBean implements Serializable {
     }
 
     public void carregarTurmas() {
-        turmas = turmaDAO.listar();
+        turmas = turmaDAO.findAll();
     }
 
     public void carregarAnosLectivos() {

@@ -93,7 +93,7 @@ public class TurmaDAO {
         }
     }
 
-    public List<Turma> listar() {
+    public List<Turma> findAll() {
         List<Turma> lista = new ArrayList<>();
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(LISTAR_TODOS);
