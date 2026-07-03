@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+    <h:head>
+        <title>Facelet Title</title>
+        <style type="text/css">
+             * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fc;
+            color: #1e293b;
+            padding: 24px 16px;
+        }
+
+        /* Container principal responsivo */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header e Breadcrumb */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0f3b5f;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-title h1 i {
+            background: #2c6e9e;
+            color: white;
+            padding: 10px;
+            border-radius: 14px;
+            font-size: 1.2rem;
+        }
+
+        .badge-period {
+            background: #e9ecef;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c3e66;
+        }
+
+        /* Card Principal */
+        .card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            transition: all 0.2s;
+        }
+
+        /* Filtros rápidos */
+        .filters-bar {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eef2f6;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: #ffffff;
+        }
+
+        .search-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 48px;
+            padding: 8px 16px;
+            gap: 8px;
+        }
+
+        .search-box i {
+            color: #7c8ba0;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 6px 0;
+            font-size: 0.9rem;
+            width: 200px;
+            outline: none;
+        }
+
+        .class-selector {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 48px;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1e2a3e;
+            cursor: pointer;
+        }
+
+        .btn-save-master {
+            background: #2c6e9e;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-save-master:hover {
+            background: #1e4f72;
+            transform: scale(0.97);
+        }
+
+        /* Tabela de notas - estilo gradebook */
+        .grades-table-wrapper {
+            padding: 0 0 20px 0;
+            overflow-x: auto;
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 780px;
+        }
+
+        .grades-table th {
+            text-align: left;
+            padding: 18px 16px;
+            background: #f9fbfd;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #4a5b6e;
+            border-bottom: 1px solid #e9edf2;
+        }
+
+        .grades-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eff3f8;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        .student-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-avatar {
+            width: 36px;
+            height: 36px;
+            background: #d9e6f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1f6392;
+        }
+
+        .student-info {
+            font-weight: 600;
+        }
+
+        .student-code {
+            font-size: 0.7rem;
+            color: #7e8a98;
+            font-weight: normal;
+        }
+
+        /* Input de notas estilo moderno */
+        .grade-input {
+            width: 85px;
+            padding: 10px 8px;
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-family: 'Inter', monospace;
+        }
+
+        .grade-input:focus {
+            border-color: #2c6e9e;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44,110,158,0.1);
+        }
+
+        .grade-input.invalid {
+            border-color: #e53e3e;
+            background: #fff5f5;
+        }
+
+        /* Status / médias */
+        .average-cell {
+            font-weight: 700;
+            background: #f1f5f9;
+            border-radius: 24px;
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 40px;
+            background: #eef2ff;
+            color: #2c5282;
+            display: inline-block;
+        }
+
+        .status-approved {
+            background: #e0f2e9;
+            color: #1e6f3f;
+        }
+
+        .status-failed {
+            background: #ffe6e5;
+            color: #b91c1c;
+        }
+
+        /* Tooltip / apoio visual */
+        .activity-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .activity-name {
+            font-weight: 600;
+        }
+
+        .activity-weight {
+            font-size: 0.7rem;
+            color: #6c7a91;
+        }
+
+        /* Indicador de salvamento */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+        }
+
+        /* Responsividade para mobile */
+        @media (max-width: 780px) {
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-group {
+                justify-content: space-between;
+            }
+            .search-box input {
+                width: 140px;
+            }
+            .grades-table th, .grades-table td {
+                padding: 12px 10px;
+            }
+            .grade-input {
+                width: 70px;
+                padding: 8px 4px;
+            }
+        }
+        </style>
+    </h:head>
+    <h:body>
+       
+       
+    </h:body>
+</html>

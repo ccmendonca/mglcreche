@@ -95,6 +95,16 @@ public class Turma implements Serializable {
         this.dataRegisto = dataRegisto;
     }
 
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 7;

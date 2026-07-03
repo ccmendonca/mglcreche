@@ -73,11 +73,19 @@
                                                    itemLabel="#{s.descricaoSala}" />
                                 </h:selectOneMenu>
 
-                                <p:outputLabel for="dataRegisto" value="Data de Registo:" />
-                                <p:datePicker id="dataRegisto"
-                                              value="#{turmaBean.turma.dataRegisto}"
-                                              pattern="dd/MM/yyyy"
-                                              showIcon="true" />
+                              <p:outputLabel for="periodo" value="Periodo:" />
+                                <h:selectOneMenu id="periodo"
+                                                 value="#{turmaBean.turma.periodo}"
+                                                 required="true"
+                                                 requiredMessage="O periodo é obrigatóri" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione a Classe..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{periodoMBean.periodos}"
+                                                   var="c"
+                                                   itemValue="#{p}"
+                                                   itemLabel="#{p.descricaoPeriodo}" />
+                                </h:selectOneMenu>
+
 
                                 <p:outputLabel for="activa" value="Activa:" />
                                 <h:selectBooleanCheckbox id="activa"

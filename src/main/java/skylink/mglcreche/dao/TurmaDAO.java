@@ -14,7 +14,7 @@ import skylink.mglcreche.modelo.Sala;
 
 public class TurmaDAO {
 
-    private static final String INSERT = "INSERT INTO turma (descricao_turma, id_ano_lectivo, id_classe, id_sala, numero_maximo, activa, data_registo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO turma (id_ano_lectivo, id_classe, codigo_turma, id_sala, id_periodo, numero_maximo, observacoes_turma, activa) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE turma SET descricao_turma = ?, id_ano_lectivo = ?, id_classe = ?, id_sala = ?, numero_maximo = ?, activa = ? WHERE id_turma = ?";
     private static final String DELETE = "DELETE FROM turma WHERE id_turma = ?";
     
@@ -36,11 +36,7 @@ public class TurmaDAO {
             ps.setInt(5, turma.getNumeroMaximo());
             ps.setBoolean(6, (turma.getActiva() != null) ? turma.getActiva() : true);
             
-            if (turma.getDataRegisto() != null) {
-                ps.setTimestamp(7, new java.sql.Timestamp(turma.getDataRegisto().getTime()));
-            } else {
-                ps.setTimestamp(7, new java.sql.Timestamp(System.currentTimeMillis()));
-            }
+        
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

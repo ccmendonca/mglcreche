@@ -4,32 +4,38 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import skylink.mglcreche.modelo.Turma;
 import skylink.mglcreche.modelo.AnoLectivo;
 import skylink.mglcreche.modelo.Classe;
-import skylink.mglcreche.modelo.Sala; 
+import skylink.mglcreche.modelo.Sala;
 import skylink.mglcreche.dao.TurmaDAO;
 import skylink.mglcreche.dao.AnoLectivoDAO;
 import skylink.mglcreche.dao.ClasseDAO;
-import skylink.mglcreche.dao.SalaDAO; 
+import skylink.mglcreche.dao.SalaDAO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import skylink.mglcreche.modelo.Matricula;
 
 /**
  * Henriques
+ *
  * @Henriques
  */
 @Named(value = "turmaBean")
 @ViewScoped
 public class TurmaBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(TurmaBean.class.getName());
 
-   
+    private static final long serialVersionUID = 1L;
+    @Inject
+    FacesContext facesContext;
     private Turma turma;
     private Turma turmaSelecionada;
     private List<Turma> turmas;
@@ -44,12 +50,13 @@ public class TurmaBean implements Serializable {
     private String filtroDescricao;
 
     @PostConstruct
-    public void inicializar(){
+    public void inicializar() {
         salas = salaDAO.findAll();
         anosLectivos = anoLectivoDAO.findAll();
         classes = classeDAO.findAll();
         turmas = turmaDAO.findAll();
     }
+
     public TurmaBean() {
         turmaDAO = new TurmaDAO();
         anoLectivoDAO = new AnoLectivoDAO();
@@ -60,9 +67,9 @@ public class TurmaBean implements Serializable {
         anosLectivos = new ArrayList<>();
         classes = new ArrayList<>();
         salas = new ArrayList<>();
-        
+
     }
-    
+
     private void carregarCombos() {
         try {
             anosLectivos = anoLectivoDAO.findAll();
@@ -72,39 +79,41 @@ public class TurmaBean implements Serializable {
             addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao carregar dados auxiliares: " + e.getMessage());
         }
     }
-    
+
     public void pesquisar() {
         if (filtroDescricao != null && !filtroDescricao.trim().isEmpty()) {
             turmas = turmaDAO.buscarPorDescricao(filtroDescricao.trim());
             if (turmas.isEmpty()) {
                 addMensagem(FacesMessage.SEVERITY_INFO, "Informação", "Nenhuma turma encontrada com essa descrição.");
-        boolean sucesso;
+                boolean sucesso;
 
-        if (turma.getIdTurma() == null) {
-            sucesso = turmaDAO.save(turma);
-            if (sucesso) {
-                addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma cadastrada com sucesso!");
-            } else {
-                addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao cadastrar turma! Verifique o console.");
+                if (turma.getIdTurma() == null) {
+                    sucesso = turmaDAO.save(turma);
+                    if (sucesso) {
+                        addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma cadastrada com sucesso!");
+                    } else {
+                        addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao cadastrar turma! Verifique o console.");
+                    }
+                } else {
+
+                    addMensagem(FacesMessage.SEVERITY_WARN, "Atenção", "Informe uma descrição para pesquisar.");
+                    turmas = new ArrayList<>();
+                }
             }
-        } else {
-
-            addMensagem(FacesMessage.SEVERITY_WARN, "Atenção", "Informe uma descrição para pesquisar.");
-            turmas = new ArrayList<>(); 
-        }
-    }
         }
     }
 
-   
     public void limparPesquisa() {
         this.filtroDescricao = null;
         this.turmas = new ArrayList<>();
         this.turmaSelecionada = null;
     }
 
+    /*
     public void salvar() {
-        if (turma == null) return;
+        if (turma == null) {
+            return;
+        }
 
         boolean sucesso;
         if (turma.getIdTurma() == null) {
@@ -115,10 +124,27 @@ public class TurmaBean implements Serializable {
 
         if (sucesso) {
             addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Operação realizada com sucesso!");
-            
+
         } else {
             addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao processar operação no banco de dados.");
         }
+    }
+     */
+    public String salvar() {
+        LOGGER.log(Level.INFO, "saving task@{0}", turma);
+        if (this.turma.getIdTurma() == null) {
+            turmaDAO.save(turma);
+            addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma registada com sucesso!");
+            return "cadastro_turmas.faces?faces-redirect=true";
+        } else if (this.turma.getIdTurma() != null) {
+            turmaDAO.update(turma);
+            addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma actualizada com sucesso!");
+            return "cadastro_turmas.faces?faces-redirect=true";
+        } else {
+            addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao processar operação no banco de dados.");
+            return null;
+        }
+
     }
 
     public void excluir() {
@@ -129,7 +155,7 @@ public class TurmaBean implements Serializable {
 
         if (turmaDAO.delete(turmaSelecionada)) {
             addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma removida.");
-            turmas.remove(turmaSelecionada); 
+            turmas.remove(turmaSelecionada);
             turmaSelecionada = null;
         } else {
             addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Não foi possível excluir a turma.");
@@ -158,8 +184,8 @@ public class TurmaBean implements Serializable {
     }
 
     public void carregarSalas() {
-       
-        salas = salaDAO.findAll(); 
+
+        salas = salaDAO.findAll();
     }
 
     public Turma getTurma() {
@@ -225,9 +251,11 @@ public class TurmaBean implements Serializable {
     public void setMatricula(Matricula matricula) {
         this.matricula = matricula;
     }
-    
-    private void addMensagem(FacesMessage.Severity SEVERITY_WARN, String aviso, String seleccione_uma_turma_para_editar) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    private void addMensagem(FacesMessage.Severity SEVERITY_WARN, String titulo, String message) {
+        FacesMessage info = new FacesMessage(titulo, message);
+        info.setSeverity(SEVERITY_WARN);
+        facesContext.addMessage(null, info);
     }
 
 }
