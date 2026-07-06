@@ -18,11 +18,7 @@
                         <p:panel header="Registar Nova Turma">
                             <p:panelGrid columns="4" layout="grid">
 
-                                <p:outputLabel for="descricao" value="Descrição:" />
-                                <p:inputText id="descricao"
-                                             value="#{turmaBean.turma.descricaoTurma}"
-                                             required="true"
-                                             requiredMessage="Descrição é obrigatória" />
+                               
 
                                 <p:outputLabel for="numeroMaximo" value="Nº Máximo de Alunos:" />
                                 <p:inputNumber id="numeroMaximo"
@@ -40,7 +36,7 @@
                                                  requiredMessage="Ano Lectivo é obrigatório" 
                                                  converter="omnifaces.SelectItemsConverter">
                                     <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItems value="#{turmaBean.anosLectivos}"
+                                    <f:selectItems value="#{anoLectivoMBean.anosLectivos}"
                                                    var="al"
                                                    itemValue="#{al}"
                                                    itemLabel="#{al.descricaoAnoLectivo}" />
@@ -53,7 +49,7 @@
                                                  requiredMessage="Classe é obrigatória" 
                                                  converter="omnifaces.SelectItemsConverter">
                                     <f:selectItem itemLabel="Selecione a Classe..." itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItems value="#{turmaBean.classes}"
+                                    <f:selectItems value="#{classeMBean.classes}"
                                                    var="c"
                                                    itemValue="#{c}"
                                                    itemLabel="#{c.descricaoClasse}" />
@@ -67,7 +63,7 @@
                                                  requiredMessage="A Sala é obrigatória" 
                                                  converter="omnifaces.SelectItemsConverter">
                                     <f:selectItem itemLabel="Selecione a Sala..." itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItems value="#{turmaBean.salas}"
+                                    <f:selectItems value="#{salaMBean.salas}"
                                                    var="s"
                                                    itemValue="#{s}"
                                                    itemLabel="#{s.descricaoSala}" />
@@ -79,9 +75,9 @@
                                                  required="true"
                                                  requiredMessage="O periodo é obrigatóri" 
                                                  converter="omnifaces.SelectItemsConverter">
-                                    <f:selectItem itemLabel="Selecione a Classe..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Selecione o perido..." itemValue="#{null}" noSelectionOption="true" />
                                     <f:selectItems value="#{periodoMBean.periodos}"
-                                                   var="c"
+                                                   var="p"
                                                    itemValue="#{p}"
                                                    itemLabel="#{p.descricaoPeriodo}" />
                                 </h:selectOneMenu>

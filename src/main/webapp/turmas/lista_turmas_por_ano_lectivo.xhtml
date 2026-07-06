@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
+
+            <ui:define name="content">
+
+                <f:view>
+
+
+                    <p:panel header="Anos lectivos">
+                        <h:form id="pesquisaTurmas">
+                            <center>
+                                <ui:repeat value="#{anoLectivoMBean.anosLectivos}" var="anoLectivo" varStatus="metadata">
+                                    <p:commandButton value="#{anoLectivo.descricaoAnoLectivo}" action="#{turmaBean.carregarTurmasPorAnoLectivo(anoLectivo)}" style="margin: 6px;" update="turmasseleccionadas"/>
+                                </ui:repeat>
+                            </center>
+                        </h:form>
+
+                        <h:form id="turmasseleccionadas">
+                            <p:dataTable id="dtblturmasseleccionadas" var="item" value="#{turmaBean.porAnoLectivoturmas}" emptyMessage="Nenhum turma encontrado" scrollable="true" scrollHeight="250" lazy="false">
+                                <p:column headerText="ID Turma" width="94">
+                                    <h:link value="#{item.idTurma}" id="idTurma"
+                                            outcome="alunos_da_turma.xhtml?faces-redirect=true" style="text-decoration: none;">
+                                        <f:param name="idTurma" value="#{item.idTurma}" />
+                                        <i class="fa fa-info-circle" style="color: #999999;"></i>
+                                    </h:link>
+                                    <p:tooltip id="toolTipFade" for="idTurma"
+                                               value="Clique para ver os alunos da Turma." />
+                                </p:column>
+
+                                <p:column headerText="Código:">
+                                    <h:outputText value="#{item.codigoTurma}"/>
+                                </p:column>
+
+                                <p:column headerText="Classe:">
+                                    <h:outputText value="#{item.classe.descricaoClasse}"/>
+                                </p:column>
+
+                                <p:column headerText="Período">
+                                    <h:outputText value="#{item.periodo.descricaoPeriodo}"/>
+                                </p:column>
+                                <p:column headerText="Sala">
+                                    <h:outputText value="#{item.sala.descricaoSala}"/>
+                                </p:column>                                                              
+
+                                <p:column headerText="Data da criação">
+                                    <h:outputText value="#{item.dataRegisto}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+
+                    </p:panel>
+
+
+
+                </f:view>           
+
+
+
+            </ui:define>
+
+            <ui:define name="bottom">
+                &copy; 2026 - Gestão de Creche - Todos os direitos reservados.
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

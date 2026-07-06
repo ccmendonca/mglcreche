@@ -15,18 +15,14 @@ import skylink.mglcreche.dao.AnoLectivoDAO;
 import skylink.mglcreche.dao.ClasseDAO;
 import skylink.mglcreche.dao.SalaDAO;
 import java.io.Serializable;
-import java.util.Date;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.modelo.Matricula;
 
-/**
- * Henriques
- *
- * @Henriques
- */
 @Named(value = "turmaBean")
 @ViewScoped
 public class TurmaBean implements Serializable {
@@ -36,48 +32,33 @@ public class TurmaBean implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     FacesContext facesContext;
-    private Turma turma;
+    private Turma turma = new Turma();
     private Turma turmaSelecionada;
     private List<Turma> turmas;
+    private Matricula TurmaComEstudantes = new Matricula();
+    private List<Matricula> aluntosDaTurma = new ArrayList<>();
+    private List<Turma> porAnoLectivoturmas = new ArrayList<>();
     private List<AnoLectivo> anosLectivos;
-    private List<Classe> classes;
-    private List<Sala> salas;
-    private final TurmaDAO turmaDAO;
-    private final AnoLectivoDAO anoLectivoDAO;
-    private final ClasseDAO classeDAO;
-    private final SalaDAO salaDAO;
+    private List<Classe> classes = new ArrayList<>();
+    private List<Sala> salas = new ArrayList<>();
+    private TurmaDAO turmaDAO = new TurmaDAO();
+    private MatriculaDAO matriculaDAO = new MatriculaDAO();
+    private AnoLectivoDAO anoLectivoDAO = new AnoLectivoDAO();
+    private ClasseDAO classeDAO;
+    private SalaDAO salaDAO;
     private Matricula matricula = new Matricula();
     private String filtroDescricao;
+    private Integer idTurma;
 
     @PostConstruct
     public void inicializar() {
-        salas = salaDAO.findAll();
-        anosLectivos = anoLectivoDAO.findAll();
-        classes = classeDAO.findAll();
-        turmas = turmaDAO.findAll();
-    }
-
-    public TurmaBean() {
-        turmaDAO = new TurmaDAO();
-        anoLectivoDAO = new AnoLectivoDAO();
-        classeDAO = new ClasseDAO();
-        salaDAO = new SalaDAO();
-        turma = new Turma();
-        turmas = new ArrayList<>();
-        anosLectivos = new ArrayList<>();
-        classes = new ArrayList<>();
-        salas = new ArrayList<>();
-
-    }
-
-    private void carregarCombos() {
-        try {
-            anosLectivos = anoLectivoDAO.findAll();
-            classes = classeDAO.findAll();
-            salas = salaDAO.findAll();
-        } catch (Exception e) {
-            addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao carregar dados auxiliares: " + e.getMessage());
-        }
+        // salas = salaDAO.findAll();
+        //anosLectivos = anoLectivoDAO.findAll();
+        //  classes = classeDAO.findAll();
+        //  turmas = turmaDAO.findAll();
+        //   anosLectivos = anoLectivoDAO.findAll();
+        // classes = classeDAO.findAll();
+        // salas = salaDAO.findAll();
     }
 
     public void pesquisar() {
@@ -109,30 +90,44 @@ public class TurmaBean implements Serializable {
         this.turmaSelecionada = null;
     }
 
-    /*
-    public void salvar() {
-        if (turma == null) {
-            return;
-        }
-
-        boolean sucesso;
-        if (turma.getIdTurma() == null) {
-            sucesso = turmaDAO.save(turma);
-        } else {
-            sucesso = turmaDAO.update(turma);
-        }
-
-        if (sucesso) {
-            addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Operação realizada com sucesso!");
-
-        } else {
-            addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao processar operação no banco de dados.");
-        }
+    public Matricula getTurmaComEstudantes() {
+        return TurmaComEstudantes;
     }
-     */
+
+    public void setTurmaComEstudantes(Matricula TurmaComEstudantes) {
+        this.TurmaComEstudantes = TurmaComEstudantes;
+    }
+
+    public List<Matricula> getAluntosDaTurma() {
+        return aluntosDaTurma;
+    }
+
+    public void setAluntosDaTurma(List<Matricula> aluntosDaTurma) {
+        this.aluntosDaTurma = aluntosDaTurma;
+    }
+
+    public Integer getIdTurma() {
+        return idTurma;
+    }
+
+    public void setIdTurma(Integer idTurma) {
+        this.idTurma = idTurma;
+    }
+
+   
+    
+    
+    
+    
     public String salvar() {
         LOGGER.log(Level.INFO, "saving task@{0}", turma);
+        Integer numeroTurma = turmaDAO.buscaUltimaTurmaCriada();
+        numeroTurma = numeroTurma + 1;
+        StringBuilder codigoTurma = new StringBuilder();
+        codigoTurma.append(numeroTurma).append(turma.getAnoLectivo().getDescricaoAnoLectivo()).append(turma.getSala().getDescricaoSala());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>Codigo da Turma" + codigoTurma.toString());
         if (this.turma.getIdTurma() == null) {
+            turma.setCodigoTurma(codigoTurma.toString());
             turmaDAO.save(turma);
             addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Turma registada com sucesso!");
             return "cadastro_turmas.faces?faces-redirect=true";
@@ -144,6 +139,12 @@ public class TurmaBean implements Serializable {
             addMensagem(FacesMessage.SEVERITY_ERROR, "Erro", "Erro ao processar operação no banco de dados.");
             return null;
         }
+
+    }
+
+    public void carregarTurmaEstudantes() {
+        TurmaComEstudantes = matriculaDAO.findTurmaComMatriculados(idTurma);
+        aluntosDaTurma = matriculaDAO.findAllAlunosDaTurma(idTurma);
 
     }
 
@@ -236,6 +237,14 @@ public class TurmaBean implements Serializable {
         this.salas = salas;
     }
 
+    public List<Turma> getPorAnoLectivoturmas() {
+        return porAnoLectivoturmas;
+    }
+
+    public void setPorAnoLectivoturmas(List<Turma> porAnoLectivoturmas) {
+        this.porAnoLectivoturmas = porAnoLectivoturmas;
+    }
+
     public String getFiltroDescricao() {
         return filtroDescricao;
     }
@@ -250,6 +259,10 @@ public class TurmaBean implements Serializable {
 
     public void setMatricula(Matricula matricula) {
         this.matricula = matricula;
+    }
+
+    public void carregarTurmasPorAnoLectivo(AnoLectivo anoLectivo) {
+        this.porAnoLectivoturmas = this.turmaDAO.buscarPorAnoLectivo(anoLectivo.getIdAnoLectivo());
     }
 
     private void addMensagem(FacesMessage.Severity SEVERITY_WARN, String titulo, String message) {

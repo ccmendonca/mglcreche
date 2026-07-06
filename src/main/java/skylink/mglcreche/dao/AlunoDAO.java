@@ -20,7 +20,7 @@ public class AlunoDAO implements Serializable {
     public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio";
     public static final String SELECT_BY_ID = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno = ? ";
     public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
-
+    
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;

@@ -13,7 +13,8 @@ public class Turma implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer idTurma;
-    private String descricaoTurma;
+    private String codigoTurma;
+    private String observacoesTurma;
     private AnoLectivo anoLectivo;
     private Classe classe;
     private Sala sala; 
@@ -39,13 +40,7 @@ public class Turma implements Serializable {
         this.idTurma = idTurma;
     }
 
-    public String getDescricaoTurma() {
-        return descricaoTurma;
-    }
-
-    public void setDescricaoTurma(String descricaoTurma) {
-        this.descricaoTurma = descricaoTurma;
-    }
+  
 
     public AnoLectivo getAnoLectivo() {
         return anoLectivo;
@@ -102,6 +97,22 @@ public class Turma implements Serializable {
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
     }
+
+    public String getCodigoTurma() {
+        return codigoTurma;
+    }
+
+    public void setCodigoTurma(String codigoTurma) {
+        this.codigoTurma = codigoTurma;
+    }
+
+    public String getObservacoesTurma() {
+        return observacoesTurma;
+    }
+
+    public void setObservacoesTurma(String observacoesTurma) {
+        this.observacoesTurma = observacoesTurma;
+    }
     
     
 
@@ -127,8 +138,10 @@ public class Turma implements Serializable {
         return Objects.equals(this.idTurma, other.idTurma);
     }
 
-    @Override
+    
+    
+      @Override
     public String toString() {
-        return "Turma{" + "descricaoTurma=" + descricaoTurma + '}';
+     return String.format("%s[idTurma=%d]", getClass().getSimpleName(), getIdTurma());   
     }
 }
