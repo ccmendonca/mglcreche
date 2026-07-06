@@ -28,7 +28,7 @@ public class MatriculaDAO {
     public static final String SELECT_MAX_ID_MATRICULA = "SELECT MAX(id_matricula) FROM matricula";
     public static final String SELECT_BETEEWN_DATES = "SELECT * FROM matricula WHRE data_matricula BETWEEN ? AND ?";
     private static final String SELECT_FORMA_PAGAMENTO = "SELECT id_forma_pagamento FROM propina where id_propina = ?";
-    public static final String SELECT_ESTUDANTES_BY_ID_TURMA = "SELECT a.id_aluno, a.nome_aluno, a.sobrenome_aluno, t.id_turma, t.codigo_turma,al.descricao_ano_lectivo,c.descricao_classe,s.descricao_sala, p.descricao_periodo  FROM aluno a INNER JOIN matricula m ON a.id_aluno= m.id_aluno INNER JOIN turma t ON m.id_turma =t.id_turma  INNER JOIN ano_lectivo al ON t.id_ano_lectivo = al.id_ano_lectivo  INNER JOIN classe c ON c.id_classe= t.id_classe INNER JOIN sala s ON s.id_sala = t.id_sala INNER JOIN periodo p ON t.id_periodo=p.id_periodo WHERE t.id_turma = 1";
+    public static final String SELECT_ESTUDANTES_BY_ID_TURMA = "SELECT a.id_aluno, a.nome_aluno, a.sobrenome_aluno FROM aluno a INNER JOIN matricula m ON a.id_aluno= m.id_aluno INNER JOIN turma t ON m.id_turma =t.id_turma  WHERE t.id_turma = ?";
 
     Connection conn = null;
     PreparedStatement ps = null;
@@ -170,31 +170,32 @@ public class MatriculaDAO {
         return matricula;
     }
      
-     
-     
-        public List<Matricula> findAllAlunosDaTurma(Integer idTurma) {
+      public List<Matricula> findAllAlunosTurma(Integer idTurma) {
+          System.out.println("8888888888888888Dentro findAllAlunosTurma 1"+ idTurma);
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
         List<Matricula> matriculas = new ArrayList<>();
-
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(SELECT_ESTUDANTES_BY_ID_TURMA);
+              System.out.println("8888888888888888Dentro findAllAlunosTurma 2"+ idTurma);
             ps.setInt(1, idTurma);
-            ps.executeQuery();
-
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Matricula matricula = new Matricula();
-                popularDados(matricula, rs);
+                popularDadosDoAluno(matricula, rs);
                 matriculas.add(matricula);
             }
 
-        } catch (SQLException e) {
-            System.err.println("Erro ao carregar dados da base de dados: " + e.getLocalizedMessage());
+        } catch (SQLException ex) {
+            System.err.println("Erro ao ler dados => findAllAlunosTurma: " + ex.getLocalizedMessage());
         } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
+            ConnectionDB.closeConnection(conn);
         }
-
         return matriculas;
     }
+     
 
     public List<Matricula> findBetweenDates(LocalDate start, LocalDate end) {
         List<Matricula> matriculas = new ArrayList<>();
@@ -240,6 +241,8 @@ public class MatriculaDAO {
         return matricula;
 
     }
+    
+    
     
     
     
@@ -290,5 +293,27 @@ public class MatriculaDAO {
         }
 
     }
+      
+      
+       public void popularDadosDoAluno(Matricula matricula, ResultSet rs) {
+
+        try {
+            
+            Aluno aluno = new Aluno();
+            aluno.setIdAluno(rs.getInt("id_aluno"));
+            aluno.setNomeAluno(rs.getNString("nome_aluno"));
+            aluno.setSobrenomeAluno(rs.getNString("sobrenome_aluno"));
+           
+            matricula.setAluno(aluno);
+           
+           
+        
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
+        }
+
+    }
+
 
 }

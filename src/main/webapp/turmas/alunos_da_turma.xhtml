@@ -2,20 +2,48 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:f="jakarta.faces.core">
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html">
 
     <body>
 
         <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
 
-            <f:metadata>
-                <f:viewParam name="idTurma" value="#{turmaBean.idTurma}" />
-                <f:event type="preRenderView" listener="#{turmaBean.carregarAnosLectivos()}" />
-            </f:metadata>
-
+         
 
             <ui:define name="content">
-                content
+
+                <p:separator />
+                <h:panelGrid columns="2"  cellpadding="5">
+                    <p:outputLabel value="Turma: #{turmaBean.turma.idTurma}" />
+                    <p:outputLabel value="Código:#{turmaBean.turma.codigoTurma}"/>
+                    <p:outputLabel value="Sala: #{turmaBean.turma.sala.descricaoSala}" />
+                    <p:outputLabel  value="Perido: #{turmaBean.turma.periodo.descricaoPeriodo}"/>
+                    <p:outputLabel value="Classe: #{turmaBean.turma.classe.descricaoClasse}" />
+                    <h:panelGroup/>
+                    <p:outputLabel value="Observações: #{turmaBean.turma.observacoesTurma}" />
+                </h:panelGrid>
+                <p:separator />
+
+                <p:dataTable var="item" value="#{turmaBean.alunosDaTurma}"
+                             style="text-align: center;">
+                    <p:column headerText="N.º:" width="64"
+                              style="text-align: center;">
+                        <h:outputText value="#{item.aluno.idAluno}" />
+                    </p:column>
+                    <p:column headerText="Nome:" width="64"
+                              style="text-align: center;">
+                        <h:outputText value="#{item.aluno.nomeAluno}" />
+                    </p:column>
+                    <p:column headerText="Sobrenome:" width="64"
+                              style="text-align: center;">
+                        <h:outputText value="#{item.aluno.sobrenomeAluno}" />
+                    </p:column>
+
+                </p:dataTable>
+
+
             </ui:define>
 
 

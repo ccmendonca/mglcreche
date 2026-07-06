@@ -26,13 +26,15 @@
 
                         <h:form id="turmasseleccionadas">
                             <p:dataTable id="dtblturmasseleccionadas" var="item" value="#{turmaBean.porAnoLectivoturmas}" emptyMessage="Nenhum turma encontrado" scrollable="true" scrollHeight="250" lazy="false">
-                                <p:column headerText="ID Turma" width="94">
-                                    <h:link value="#{item.idTurma}" id="idTurma"
-                                            outcome="alunos_da_turma.xhtml?faces-redirect=true" style="text-decoration: none;">
-                                        <f:param name="idTurma" value="#{item.idTurma}" />
-                                        <i class="fa fa-info-circle" style="color: #999999;"></i>
-                                    </h:link>
-                                    <p:tooltip id="toolTipFade" for="idTurma"
+                               
+
+                                <p:column headerText="Código:">
+
+                                    <p:commandLink id="idTurma" value="#{item.idTurma}" action="alunos_da_turma.xhtml?faces-redirect=true" actionListener="#{turmaBean.carregarTurmaEstudantes(item.idTurma)}">
+                                        <f:setPropertyActionListener target="#{turmaBean.turma}" value="#{item}"/>
+                                        
+                                    </p:commandLink>
+                                     <p:tooltip id="toolTipFade" for="idTurma"
                                                value="Clique para ver os alunos da Turma." />
                                 </p:column>
 

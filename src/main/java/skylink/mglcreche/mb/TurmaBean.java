@@ -1,6 +1,7 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -24,7 +25,7 @@ import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.modelo.Matricula;
 
 @Named(value = "turmaBean")
-@ViewScoped
+@SessionScoped
 public class TurmaBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(TurmaBean.class.getName());
@@ -36,7 +37,7 @@ public class TurmaBean implements Serializable {
     private Turma turmaSelecionada;
     private List<Turma> turmas;
     private Matricula TurmaComEstudantes = new Matricula();
-    private List<Matricula> aluntosDaTurma = new ArrayList<>();
+    private List<Matricula> alunosDaTurma = new ArrayList<>();
     private List<Turma> porAnoLectivoturmas = new ArrayList<>();
     private List<AnoLectivo> anosLectivos;
     private List<Classe> classes = new ArrayList<>();
@@ -98,12 +99,12 @@ public class TurmaBean implements Serializable {
         this.TurmaComEstudantes = TurmaComEstudantes;
     }
 
-    public List<Matricula> getAluntosDaTurma() {
-        return aluntosDaTurma;
+    public List<Matricula> getAlunosDaTurma() {
+        return alunosDaTurma;
     }
 
-    public void setAluntosDaTurma(List<Matricula> aluntosDaTurma) {
-        this.aluntosDaTurma = aluntosDaTurma;
+    public void setAlunosDaTurma(List<Matricula> alunosDaTurma) {
+        this.alunosDaTurma = alunosDaTurma;
     }
 
     public Integer getIdTurma() {
@@ -114,11 +115,6 @@ public class TurmaBean implements Serializable {
         this.idTurma = idTurma;
     }
 
-   
-    
-    
-    
-    
     public String salvar() {
         LOGGER.log(Level.INFO, "saving task@{0}", turma);
         Integer numeroTurma = turmaDAO.buscaUltimaTurmaCriada();
@@ -142,9 +138,10 @@ public class TurmaBean implements Serializable {
 
     }
 
-    public void carregarTurmaEstudantes() {
-        TurmaComEstudantes = matriculaDAO.findTurmaComMatriculados(idTurma);
-        aluntosDaTurma = matriculaDAO.findAllAlunosDaTurma(idTurma);
+    public void carregarTurmaEstudantes(Integer idTurma) {
+      
+        alunosDaTurma = matriculaDAO.findAllAlunosTurma(idTurma);
+       
 
     }
 
