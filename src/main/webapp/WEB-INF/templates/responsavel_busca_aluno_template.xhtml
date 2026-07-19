@@ -15,14 +15,12 @@
     <h:body>
         <div class="container">
 
-            <div id="top">
-
-            </div>
+          
 
             <header class="header">
                 <ui:insert name="top">                       
-                    <h1>Sistema de Gestão de Creche</h1>
-                    <p>Nossa Senhora de Fátima</p>
+                   <h1>#{app.tituloaplicacao}</h1>
+                    <p>#{app.nomeinstituicao}</p>
                 </ui:insert>
             </header>
 
@@ -95,11 +93,8 @@
             <footer class="footer">
 
                 <ui:insert name="bottom">
-                    <p>&copy; 2026 - Desenvolvido Skylink</p>
-                    <p>📧 contato@exemplo.com | 📱 (11) 99999-9999</p>
-                    <p>🎨 Design responsivo utilizando <strong>CSS Grid</strong> e <strong>Media Queries</strong></p>
-
-
+                    <p>&copy; #{sis.desenvolvidoporskylink}</p>
+                    <h3> #{sis.todososdireitos}</h3>
                 </ui:insert>
 
 
@@ -109,9 +104,7 @@
 
 
 
-            <div id="bottom">
-
-            </div>
+          
         </div>
     </h:body>
 

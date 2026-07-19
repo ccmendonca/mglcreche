@@ -15,14 +15,12 @@
     <h:body>
         <div class="container">
 
-            <div id="top">
-
-            </div>
+            
 
             <header class="header">
                 <ui:insert name="top">                       
-                    <h1>Sistema de Gestão de Creche</h1>
-                    <p>Nossa Senhora de Fátima</p>
+                    <h1>#{app.tituloaplicacao}</h1>
+                    <p>#{app.nomeinstituicao}</p>
                 </ui:insert>
             </header>
 
@@ -64,17 +62,17 @@
 
                             <div class="grid-item">
 
-                                <h:link value="Gestão de alunos" outcome="/alunos/index_aluno"/>
+                                <h:link value="#{app.gestaoalunos}" outcome="/alunos/index_aluno"/>
 
                             </div>
                             <div class="grid-item">
 
-                                <h:link value="Gestão dos Responsável" outcome="/responsavelbusca/index_responsavel_busca_aluno"/>
+                                <h:link value="#{app.gestaoencarregado}" outcome="/responsavelbusca/index_responsavel_busca_aluno"/>
 
 
                             </div>
-                            <div class="grid-item"><h:link value="Gestão das Propinas" outcome="propinas/index_propinas"/></div>
-                            <div class="grid-item"> <h:link value="Gestão de Matrículas" outcome="matriculas/index_matriculas"/></div>
+                            <div class="grid-item"><h:link value="#{app.gestaopropinas}" outcome="propinas/index_propinas"/></div>
+                            <div class="grid-item"> <h:link value="#{app.gestaomatriculas}" outcome="matriculas/index_matriculas"/></div>
 
                         </div>
                     </div>
@@ -85,17 +83,17 @@
 
                             <div class="grid-item">
 
-                                <h:link value="Gestão Profissionais" outcome="profissionais/index_profissionais"/>
+                                <h:link value="#{app.gestaoprofissionais}" outcome="profissionais/index_profissionais"/>
 
                             </div>
                             <div class="grid-item">
 
-                                <h:link value="Gestão de Turmas" outcome="turmas/index_turmas"/>
+                                <h:link value="#{app.gestaoturmas}" outcome="turmas/index_turmas"/>
 
 
                             </div>
-                            <div class="grid-item"><h:link value="Gestão das classes" outcome="classes/index_classes"/></div>
-                            <div class="grid-item"> <h:link value="Gestão de tabelas" outcome="tabelas/index_tabelas"/></div>
+                            <div class="grid-item"><h:link value="#{app.gestaoclasses}" outcome="classes/index_classes"/></div>
+                            <div class="grid-item"> <h:link value="#{app.gestaotabelas}" outcome="tabelas/index_tabelas"/></div>
 
                         </div>
                     </div>
@@ -121,7 +119,7 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="card">
 
                         <div class="grid-demo">
@@ -155,11 +153,8 @@
             <footer class="footer">
 
                 <ui:insert name="bottom">
-                    <p>&copy; 2026 - Desenvolvido Skylink</p>
-                    <p>📧 contato@exemplo.com | 📱 (11) 99999-9999</p>
-                    <p>🎨 Design responsivo utilizando <strong>CSS Grid</strong> e <strong>Media Queries</strong></p>
-
-
+                    <p>&copy; #{sis.desenvolvidoporskylink}</p>
+                    <h3> #{sis.todososdireitos}</h3>
                 </ui:insert>
 
 
@@ -169,9 +164,7 @@
 
 
 
-            <div id="bottom">
 
-            </div>
         </div>
     </h:body>
 

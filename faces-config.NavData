@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="alunos/editar_aluno.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="propinas/propinas_pagamento_busca_aluno.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="index_old.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="profissionais/detalhes_profissionais.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="alunos/index_aluno.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="propinas/propinas_pagamento_concluir.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="responsavelbusca/cadastro_responsavelbusca.xhtml" x="2150" y="150" zoom="true"/>
+        <Node id="profissionais/cadastro_profissionais.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="matriculas/matriculas_selecionar_servicos.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="classes/gestao_classes.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="propinas/pagamento_propinas_cesto_meses_seleccionados.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="propinas/pagamento_propinas_pagar_concluir.xhtml" x="1400" y="600" zoom="true"/>
+        <Node id="matriculas/index_matriculas.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="responsavelbusca/index_responsavel_busca_aluno.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="tabelas/anolectivo.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="notas/lancamento_notas.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="servicos/index_servicos.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="turmas/lista_turmas_por_ano_lectivo.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="matriculas/listagem_geral.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="responsavelbusca/editar_responsavel_busca.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="profissionais/editar_profissionais.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="turmas/index_turmas.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="resources/ezcomp/out_1.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="turmas/alunos_da_turma.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="tabelas/grau_parentesco.xhtml" x="2150" y="300" zoom="true"/>
+        <Node id="matriculas/matriculas_pagamento_concluir.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="alunos/historico_aluno.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="propinas/pagamento_propinas_seleccionar_meses.xhtml" x="150" y="1350" zoom="true"/>
+        <Node id="index.xhtml" x="2400" y="150" zoom="true"/>
+        <Node id="tabelas/index_tabelas.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="alunos/cadastro_aluno.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="profissionais/index_profissionais.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="turmas/cadastro_turmas.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="classes/index_classes.xhtml" x="1150" y="750" zoom="true"/>
+        <Node id="propinas/index_propinas.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="profissionais/lista_profissionais.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="propinas/pagamento_propinas_lista_todos.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="matriculas/matriculas_selecionar_aluno.xhtml" x="650" y="1050" zoom="true"/>
+        <Node id="turmas/lista_turmas_1.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="alunos/lista_alunos.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="matriculas/listagem_entre_datas.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="profissionais/categorias_profissionais.xhtml" x="900" y="900" zoom="true"/>
+        <Node id="responsavelbusca/lista_responsavel_busca_aluno.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="matriculas/matricula_cesto_servicos_selecionados.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="servicos/todos_servicos.xhtml" x="400" y="1200" zoom="true"/>
+        <Node id="resources/ezcomp/out.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="propinas/mes_propina_novo.xhtml" x="900" y="300" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

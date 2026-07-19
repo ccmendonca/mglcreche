@@ -8,11 +8,11 @@
     
             <ui:define name="left">
 
-                <h3>Menu Gestão de Propinas</h3>
+                <h3>#{app.gestaopropinas}</h3>
                 <ul>
                     <li><a href="../index.faces">&#x1F3E0;Home</a></li>
-                    <li><a href="propinas_pagamento_busca_aluno.faces">&#x1F3F8;Pagar propina</a></li>
-                    <li><a href="pagamento_propinas_lista_todos.faces">📊 Propinas pagas</a></li>
+                    <li><a href="propinas_pagamento_busca_aluno.faces">&#x1F3F8;#{app.pagarpropina}</a></li>
+                    <li><a href="pagamento_propinas_lista_todos.faces">📊 #{app.propinaspagas}</a></li>
                 </ul>
 
             </ui:define>
@@ -21,7 +21,7 @@
 
     <ui:define name="content">
         <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-        <p style="text-align: center; font-size: 2rem;">Gestão das propinas</p>
+        <p style="text-align: center; font-size: 2rem;">#{app.gestaopropinas}</p>
     </ui:define>
 
 

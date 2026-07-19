@@ -16,26 +16,26 @@
                 
                  <h:form id="frmEstudantes">
                         <h:messages showDetail="true" showSummary="true"/>
-                        <p:dataTable id="tblEstudantes" value="#{propinaMBean.propinas}" var="item" emptyMessage="Nenhum(a) paga encontrado(a)" rows="20"
+                        <p:dataTable id="tblEstudantes" value="#{propinaMBean.propinas}" var="item" emptyMessage="#{sis.nenhumpagamento}" rows="20"
                                      paginator="true" paginatorPosition="bottom"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                                      rowsPerPageTemplate="10,20,{ShowAll|'All'}">
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="N.º"/>
+                                    <h:outputText value="#{sis.numeroregisto}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.idPropina}"/>
                             </p:column>
                              <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Ano Lectivo"/>
+                                    <h:outputText value="#{app.anolectivo}"/>
                                 </f:facet>
                                  <h:outputText value="#{item.anoLectivo.descricaoAnoLectivo}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Data do pagamento"/>
+                                    <h:outputText value="#{sis.datapagamento}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.dataPagamento}">
                                     <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
@@ -43,7 +43,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Data/Hora do registo"/>
+                                    <h:outputText value="#{sis.datahoraregisto}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.dataHoraRegisto}">
                                     <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
