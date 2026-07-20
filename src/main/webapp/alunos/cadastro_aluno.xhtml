@@ -16,11 +16,11 @@
                     <p:panel header="Registos de Alunos">
 
                         <h:panelGrid columns="2">
-                            <p:outputLabel value="Nome:"/>
+                            <p:outputLabel value="#{sis.nome}"/>
                             <p:inputText value="#{alunoBean.aluno.nomeAluno}" required="true"/>
-                            <p:outputLabel value="Sobrenome:"/>
+                            <p:outputLabel value="#{sis.sobrenome}"/>
                             <p:inputText value="#{alunoBean.aluno.sobrenomeAluno}" required="true"/>
-                            <p:outputLabel value="Data de Nascimento:"/>
+                            <p:outputLabel value="#{sis.datanascimento}"/>
                             <p:calendar value="#{alunoBean.aluno.dataNascimentoAluno}" required="true" pattern="dd/MM/yyyy"/>
                             <p:outputLabel for="sexo" value="Sexo:" />
                             <h:selectOneRadio id="sexo" value="#{alunoBean.aluno.sexo}" 
