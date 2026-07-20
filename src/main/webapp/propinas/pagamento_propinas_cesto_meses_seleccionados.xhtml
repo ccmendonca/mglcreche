@@ -19,11 +19,11 @@
                             <h:outputText value="#{item.mesPropina.descricaoMesPropina}"/>
                         </p:column>
 
-                        <p:column headerText="Preço">
+                        <p:column headerText="#{sis.preco}">
                             <h:outputText value="#{item.valorPropina}"/>
                         </p:column>
 
-                        <p:column headerText="Sub Total">
+                        <p:column headerText="#{sis.subtoral}">
                             <h:outputText value="#{item.valorPropina * 1}">
                                 <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
                             </h:outputText>
@@ -32,7 +32,7 @@
                     </p:dataTable>
 
                     <f:facet name="footer">
-                        <h2>Total a pagar:</h2>
+                        <h2>#{sis.totalapagar}</h2>
                         <h:outputText value="#{cestoPropinaDetalheBean.totalAPagar()}" style="font-size: 1.3em; ">
                             <f:convertNumber type="currency"  pattern="#,##0.00"/>
                         </h:outputText>
