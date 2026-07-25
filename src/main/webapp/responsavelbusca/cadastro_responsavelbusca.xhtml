@@ -16,49 +16,49 @@
                 <f:view>
                     <h:form id="formResponsavel">
                         <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
-                        <p:panel header="Registar o Novo Responsável da Busca do Aluno">
+                        <p:panel header="Registos #{app.gestaoencarregado}">
                             <p:panelGrid columns="4" layout="grid">
 
-                                <p:outputLabel for="nome" value="Nome:" />
+                                <p:outputLabel for="nome" value="#{sis.nome}" />
                                 <p:inputText id="nome" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.nomeResponsavel}" 
                                              required="true" 
                                              requiredMessage="Nome é obrigatório" />
 
-                                <p:outputLabel for="sobrenome" value="Sobrenome:" />
+                                <p:outputLabel for="sobrenome" value="#{sis.sobrenome}" />
                                 <p:inputText id="sobrenome" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.sobrenomeResponsavel}" 
                                              required="true"
                                              requiredMessage="Sobrenome é obrigatório" />
 
-                                <p:outputLabel for="dataNasc" value="Data de Nascimento:" />
+                                <p:outputLabel for="dataNasc" value="#{sis.datanascimento}" /> 
                                 <p:datePicker id="dataNasc" 
                                               value="#{responsavelBuscaAlunoBean.responsavel.dataNascimentoResponsavel}" 
                                               pattern="dd/MM/yyyy" 
                                               showIcon="true" 
                                               />
 
-                                <p:outputLabel for="telefone" value="Telefone:" />
+                                <p:outputLabel for="telefone" value="#{sis.telefonemae}" />
                                 <p:inputMask id="telefone" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.telefoneResponsavel}" 
-                                             mask="(+24) 999 999 999"
+                                             mask="(+244) 999 999 999"
                                              required="true"
                                              requiredMessage="Telefone é obrigatório" />
 
                                 
-                                <p:outputLabel for="bairro" value="Bairro:" />
+                                <p:outputLabel for="bairro" value="#{sis.nomebairro}" />
                                 <p:inputText id="bairro" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.bairroResponsavel}" 
                                              required="true"
                                              requiredMessage="Bairro é obrigatório" />
 
-                                <p:outputLabel for="rua" value="Rua:" />
+                                <p:outputLabel for="rua" value="#{sis.nomerua}" />
                                 <p:inputText id="rua" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.ruaResponsavel}" 
                                              required="true"
                                              requiredMessage="Rua é obrigatória" />
 
-                                <p:outputLabel for="casa" value="Nº da Casa:" />
+                                <p:outputLabel for="casa" value="#{sis.numerocasa}" />
                                 <p:inputText id="casa" 
                                              value="#{responsavelBuscaAlunoBean.responsavel.casaResponsavel}" />
                                 
@@ -82,15 +82,14 @@
 
                             <p:separator />
 
-                            <p:commandButton id="btnSalvar"
-                                             value="Guardar" 
+                            <p:commandButton id="save" value="#{sis.guardar}"
                                              action="#{responsavelBuscaAlunoBean.salvar}" 
                                              icon="pi pi-save"
                                              update="growl formResponsavel" 
                                              validateClient="true" />
 
-                            <p:commandButton id="btnNovo"
-                                             value="Novo" 
+                            <p:commandButton id="btn"
+                                             value="#{sis.novo}" 
                                              action="#{responsavelBuscaAlunoBean.novo}"
                                              icon="pi pi-plus"
                                              update="formResponsavel"
