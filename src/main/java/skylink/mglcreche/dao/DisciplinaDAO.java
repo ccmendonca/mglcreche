@@ -13,11 +13,11 @@ import skylink.mglcreche.modelo.GrauParentesco;
 
 public class DisciplinaDAO {
 
-    private static final String INSERT = "INSERT INTO disciplina(descricao_disciplina, abreviatura, carga_horaria_semanal, id_eixo_curricular) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE disciplina SET descricao_disciplina = ?, abreviatura = ?, carga_horaria_semanal = ? id_eixo_curricular = ?  WHERE id_disciplina = ?";
+    private static final String INSERT = "INSERT INTO disciplina(descricao_disciplina, abreviatura_disciplina, carga_horaria_semanal, id_eixo_curricular) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE disciplina SET descricao_disciplina = ?, abreviatura_disciplina = ?, carga_horaria_semanal = ? id_eixo_curricular = ?  WHERE id_disciplina = ?";
     private static final String DELETE = "DELETE FROM disciplina WHERE id_disciplina = ?";
-    private static final String BUSCAR_POR_CODIGO = "SELECT  id_disciplina, descricao_disciplina, abreviatura, carga_horaria_semanal,descricao_eixo_curricular FROM disciplina d INNER JOIN eixo_curricular_disciplina e on d.id_eixo_curricular = e.id_eixo_curricular WHERE id_disciplina =?";
-    private static final String LISTAR_TUDO = "SELECT  id_disciplina, descricao_disciplina, abreviatura, carga_horaria_semanal,descricao_eixo_curricular FROM disciplina d INNER JOIN eixo_curricular_disciplina e on d.id_eixo_curricular = e.id_eixo_curricular";
+    private static final String BUSCAR_POR_CODIGO = "SELECT  id_disciplina, descricao_disciplina, abreviatura_disciplina, carga_horaria_semanal,descricao_eixo_curricular FROM disciplina d INNER JOIN eixo_curricular_disciplina e on d.id_eixo_curricular = e.id_eixo_curricular WHERE id_disciplina =?";
+    private static final String LISTAR_TUDO = "SELECT  id_disciplina, descricao_disciplina, abreviatura_disciplina, carga_horaria_semanal,descricao_eixo_curricular FROM disciplina d INNER JOIN eixo_curricular_disciplina e on d.id_eixo_curricular = e.id_eixo_curricular";
 
     public boolean save(Disciplina disciplina) {
         PreparedStatement ps = null;
@@ -153,7 +153,7 @@ public class DisciplinaDAO {
 
             disciplina.setIdDisciplina(rs.getInt("id_disciplina"));
             disciplina.setDescricaoDisciplina(rs.getString("descricao_disciplina"));
-            disciplina.setAbreviaturaDisciplina(rs.getString("abreviatura"));
+            disciplina.setAbreviaturaDisciplina(rs.getString("abreviatura_disciplina"));
             disciplina.setCargaHorariaSemanal(rs.getString("carga_horaria_semanal"));
             EixoCurricularDisciplina eixo = new EixoCurricularDisciplina();
             eixo.setDescricaoEixoCurricular(rs.getString("descricao_eixo_curricular"));

@@ -1,4 +1,3 @@
-
 package skylink.mglcreche.dao;
 
 import java.sql.Connection;
@@ -8,24 +7,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
-import skylink.mglcreche.modelo.AnoLectivo;
+import skylink.mglcreche.modelo.TipoAvaliacao;
 
+public class TipoAvaliacaoDAO {
 
-public class AnoLectivoDAO {
-     private static final String INSERT = "INSERT INTO ano_lectivo(descricao_ano_lectivo) VALUES (?)";
-    private static final String UPDATE = "UPDATE ano_lectivo SET descricao_ano_lectivo = ?  WHERE id_ano_lectivo = ?";
-    private static final String DELETE = "DELETE FROM ano_lectivo WHERE id_ano_lectivo= ?";
-    private static final String BUSCAR_POR_CODIGO = "SELECT id_ano_lectivo, descricao_ano_lectivo FROM ano_lectivo WHERE id_ano_lectivo =?";
-    private static final String LISTAR_TUDO = "SELECT id_ano_lectivo, descricao_ano_lectivo FROM ano_lectivo";
+    private static final String INSERT = "INSERT INTO tipo_avaliacao(descricao_tipo_avaliacao, sigla_avaliacao,peso_tipo_avaliacao) VALUES (?,?, ?)";
+    private static final String UPDATE = "UPDATE tipo_avaliacao SET descricao_tipo_avaliacao = ?, sigla_avaliacao = ?, peso_tipo_avaliacao = ? WHERE id_tipo_avaliacao = ?";
+    private static final String DELETE = "DELETE FROM tipo_avaliacao WHERE id_tipo_avaliacao= ?";
+    private static final String BUSCAR_POR_CODIGO = "SELECT id_tipo_avaliacao, descricao_tipo_avaliacao,sigla_tipo_avaliacao,peso_tipo_avaliacao FROM tipo_avaliacao WHERE id_tipo_avaliacao =?";
+    private static final String LISTAR_TUDO = "SELECT id_tipo_avaliacao, descricao_tipo_avaliacao,sigla_tipo_avaliacao,peso_tipo_avaliacao FROM tipo_avaliacao";
 
-    public boolean save(AnoLectivo anoLectivo) {
+    public boolean save(TipoAvaliacao tipoAvaliacao) {
         PreparedStatement ps = null;
         Connection conn = null;
         boolean flagControlo = false;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(INSERT);
-            ps.setString(1, anoLectivo.getDescricaoAnoLectivo());
+            ps.setString(1, tipoAvaliacao.getDescricaoTipoAvaliacao());
+            ps.setString(2, tipoAvaliacao.getSiglaAvaliacao());
+            ps.setDouble(3, tipoAvaliacao.getPesoTipoAvaliacao());
 
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
@@ -42,16 +43,18 @@ public class AnoLectivoDAO {
         }
     }
 
-    public boolean update(AnoLectivo anoLectivo) {
+    public boolean update(TipoAvaliacao tipoAvaliacao) {
         PreparedStatement ps = null;
         Connection conn = null;
         boolean flagControlo = false;
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(UPDATE);
-            ps.setString(1, anoLectivo.getDescricaoAnoLectivo());
+          ps.setString(1, tipoAvaliacao.getDescricaoTipoAvaliacao());
+            ps.setString(2, tipoAvaliacao.getSiglaAvaliacao());
+            ps.setDouble(3, tipoAvaliacao.getPesoTipoAvaliacao());
 
-            ps.setInt(2, anoLectivo.getIdAnoLectivo());
+            ps.setInt(4, tipoAvaliacao.getIdTipoAvaliacao());
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
                 System.out.println("Dados actualizados com sucesso: " + ps.getUpdateCount());
@@ -67,18 +70,18 @@ public class AnoLectivoDAO {
         }
     }
 
-    public boolean delete(AnoLectivo anoLectivo) {
+    public boolean delete(TipoAvaliacao tipoAvaliacao) {
         Connection conn = null;
         PreparedStatement ps = null;
         boolean flagControlo = false;
-        if (anoLectivo == null) {
+        if (tipoAvaliacao == null) {
             System.err.println("O campo anterior nao pode ser nulo");
         }
 
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(DELETE);
-            ps.setInt(1, anoLectivo.getIdAnoLectivo());
+            ps.setInt(1, tipoAvaliacao.getIdTipoAvaliacao());
             int retorno = ps.executeUpdate();
             if (retorno > 0) {
                 System.out.println("Dados eliminados com sucesso: " + ps.getUpdateCount());
@@ -94,11 +97,11 @@ public class AnoLectivoDAO {
         }
     }
 
-    public AnoLectivo findById(Integer id) {
+    public TipoAvaliacao findById(Integer id) {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
-       AnoLectivo anoLectivo = new AnoLectivo();
+        TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
 
         try {
             conn = ConnectionDB.getConnection();
@@ -108,29 +111,29 @@ public class AnoLectivoDAO {
             if (!rs.next()) {
                 System.err.println("Não foi encontrado nenhum registo com o id: " + id);
             }
-            popularComDados(anoLectivo, rs);
+            popularComDados(tipoAvaliacao, rs);
         } catch (SQLException ex) {
             System.err.println("Erro ao ler dados: " + ex.getLocalizedMessage());
         } finally {
             ConnectionDB.closeConnection(conn, ps, rs);
         }
 
-        return anoLectivo;
+        return tipoAvaliacao;
     }
 
-    public List<AnoLectivo> findAll() {
+    public List<TipoAvaliacao> findAll() {
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
-        List<AnoLectivo> anoLectivos = new ArrayList<>();
+        List<TipoAvaliacao> tipoAvaliacaos = new ArrayList<>();
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(LISTAR_TUDO);
             rs = ps.executeQuery();
             while (rs.next()) {
-               AnoLectivo anoLectivo = new AnoLectivo();
-                popularComDados(anoLectivo, rs);
-                anoLectivos.add(anoLectivo);
+                TipoAvaliacao tipoAvaliacao = new TipoAvaliacao();
+                popularComDados(tipoAvaliacao, rs);
+                tipoAvaliacaos.add(tipoAvaliacao);
             }
 
         } catch (SQLException ex) {
@@ -138,14 +141,16 @@ public class AnoLectivoDAO {
         } finally {
             ConnectionDB.closeConnection(conn);
         }
-        return anoLectivos;
+        return tipoAvaliacaos;
     }
 
-    private void popularComDados(AnoLectivo anoLectivo, ResultSet rs) {
+    private void popularComDados(TipoAvaliacao tipoAvaliacao, ResultSet rs) {
         try {
-
-            anoLectivo.setIdAnoLectivo(rs.getInt("id_ano_lectivo"));
-            anoLectivo.setDescricaoAnoLectivo(rs.getString("descricao_ano_lectivo"));
+            /*, ,,*/
+            tipoAvaliacao.setIdTipoAvaliacao(rs.getInt("id_tipo_avaliacao"));
+            tipoAvaliacao.setDescricaoTipoAvaliacao(rs.getString("descricao_tipo_avaliacao"));
+            tipoAvaliacao.setSiglaAvaliacao(rs.getString("sigla_tipo_avaliacao"));
+            tipoAvaliacao.setPesoTipoAvaliacao(rs.getDouble("peso_tipo_avaliacao"));
 
         } catch (SQLException ex) {
             System.err.println("Erro ao carregar dados: " + ex.getLocalizedMessage());

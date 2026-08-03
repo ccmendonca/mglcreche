@@ -2,19 +2,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
-      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="jakarta.faces.core">
 
     <body>
 
-        <ui:composition template="./../WEB-INF/templates/turma_template.xhtml">
+        <ui:composition template="./../WEB-INF/templates/notas_template.xhtml">
+
+
+
+            <ui:define name="left">
+                left
+            </ui:define>
 
             <ui:define name="content">
-
-                <f:view>
-
-
+                <div class="card">
+                    <div class="filters-bar">
+                        <div class="search-group">
+                           
                     <p:panel header="#{app.anoslectivos}">
                         <h:form id="pesquisaTurmas">
                             <center>
@@ -28,9 +34,9 @@
                             <p:dataTable id="dtblturmasseleccionadas" var="item" value="#{turmaBean.porAnoLectivoturmas}" emptyMessage="Nenhum turma encontrado" scrollable="true" scrollHeight="250" lazy="false">
                                
 
-                                <p:column headerText="Código:">
+                                <p:column headerText="N.º Turma">
 
-                                    <p:commandLink id="idTurma" value="#{item.idTurma}" action="alunos_da_turma.xhtml?faces-redirect=true" actionListener="#{turmaBean.carregarTurmaEstudantes(item.idTurma)}">
+                                    <p:commandLink id="idTurma" value="#{item.idTurma}" action="lancamento_notas_parametros.xhtml?faces-redirect=true">
                                         <f:setPropertyActionListener target="#{turmaBean.turma}" value="#{item}"/>
                                         
                                     </p:commandLink>
@@ -38,7 +44,7 @@
                                                value="Clique para ver os alunos da Turma." />
                                 </p:column>
 
-                                <p:column headerText="Código:">
+                                <p:column headerText="Código Turma:">
                                     <h:outputText value="#{item.codigoTurma}"/>
                                 </p:column>
 
@@ -53,28 +59,22 @@
                                     <h:outputText value="#{item.sala.descricaoSala}"/>
                                 </p:column>                                                              
 
-                                <p:column headerText="Data da criação">
-                                    <h:outputText value="#{item.dataRegisto}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                    </h:outputText>
-                                </p:column>
+                               
 
                             </p:dataTable>
                         </h:form>
 
                     </p:panel>
 
-
-
-                </f:view>           
-
-
-
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+                
             </ui:define>
 
-            <ui:define name="bottom">
-                &copy; 2026 - Gestão de Creche - Todos os direitos reservados.
-            </ui:define>
+
 
         </ui:composition>
 

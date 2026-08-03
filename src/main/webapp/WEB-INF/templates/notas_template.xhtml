@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="notas_layout.css" library="css"/>
+
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+        <div class="container">
+
+
+
+            <div class="header">
+                <ui:insert name="top">
+
+                    <div class="page-title">
+                        <h1><i class="fas fa-chalkboard-user"></i> Lançamento de Notas</h1>
+                    </div>
+                   
+
+                </ui:insert>
+
+
+            </div>
+
+
+
+
+
+            <div>
+                
+                
+                
+                <div id="left">
+                    <ui:insert name="left">Left</ui:insert>
+                </div>
+                <div id="content">
+                    <ui:insert name="content">
+
+                        <div class="card">
+                            <div class="filters-bar">
+                                <div class="search-group">
+                                    <div class="search-box">
+                                        <i class="fas fa-search"></i>
+                                        <input type="text" id="searchStudent" placeholder="Buscar aluno..."/>
+                                    </div>
+                                    <select class="class-selector" id="classFilter">
+                                        <option value="all">📚 Todas as turmas</option>
+                                        <option value="A">9° Ano A - Manhã</option>
+                                        <option value="B">9° Ano B - Tarde</option>
+                                    </select>
+                                </div>
+                                <button class="btn-save-master" id="saveAllBtn">
+                                    <i class="fas fa-save"></i> Salvar todas as notas
+                                </button>
+                            </div>
+
+                            <div class="grades-table-wrapper">
+                                <table class="grades-table" id="gradesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Aluno</th>
+                                            <th>Turma</th>
+                                            <th>
+                                                <div class="activity-header">
+                                                    <span class="activity-name">📝 Prova Mensal</span>
+                                                    <span class="activity-weight">Peso 4.0</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="activity-header">
+                                                    <span class="activity-name">📖 Trabalho Prático</span>
+                                                    <span class="activity-weight">Peso 3.0</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="activity-header">
+                                                    <span class="activity-name">⭐ Participação</span>
+                                                    <span class="activity-weight">Peso 2.0</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="activity-header">
+                                                    <span class="activity-name">✅ Atividade Online</span>
+                                                    <span class="activity-weight">Peso 1.0</span>
+                                                </div>
+                                            </th>
+                                            <th>Média Final</th>
+                                            <th>Situação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+                                        <!-- Dados serão populados via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </ui:insert>
+                </div>
+            </div>
+            <!-- Rodapé -->
+            <footer class="footer">
+                <ui:insert name="bottom">
+                    <p>&copy; #{sis.desenvolvidoporskylink}</p>
+                    <h3> #{sis.todososdireitos}</h3>
+                </ui:insert>
+            </footer>
+        </div>
+    </h:body>
+
+</html>

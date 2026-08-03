@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/notas_template.xhtml">
+
+
+
+            <ui:define name="left">
+                left
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="card">
+                    <div class="filters-bar">
+                        <div class="search-group">
+
+                            <p:panel header="#{app.dadosturma}">
+                                <p:separator />
+                                <h:panelGrid columns="2"  cellpadding="5">
+                                    <p:outputLabel value="Turma: #{turmaBean.turma.idTurma}" />
+                                    <p:outputLabel value="Código:#{turmaBean.turma.codigoTurma}"/>
+                                    <p:outputLabel value="Sala: #{turmaBean.turma.sala.descricaoSala}" />
+                                    <p:outputLabel  value="Perido: #{turmaBean.turma.periodo.descricaoPeriodo}"/>
+                                    <p:outputLabel value="Classe: #{turmaBean.turma.classe.descricaoClasse}" />
+                                    <h:panelGroup/>
+                                    <p:outputLabel value="Observações: #{turmaBean.turma.observacoesTurma}" />
+                                </h:panelGrid>
+                                <p:separator />
+
+
+                            </p:panel>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="filters-bar">
+                        <div class="search-group">
+                            
+                            <p:outputLabel for="disciplina" value="Disciplina" />
+                            <h:selectOneMenu id="disciplina"
+                                             value="#{avaliacaoBean.avaliacao.disciplina}"
+                                             required="true"
+                                             requiredMessage="disciplina é obrigatória" 
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione a disciplina..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{disciplinaBean.disciplinas}"
+                                               var="d"
+                                               itemValue="#{d}"
+                                               itemLabel="#{d.descricaoDisciplina}" />
+                            </h:selectOneMenu>
+                             <p:outputLabel for="tipoavaliacao" value="Avaliação/Prova" />
+                            <h:selectOneMenu id="tipoavaliacao"
+                                             value="#{avaliacaoBean.avaliacao.tipoAvaliacao}"
+                                             required="true"
+                                             requiredMessage="O tipo de avalição/prova é obrigatória" 
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{tipoAvaliacaoBean.tipoAvaliacaos}"
+                                               var="tpa"
+                                               itemValue="#{tpa}"
+                                               itemLabel="#{tpa.descricaoTipoAvaliacao}" />
+                            </h:selectOneMenu>
+                            <p:outputLabel for="trimestre" value="Trimestre" />
+                            <h:selectOneMenu id="trimestre"
+                                             value="#{avaliacaoBean.avaliacao.trimestre}"
+                                             required="true"
+                                             requiredMessage="O trimestre é obrigatória" 
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{trimestreMBean.trimestres}"
+                                               var="t"
+                                               itemValue="#{t}"
+                                               itemLabel="#{t.descricaoTrimestre}" />
+                            </h:selectOneMenu>
+                            
+                             <p:outputLabel for="professor" value="Professor(a):" />
+                            <h:selectOneMenu id="professor"
+                                             value="#{avaliacaoBean.avaliacao.profissional}"
+                                             required="true"
+                                             requiredMessage="Campo obrigatório" 
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o(a) professor(a)..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{profissionalMBean.professores}"
+                                               var="pf"
+                                               itemValue="#{pf}"
+                                               itemLabel="#{pf.nome} #{pf.sobrenome} #{pf.codigo}" />
+                            </h:selectOneMenu>
+
+
+                        </div>
+                        <button class="btn-save-master" id="saveAllBtn">
+                            <i class="fas fa-save"></i> Salvar todas as notas
+                        </button>
+                    </div>
+                </div>
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

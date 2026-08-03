@@ -26,7 +26,8 @@ public class ProfissionalDAO {
     private static final String INSERT = "INSERT INTO profissional (bi_profissional, nome_profissional, sobrenome_profissional, dataNascimento_profissional, numeroCasa_profissional, rua_profissional, bairro_profissional, telefoneUnitel_profissional, email_profissional, habilitacoesLiterarias_profissional, observacoes_profissional, id_sexo, id_municipio, id_categoriaprofissional) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE profissional SET bi_profissional=?, nome_profissional=?, sobrenome_profissional=?, dataNascimento_profissional=?, numeroCasa_profissional=?, rua_profissional=?, bairro_profissional=?, telefoneUnitel_profissional=?, email_profissional=?, habilitacoesLiterarias_profissional=?, observacoes_profissional=?, id_sexo=?, id_municipio=?, id_categoriaprofissional=? where id_profissional = ?";
     private static final String DELETE = "DELETE FROM profissional WHERE id_profissional = ?";
-    private static final String SELECT_ALL = "SELECT * FROM profissional p INNER JOIN sexo s on p.id_sexo=s.id_sexo INNER JOIN municipio m on p.id_municipio=m.id_municipio INNER JOIN categoria_profissional cp on p.id_categoriaprofissional";
+    private static final String SELECT_ALL = "SELECT * FROM profissional p INNER JOIN sexo s on p.id_sexo=s.id_sexo INNER JOIN municipio m on p.id_municipio=m.id_municipio INNER JOIN categoria_profissional cp on p.id_categoriaprofissional = cp.id_categoriaprofissional";
+    private static final String SELECT_POR_CATEGORIA_1_5 ="SELECT distinct * FROM profissional p INNER JOIN sexo s on p.id_sexo=s.id_sexo INNER JOIN municipio m on p.id_municipio=m.id_municipio INNER JOIN categoria_profissional cp on p.id_categoriaprofissional = cp.id_categoriaprofissional  WHERE p.id_categoriaprofissional IN (1, 2, 3, 4, 5)";
     private static final String SELECT_BY_ID = "SELECT * FROM profissional WHERE id_profissional = ?";
     private static final String SELECT_BY_NAME_SURNAME = "SELECT id_profissional, bi_profissional, nome_profissional, sobrenome_profissional, dataNascimento_profissional, descricao_sexo, numeroCasa_profissional, rua_profissional, bairro_profissional, telefoneUnitel_profissional, email_profissional, habilitacoesliterarias_profissional, observacoes_profissional, nome_municipio, descricao_categoriaprofissional"
             + " FROM profissional p INNER JOIN sexo s on p.id_sexo=s.id_sexo INNER JOIN municipio m on p.id_municipio = m.id_municipio INNER JOIN categoria_profissional cp on p.id_categoriaprofissional = cp.id_categoriaprofissional"
@@ -137,6 +138,26 @@ public class ProfissionalDAO {
 
     }
 
+     public List<Profissional> findAllProfessores() {
+        List<Profissional> profissionais = new ArrayList<>();
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_POR_CATEGORIA_1_5);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Profissional profissional = new Profissional();
+                dados(profissional, rs);
+                profissionais.add(profissional);
+            }
+        } catch (SQLException ex) {
+            String msg = ex.getLocalizedMessage();
+            LOG.log(Level.SEVERE, ex, () -> "Erro ao carregar dados" + msg);
+        }
+        return profissionais;
+
+    }
+    
+    ///
     /**
      * pesquisa aleatória ao banco de dados
      */

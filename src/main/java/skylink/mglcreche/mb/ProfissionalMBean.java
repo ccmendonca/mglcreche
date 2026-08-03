@@ -31,6 +31,7 @@ public class ProfissionalMBean implements Serializable {
     private CategoriaProfissionalDAO categoriaProfissionalDAO = new CategoriaProfissionalDAO();
     private List<CategoriaProfissional> categorias = new ArrayList<>();
     private List<Profissional> profissionais;
+     private List<Profissional> professores = new ArrayList<>();
     private List<Profissional> pesquisado;
     private Profissional selecionado;
     private String name;
@@ -42,10 +43,11 @@ public class ProfissionalMBean implements Serializable {
     private Sexo sexo = new Sexo();
     private SexoDAO sexoDAO = new SexoDAO();
     private CategoriaProfissional categoriaProfissional = new CategoriaProfissional();
-
+///findAllProfessores
     @PostConstruct
     public void init() {
         profissionais = profissionalDAO.findAll();
+        professores = profissionalDAO.findAllProfessores();
         sexos = sexoDAO.findAll();
         municipios = municipioDao.findAll();
         categorias = categoriaProfissionalDAO.findAll();
@@ -120,6 +122,16 @@ public class ProfissionalMBean implements Serializable {
         return pesquisado;
     }
 
+    public List<Profissional> getProfessores() {
+        return professores;
+    }
+
+    public void setProfessores(List<Profissional> professores) {
+        this.professores = professores;
+    }
+
+    
+    
     public void setPesquisado(List<Profissional> pesquisado) {
         this.pesquisado = pesquisado;
     }
