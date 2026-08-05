@@ -40,6 +40,11 @@ public class Avaliacao {
         this.dataRegistoAvaliacao = dataRegistoAvaliacao;
     }
 
+     public Avaliacao(Aluno aluno) {
+             this.aluno = aluno;
+      
+    }
+
    
 
     public Integer getIdAvaliacao() {

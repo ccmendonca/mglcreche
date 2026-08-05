@@ -20,6 +20,7 @@ public class AlunoDAO implements Serializable {
     public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio";
     public static final String SELECT_BY_ID = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno = ? ";
     public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
+    public static final String SELECT_ESTUDANTES_BY_ID_TURMA = "SELECT a.id_aluno, a.nome_aluno, a.sobrenome_aluno FROM aluno a INNER JOIN matricula m ON a.id_aluno= m.id_aluno INNER JOIN turma t ON m.id_turma =t.id_turma  WHERE t.id_turma = ?";
     
     Connection conn = null;
     PreparedStatement ps = null;
@@ -51,7 +52,20 @@ public class AlunoDAO implements Serializable {
             aluno.setMunicipio(municipio);
 
         } catch (SQLException e) {
-            System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
+            System.err.println("popularDados =>Erro ao carregar dados: " + e.getLocalizedMessage());
+        }
+    }
+    
+    
+    private void popularDadosParciais(Aluno aluno, ResultSet rs) {
+        try {
+            aluno.setIdAluno(rs.getInt("id_aluno"));
+            aluno.setNomeAluno(rs.getString("nome_aluno"));
+            aluno.setSobrenomeAluno(rs.getString("sobrenome_aluno"));
+           
+
+        } catch (SQLException e) {
+            System.err.println("popularDados =>Erro ao carregar dados: " + e.getLocalizedMessage());
         }
     }
 
@@ -174,6 +188,33 @@ public class AlunoDAO implements Serializable {
         return alunos;
     }
 
+     public List<Aluno> findAllAlunosTurma(Integer idTurma) {
+         
+        PreparedStatement ps = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        List<Aluno> alunos = new ArrayList<>();
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_ESTUDANTES_BY_ID_TURMA);
+           
+            ps.setInt(1, idTurma);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                popularDadosParciais(aluno, rs);
+                alunos.add(aluno);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Erro ao ler dados => findAllAlunosTurma: " + ex.getLocalizedMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn);
+        }
+        return alunos;
+    }
+     
+    
     public List<Aluno> findById(Integer id) {
         List<Aluno> alunos = new ArrayList<>();
         Aluno aluno = new Aluno();

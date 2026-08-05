@@ -171,7 +171,7 @@ public class MatriculaDAO {
     }
      
       public List<Matricula> findAllAlunosTurma(Integer idTurma) {
-          System.out.println("8888888888888888Dentro findAllAlunosTurma 1"+ idTurma);
+         
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -179,7 +179,7 @@ public class MatriculaDAO {
         try {
             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(SELECT_ESTUDANTES_BY_ID_TURMA);
-              System.out.println("8888888888888888Dentro findAllAlunosTurma 2"+ idTurma);
+           
             ps.setInt(1, idTurma);
             rs = ps.executeQuery();
             while (rs.next()) {

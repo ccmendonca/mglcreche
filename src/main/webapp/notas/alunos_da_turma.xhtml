@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/notas_template.xhtml">
+
+
+
+            <ui:define name="content">
+                <h:form>
+                    <h:message for="nota" style="color: red;"/>
+                    <p:growl id="msg"/>
+                    <p:separator />
+                    <p:panel header="#{app.dadosturma}">
+                        <h:panelGrid columns="9"  cellpadding="5">
+                            <p:outputLabel value="#{app.turma}" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.turma.idTurma}" />
+                            <p:outputLabel value="#{app.codigoturma}"/>
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.turma.codigoTurma}"/>
+                            <p:outputLabel value="#{app.sala}" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.turma.sala.descricaoSala}" />
+                            <p:outputLabel  value="#{app.periodo}"/>
+                            <p:outputLabel  value="#{avaliacaoBean.avaliacao.turma.periodo.descricaoPeriodo}"/>
+                            <p:outputLabel value="#{app.classe}" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.turma.classe.descricaoClasse}" />
+                            <p:outputLabel value="#{app.dadosturma}" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.disciplina.descricaoDisciplina}" />
+                            <p:outputLabel value="Tipo de Avalição:" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.tipoAvaliacao.descricaoTipoAvaliacao}" />
+                            <p:outputLabel value="Trimestre:" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.trimestre.descricaoTrimestre}" />
+                            <p:outputLabel value="Data da prova/avaliação:" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.dataAplicacao}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                            <p:outputLabel value="Professor:" />
+                            <p:outputLabel value="#{avaliacaoBean.avaliacao.profissional.nome} #{avaliacaoBean.avaliacao.profissional.sobrenome}" />
+
+                        </h:panelGrid>
+                        <p:outputLabel value="Observações: #{avaliacaoBean.avaliacao.turma.observacoesTurma}" />
+                    </p:panel>
+                    <p:separator />
+
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.turma.idTurma}" />
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.turma.codigoTurma}"/>
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.turma.sala.descricaoSala}" />
+
+                    <h:inputHidden  value="#{avaliacaoBean.avaliacao.turma.periodo.descricaoPeriodo}"/>
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.turma.classe.descricaoClasse}" />
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.disciplina.descricaoDisciplina}" />
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.tipoAvaliacao.descricaoTipoAvaliacao}" />
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.trimestre.descricaoTrimestre}" />
+
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.profissional.nome}" />
+                    <h:inputHidden value="#{avaliacaoBean.avaliacao.dataAplicacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:inputHidden>
+
+                    <p:dataTable var="item" value="#{avaliacaoBean.avalicaoAlunos}"
+                                 style="text-align: center;" emptyMessage="Não existem alunos matriculados nessa turma">
+                        <p:column headerText="N.º:" width="64"
+                                  style="text-align: center;">
+                            <h:outputText value="#{item.aluno.idAluno}" />
+                            <h:inputHidden value="#{item.aluno.idAluno}"/>
+                        </p:column>
+                        <p:column headerText="Nome:" width="64"
+                                  style="text-align: center;">
+                            <h:outputText value="#{item.aluno.nomeAluno}" />
+                            <h:inputHidden value="#{item.aluno.nomeAluno}"/>
+                        </p:column>
+                        <p:column headerText="Sobrenome:" width="64"
+                                  style="text-align: center;">
+                            <h:outputText value="#{item.aluno.sobrenomeAluno}" />
+                            <h:inputHidden value="#{item.aluno.sobrenomeAluno}"/>
+                        </p:column>
+                        <p:column headerText="Nota" width="64"
+                                  style="text-align: center;">
+                            <h:inputText id="nota" value="#{item.notaAvaliacao}" validatorMessage="A nota deve estar entre 0 e 20">
+                                <f:validateDoubleRange minimum="0" maximum="20" />
+                                <f:ajax event="valueChange"/>
+                            </h:inputText>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton value="Guardar todas as notas" action="#{avaliacaoBean.registarNotas(avaliacaoBean.avalicaoAlunos)}" update="msg"/>
+                </h:form>
+
+            </ui:define>
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

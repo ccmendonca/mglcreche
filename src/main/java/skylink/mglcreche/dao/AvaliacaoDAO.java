@@ -17,7 +17,7 @@ import skylink.mglcreche.modelo.Turma;
 
 public class AvaliacaoDAO {
 
-    private static final String INSERT = "INSERT INTO avaliacao(descricao_avaliacao, data_aplicacao, peso_avaliacao, nota_avaliacao, id_disciplina, id_trimestre, id_profissional, id_tipo_avaliacao, id_turma, id_aluno) VALUES(?,?,?,?,?, ?,?,?,?,?,?)";
+    private static final String INSERT = "INSERT INTO avaliacao(descricao_avaliacao, data_aplicacao, peso_avaliacao, nota_avaliacao, id_disciplina, id_trimestre, id_profissional, id_tipo_avaliacao, id_turma, id_aluno) VALUES(?,?,?,?,?, ?,?,?,?,?)";
     private static final String UPDATE = "UPDATE avaliacao SET descricao_avaliacao = ?, data_aplicacao = ?, peso_avaliacao = ? nota_avaliacao = ?, id_disciplina = ?, id_trimestre = ?, id_profissional = ?, id_tipo_avaliacao = ?, id_turma = ?, id_aluno = ? WHERE id_avaliacao = ?";
     private static final String DELETE = "DELETE FROM avaliacao WHERE id_avaliacao= ?";
     private static final String BUSCAR_POR_CODIGO = "SELECT id_avaliacao, descricao_avaliacao,data_aplicacao,peso_avaliacao,nota_avaliacao,descricao_disciplina, abreviatura_disciplina, descricao_trimestre,nome_profissional,sobrenome_profissional,descricao_tipo_avaliacao, sigla_tipo_avaliacao,turma.id_turma, aluno.id_aluno, nome_aluno, sobrenome_aluno,data_registo_avaliacao FROM avaliacao INNER JOIN disciplina ON avaliacao.id_disciplina = disciplina.id_disciplina INNER JOIN trimestre ON avaliacao.id_trimestre = trimestre.id_trimestre INNER JOIN profissional ON avaliacao.id_profissional=profissional.id_profissional INNER JOIN tipo_avaliacao ON avaliacao.id_tipo_avaliacao = tipo_avaliacao.id_tipo_avaliacao INNER JOIN turma ON avaliacao.id_turma = turma.id_turma INNER JOIN aluno ON avaliacao.id_aluno=aluno.id_aluno WHERE id_avaliacao =?";
@@ -36,7 +36,8 @@ public class AvaliacaoDAO {
             ps = conn.prepareStatement(INSERT);
             ps.setString(1, avaliacao.getDescricaoAvaliacao());
             ps.setDate(2, new java.sql.Date(avaliacao.getDataAplicacao().getTime()));
-            ps.setDouble(3, avaliacao.getPesoAvaliacao());
+            // ps.setDouble(3, avaliacao.getPesoAvaliacao());
+            ps.setDouble(3, 0);
             ps.setDouble(4, avaliacao.getNotaAvaliacao());
             ps.setInt(5, avaliacao.getDisciplina().getIdDisciplina());
             ps.setInt(6, avaliacao.getTrimestre().getIdTrimestre());

@@ -17,92 +17,108 @@
             </ui:define>
 
             <ui:define name="content">
-                <div class="card">
-                    <div class="filters-bar">
-                        <div class="search-group">
+                <h:form>
+                    <div class="card">
+                        <div class="filters-bar">
+                            <div class="search-group">
 
-                            <p:panel header="#{app.dadosturma}">
-                                <p:separator />
-                                <h:panelGrid columns="2"  cellpadding="5">
-                                    <p:outputLabel value="Turma: #{turmaBean.turma.idTurma}" />
-                                    <p:outputLabel value="Código:#{turmaBean.turma.codigoTurma}"/>
-                                    <p:outputLabel value="Sala: #{turmaBean.turma.sala.descricaoSala}" />
-                                    <p:outputLabel  value="Perido: #{turmaBean.turma.periodo.descricaoPeriodo}"/>
-                                    <p:outputLabel value="Classe: #{turmaBean.turma.classe.descricaoClasse}" />
-                                    <h:panelGroup/>
-                                    <p:outputLabel value="Observações: #{turmaBean.turma.observacoesTurma}" />
-                                </h:panelGrid>
-                                <p:separator />
+                                <p:panel header="#{app.dadosturma}" style="width: 600px">
+                                    <p:separator />
+                                    <h:panelGrid columns="1"  cellpadding="5">
+                                        <p:outputLabel value="Turma: #{avaliacaoBean.avaliacao.turma.idTurma}" />
+                                        <p:outputLabel value="Código:#{avaliacaoBean.avaliacao.turma.codigoTurma}"/>
+                                        <p:outputLabel value="Sala: #{avaliacaoBean.avaliacao.turma.sala.descricaoSala}" />
+                                        <p:outputLabel  value="Perido: #{avaliacaoBean.avaliacao.turma.periodo.descricaoPeriodo}"/>
+                                        <p:outputLabel value="Classe: #{avaliacaoBean.avaliacao.turma.classe.descricaoClasse}" />
+                                        <h:panelGroup/>
+                                        <p:outputLabel value="Ano Lectivo: #{avaliacaoBean.avaliacao.turma.anoLectivo.descricaoAnoLectivo}" />
+                                        <h:panelGroup/>
+                                        <p:outputLabel value="Observações: #{avaliacaoBean.avaliacao.turma.observacoesTurma}" />
+                                    </h:panelGrid>
+                                    <p:separator />
 
 
-                            </p:panel>
+                                </p:panel>
 
 
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="filters-bar">
-                        <div class="search-group">
-                            
-                            <p:outputLabel for="disciplina" value="Disciplina" />
-                            <h:selectOneMenu id="disciplina"
-                                             value="#{avaliacaoBean.avaliacao.disciplina}"
-                                             required="true"
-                                             requiredMessage="disciplina é obrigatória" 
-                                             converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Selecione a disciplina..." itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{disciplinaBean.disciplinas}"
-                                               var="d"
-                                               itemValue="#{d}"
-                                               itemLabel="#{d.descricaoDisciplina}" />
-                            </h:selectOneMenu>
-                             <p:outputLabel for="tipoavaliacao" value="Avaliação/Prova" />
-                            <h:selectOneMenu id="tipoavaliacao"
-                                             value="#{avaliacaoBean.avaliacao.tipoAvaliacao}"
-                                             required="true"
-                                             requiredMessage="O tipo de avalição/prova é obrigatória" 
-                                             converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{tipoAvaliacaoBean.tipoAvaliacaos}"
-                                               var="tpa"
-                                               itemValue="#{tpa}"
-                                               itemLabel="#{tpa.descricaoTipoAvaliacao}" />
-                            </h:selectOneMenu>
-                            <p:outputLabel for="trimestre" value="Trimestre" />
-                            <h:selectOneMenu id="trimestre"
-                                             value="#{avaliacaoBean.avaliacao.trimestre}"
-                                             required="true"
-                                             requiredMessage="O trimestre é obrigatória" 
-                                             converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{trimestreMBean.trimestres}"
-                                               var="t"
-                                               itemValue="#{t}"
-                                               itemLabel="#{t.descricaoTrimestre}" />
-                            </h:selectOneMenu>
-                            
-                             <p:outputLabel for="professor" value="Professor(a):" />
-                            <h:selectOneMenu id="professor"
-                                             value="#{avaliacaoBean.avaliacao.profissional}"
-                                             required="true"
-                                             requiredMessage="Campo obrigatório" 
-                                             converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Selecione o(a) professor(a)..." itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{profissionalMBean.professores}"
-                                               var="pf"
-                                               itemValue="#{pf}"
-                                               itemLabel="#{pf.nome} #{pf.sobrenome} #{pf.codigo}" />
-                            </h:selectOneMenu>
-
+                            </div>
 
                         </div>
-                        <button class="btn-save-master" id="saveAllBtn">
-                            <i class="fas fa-save"></i> Salvar todas as notas
-                        </button>
                     </div>
-                </div>
+                    <div class="card">
+                        <div class="filters-bar">
+                            <div class="search-group">
+                                 <p:outputLabel for="data" value="Data da prova" />
+                                 <h:inputText id="data"
+                                              value="#{avaliacaoBean.avaliacao.dataAplicacao}">
+                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                 </h:inputText>
+                                            
+                                <p:outputLabel for="disciplina" value="Disciplina" />
+                                <h:selectOneMenu id="disciplina"
+                                                 value="#{avaliacaoBean.avaliacao.disciplina}"
+                                                 required="true"
+                                                 requiredMessage="disciplina é obrigatória" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione a disciplina..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{disciplinaBean.disciplinas}"
+                                                   var="d"
+                                                   itemValue="#{d}"
+                                                   itemLabel="#{d.descricaoDisciplina}" />
+                                </h:selectOneMenu>
+                                <p:outputLabel for="tipoavaliacao" value="Avaliação/Prova" />
+                                <h:selectOneMenu id="tipoavaliacao"
+                                                 value="#{avaliacaoBean.avaliacao.tipoAvaliacao}"
+                                                 required="true"
+                                                 requiredMessage="O tipo de avalição/prova é obrigatória" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{tipoAvaliacaoBean.tipoAvaliacaos}"
+                                                   var="tpa"
+                                                   itemValue="#{tpa}"
+                                                   itemLabel="#{tpa.descricaoTipoAvaliacao}" />
+                                </h:selectOneMenu>
+                                <p:outputLabel for="trimestre" value="Trimestre" />
+                                <h:selectOneMenu id="trimestre"
+                                                 value="#{avaliacaoBean.avaliacao.trimestre}"
+                                                 required="true"
+                                                 requiredMessage="O trimestre é obrigatória" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o trimestre..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{trimestreMBean.trimestres}"
+                                                   var="t"
+                                                   itemValue="#{t}"
+                                                   itemLabel="#{t.descricaoTrimestre}" />
+                                </h:selectOneMenu>
+
+                                <p:outputLabel for="professor" value="Professor(a):" />
+                                <h:selectOneMenu id="professor"
+                                                 value="#{avaliacaoBean.avaliacao.profissional}"
+                                                 required="true"
+                                                 requiredMessage="Campo obrigatório" 
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o(a) professor(a)..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{profissionalMBean.professores}"
+                                                   var="pf"
+                                                   itemValue="#{pf}"
+                                                   itemLabel="#{pf.nome} #{pf.sobrenome} #{pf.codigo}" />
+                                </h:selectOneMenu>
+
+
+                            </div>
+                            <button class="btn-save-master" id="saveAllBtn">
+                                <i class="fas fa-save"></i>
+                                <p:commandLink id="idTurma" value="Carregar alunos da turma" action="alunos_da_turma.xhtml?faces-redirect=true" actionListener="#{avaliacaoBean.carregarEstudantesDaTurma(avaliacaoBean.avaliacao.turma.idTurma)}"/>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    
+                                    
+                                       
+                                        
+                                  
+                </h:form>
             </ui:define>
 
 
