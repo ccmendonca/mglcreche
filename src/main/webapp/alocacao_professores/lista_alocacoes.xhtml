@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/alocacao_professor_template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formLista">
+                    <p:growl id="messages" showDetail="true" />
+
+                    <p:panel header="Professores Alocados - Listagem Geral">
+
+                        <div class="flex justify-content-between align-items-center mb-3" style="margin-bottom: 15px;">
+                            <div>
+                                <p:inputText id="txtPesquisa" value="#{alocacaoProfessorMBean.dado}" 
+                                             placeholder="Pesquisar por nome do professor..." style="width: 300px; margin-right: 10px;"/>
+                                <p:commandButton value="Pesquisar" action="#{alocacaoProfessorMBean.pesquisado}" 
+                                                 update="tabelaAlocacoes messages" icon="pi pi-search" styleClass="ui-button-outlined" />
+                            </div>
+
+                        </div>
+
+                        <p:dataTable id="tabelaAlocacoes" value="#{alocacaoProfessorMBean.alocacoes}" var="alocacao"
+                                     paginator="true" rows="10" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum registo de alocação encontrado.">
+
+                            <p:column headerText="Código Professor" style="width: 150px; text-align: center;">
+                                <h:outputText value="#{alocacao.idProfissional}" />
+                            </p:column>
+
+                            <p:column headerText="Disciplina">
+                                <h:outputText value="#{not empty alocacao.disciplina.descricaoDisciplina ? alocacao.disciplina.descricaoDisciplina : 'Não Definida'}" />
+                            </p:column>
+
+                            <p:column headerText="Turma" style="width: 100px; text-align: center;">
+                                <h:outputText value="#{not empty alocacao.turma.codigoTurma ? alocacao.turma.codigoTurma : '---'}" />
+                            </p:column>
+
+                            <p:column headerText="Ano Lectivo" style="width: 130px; text-align: center;">
+                                <h:outputText value="#{not empty alocacao.anoLectivo.descricaoAnoLectivo ? alocacao.anoLectivo.descricaoAnoLectivo : '---'}" />
+                            </p:column>
+
+                            <p:column headerText="Trimestre" style="width: 120px; text-align: center;">
+                                <h:outputText value="#{not empty alocacao.trimestre.descricaoTrimestre ? alocacao.trimestre.descricaoTrimestre : '---'}" />
+                            </p:column>
+
+                            <p:column headerText="Carga Horária" style="width: 130px; text-align: center;">
+                                <h:outputText value="#{alocacao.cargaHorariaSemanal}h / semana" />
+                            </p:column>
+
+                            <p:column headerText="Data Registo" style="width: 120px; text-align: center;">
+                                <h:outputText value="#{alocacao.dataRegisto}">
+                                    <f:convertDateTime type="localDateTime" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Ações" style="width: 100px; text-align: center;">
+                                <p:commandButton icon="pi pi-pencil" title="Editar"
+                                                 action="#{alocacaoProfessorMBean.selectAlocacao(alocacao)}"
+                                                 styleClass="ui-button-warning ui-button-flat mr-1" />
+                                <p:commandButton icon="pi pi-history" title="Histórico"
+                                                 action="#{alocacaoProfessorMBean.selectHistorico(alocacao)}"
+                                                 styleClass="ui-button-info ui-button-flat" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

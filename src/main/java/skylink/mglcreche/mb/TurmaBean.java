@@ -1,7 +1,6 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -25,7 +24,7 @@ import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.modelo.Matricula;
 
 @Named(value = "turmaBean")
-@SessionScoped
+@ViewScoped
 public class TurmaBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(TurmaBean.class.getName());

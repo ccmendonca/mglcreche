@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/alocacao_professor_template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formAlocacao">
+                    <p:growl id="growl" showDetail="true" keepAlive="true" />
+
+                    <p:panel header="Registo de Alocação de Professores">
+
+                        <h:panelGrid columns="2" cellpadding="1">
+
+                            <p:outputLabel for="cargaHoraria" value="Carga Horária Semanal (Horas):"/>
+                            <p:inputText id="cargaHoraria" value="#{alocacaoProfessorMBean.alocacaoProfessor.cargaHorariaSemanal}" required="true" requiredMessage="A carga horária é obrigatória"/>
+
+                            <p:outputLabel for="idProfissional" value="Código do Professor:"/>
+                            <p:inputText id="idProfissional" value="#{alocacaoProfessorMBean.alocacaoProfessor.idProfissional}" required="true" requiredMessage="O ID do profissional é obrigatório"/>
+
+                            <p:outputLabel for="disciplina" value="Disciplina:" />
+                            <p:selectOneMenu id="disciplina" value="#{alocacaoProfessorMBean.alocacaoProfessor.disciplina}" 
+                                             required="true" requiredMessage="A disciplina é obrigatória" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione a Disciplina..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{alocacaoProfessorMBean.disciplinas}"
+                                               var="d"
+                                               itemValue="#{d}"
+                                               itemLabel="#{d.descricaoDisciplina}" /> 
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="turma" value="Turma:" />
+                            <p:selectOneMenu id="turma" value="#{alocacaoProfessorMBean.alocacaoProfessor.turma}" 
+                                             required="true" requiredMessage="A turma é obrigatória" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione a Turma..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{alocacaoProfessorMBean.turmas}"
+                                               var="t"
+                                               itemValue="#{t}"
+                                               itemLabel="#{t.codigoTurma}" /> 
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
+                            <p:selectOneMenu id="anoLectivo" value="#{alocacaoProfessorMBean.alocacaoProfessor.anoLectivo}"
+                                             required="true" requiredMessage="O ano lectivo é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{alocacaoProfessorMBean.anosLectivos}"
+                                               var="ano"
+                                               itemValue="#{ano}"
+                                               itemLabel="#{ano.descricaoAnoLectivo}" /> 
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="trimestre" value="Trimestre:" />
+                            <p:selectOneMenu id="trimestre" value="#{alocacaoProfessorMBean.alocacaoProfessor.trimestre}" 
+                                             required="true" requiredMessage="O trimestre é obrigatório" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Selecione o Trimestre..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{alocacaoProfessorMBean.trimestres}"
+                                               var="trim"
+                                               itemValue="#{trim}"
+                                               itemLabel="#{trim.descricaoTrimestre}" /> 
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="dataAlocacao" value="Data de Registo:" />
+                            <p:datePicker id="dataAlocacao" value="#{alocacaoProfessorMBean.alocacaoProfessor.dataAlocacao}"
+                                          pattern="dd/MM/yyyy" showIcon="true" required="true" requiredMessage="A data de alocação é obrigatória"/>
+
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Salvar" action="#{alocacaoProfessorMBean.save()}" update="@form" icon="pi pi-check" />
+                        </f:facet>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

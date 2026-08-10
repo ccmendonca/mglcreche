@@ -16,7 +16,7 @@ public class AlocacaoProfessor implements Serializable {
     private Integer idAlocacaoProfessor;
     private Integer CargaHorariaSemanal;
     private Integer idProfissional;
-   // private Disciplina disciplina;
+   private Disciplina disciplina;
     private Turma turma;
     private AnoLectivo anoLectivo;
     private Trimestre trimestre;
@@ -29,12 +29,12 @@ public class AlocacaoProfessor implements Serializable {
     }
 
     public AlocacaoProfessor(Integer idAlocacaoProfessor, Integer CargaHorariaSemanal, Integer idProfissional, 
-    //                         Disciplina disciplina, Turma turma, AnoLectivo anoLectivo, Trimestre trimestre,
+                           Disciplina disciplina, Turma turma, AnoLectivo anoLectivo, Trimestre trimestre,
                              LocalDate dataAlocacao, LocalDateTime dataRegisto) {
         this.idAlocacaoProfessor = idAlocacaoProfessor;
         this.CargaHorariaSemanal = CargaHorariaSemanal;
         this.idProfissional = idProfissional;
-  //      this.disciplina = disciplina;
+       this.disciplina = disciplina;
         this.turma = turma;
         this.anoLectivo = anoLectivo;
         this.trimestre = trimestre;
@@ -107,13 +107,22 @@ public class AlocacaoProfessor implements Serializable {
         this.dataRegisto = dataRegisto;
     }
 
+    public Disciplina getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(Disciplina disciplina) {
+        this.disciplina = disciplina;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 73 * hash + Objects.hashCode(this.idAlocacaoProfessor);
         hash = 73 * hash + Objects.hashCode(this.CargaHorariaSemanal);
         hash = 73 * hash + Objects.hashCode(this.idProfissional);
-       // hash = 73 * hash + Objects.hashCode(this.disciplina);
+        hash = 73 * hash + Objects.hashCode(this.disciplina);
         hash = 73 * hash + Objects.hashCode(this.turma);
         hash = 73 * hash + Objects.hashCode(this.anoLectivo);
         hash = 73 * hash + Objects.hashCode(this.trimestre);

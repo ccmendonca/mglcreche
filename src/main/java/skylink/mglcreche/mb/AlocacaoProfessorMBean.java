@@ -1,7 +1,7 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -23,7 +23,7 @@ import skylink.mglcreche.modelo.Turma;
  *  Henriques
  */
 @Named(value = "alocacaoProfessorMBean")
-@SessionScoped
+@ViewScoped
 public class AlocacaoProfessorMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,12 +63,19 @@ public class AlocacaoProfessorMBean implements Serializable {
         }
     }
 
- public void findParameter() {
-        pesquisado = alocacaoProfessorDAO.findByParameter(dado);
+    public void findParameter() {
+    }
+    
+    public String save() throws Exception {
+        alocacaoProfessorDAO.save(alocacaoProfessor);
+        alocacoes = alocacaoProfessorDAO.findAll();
+        alocacaoProfessor = new AlocacaoProfessor();
+        return "lista_alocacoes.faces?faces-redirect=true";
     }
     
     public String update() throws Exception {
         alocacaoProfessorDAO.update(alocacaoProfessor);
+        alocacoes = alocacaoProfessorDAO.findAll();
         alocacaoProfessor = new AlocacaoProfessor();
         return "lista_alocacoes.faces?faces-redirect=true";
     }

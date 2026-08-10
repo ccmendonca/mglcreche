@@ -2,9 +2,9 @@ package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Named;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import skylink.mglcreche.modelo.Trimestre;
  * @Henriques
  */
 @Named(value = "trimestreMBean")
-@SessionScoped
+@ViewScoped
 public class TrimestreMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
