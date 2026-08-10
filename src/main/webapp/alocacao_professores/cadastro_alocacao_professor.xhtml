@@ -14,7 +14,7 @@
                 <h:form id="formAlocacao">
                     <p:growl id="growl" showDetail="true" keepAlive="true" />
 
-                    <p:panel header="Registo de Alocação de Professores">
+                    <p:panel header="#{app.gestaoalocacaoprofessor}">
 
                         <h:panelGrid columns="2" cellpadding="1">
 
@@ -27,7 +27,7 @@
                             <p:outputLabel for="disciplina" value="Disciplina:" />
                             <p:selectOneMenu id="disciplina" value="#{alocacaoProfessorMBean.alocacaoProfessor.disciplina}" 
                                              required="true" requiredMessage="A disciplina é obrigatória" converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Selecione a Disciplina..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Selecione a Dis..." itemValue="#{null}" noSelectionOption="true" />
                                 <f:selectItems value="#{alocacaoProfessorMBean.disciplinas}"
                                                var="d"
                                                itemValue="#{d}"

@@ -20,7 +20,7 @@
                             <div>
                                 <p:inputText id="txtPesquisa" value="#{alocacaoProfessorMBean.dado}" 
                                              placeholder="Pesquisar por nome do professor..." style="width: 300px; margin-right: 10px;"/>
-                                <p:commandButton value="Pesquisar" action="#{alocacaoProfessorMBean.pesquisado}" 
+                                <p:commandButton value="#{sis.pesquisar}" action="#{alocacaoProfessorMBean.pesquisado}" 
                                                  update="tabelaAlocacoes messages" icon="pi pi-search" styleClass="ui-button-outlined" />
                             </div>
 
@@ -58,15 +58,6 @@
                                 <h:outputText value="#{alocacao.dataRegisto}">
                                     <f:convertDateTime type="localDateTime" pattern="dd/MM/yyyy" />
                                 </h:outputText>
-                            </p:column>
-
-                            <p:column headerText="Ações" style="width: 100px; text-align: center;">
-                                <p:commandButton icon="pi pi-pencil" title="Editar"
-                                                 action="#{alocacaoProfessorMBean.selectAlocacao(alocacao)}"
-                                                 styleClass="ui-button-warning ui-button-flat mr-1" />
-                                <p:commandButton icon="pi pi-history" title="Histórico"
-                                                 action="#{alocacaoProfessorMBean.selectHistorico(alocacao)}"
-                                                 styleClass="ui-button-info ui-button-flat" />
                             </p:column>
 
                         </p:dataTable>
