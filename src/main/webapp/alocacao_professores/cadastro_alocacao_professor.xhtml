@@ -12,13 +12,12 @@
 
             <ui:define name="content">
                 <h:form id="formAlocacao">
-                    <p:growl id="growl" showDetail="true" keepAlive="true" />
-
+                    <p:growl id="growl" showDetail="true" keepAlive="true" /> 
                     <p:panel header="#{app.gestaoalocacaoprofessor}">
 
                         <h:panelGrid columns="2" cellpadding="1">
 
-                            <p:outputLabel for="cargaHoraria" value="Carga Horária Semanal (Horas):"/>
+                            <p:outputLabel for="cargaHoraria" value="Carga Horária Semanal (Horas)"/>
                             <p:inputText id="cargaHoraria" value="#{alocacaoProfessorMBean.alocacaoProfessor.cargaHorariaSemanal}" required="true" requiredMessage="A carga horária é obrigatória"/>
 
                             <p:outputLabel for="idProfissional" value="Código do Professor:"/>
