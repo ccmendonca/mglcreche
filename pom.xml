@@ -35,19 +35,14 @@
             <artifactId>jasperreports</artifactId>
             <version>6.20.6</version>
             <type>jar</type>
-        </dependency>        
+        </dependency>
+                
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <version>7.0.6</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports-pdf</artifactId>
-            <version>7.0.6</version>
-            <scope>compile</scope>
-        </dependency>
+            <version>6.8.1</version>
+        </dependency>        
+        
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>

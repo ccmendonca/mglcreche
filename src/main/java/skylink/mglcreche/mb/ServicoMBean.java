@@ -5,9 +5,11 @@ import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import skylink.mglcreche.dao.AlunoDAO;
 import skylink.mglcreche.dao.ServicoDAO;
@@ -31,6 +33,8 @@ public class ServicoMBean implements Serializable {
 
     @Inject
     FacesContext facesContext;
+    @Inject
+    GestorImpressao gestorImpressao;
     
     @PostConstruct
     public void inicializar() {
@@ -144,4 +148,12 @@ public class ServicoMBean implements Serializable {
     public void setAlunoDAO(AlunoDAO alunoDAO) {
         this.alunoDAO = alunoDAO;
     }
+    
+     public void imprimirListaServicos(ActionEvent event) {
+        String relatorio = "lista_dos_servicos.jasper";
+        HashMap parametros = new HashMap();
+        gestorImpressao.imprimirPDF(relatorio, parametros);
+      
+    }
+    
 }
