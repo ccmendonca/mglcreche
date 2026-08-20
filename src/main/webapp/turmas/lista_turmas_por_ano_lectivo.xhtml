@@ -32,7 +32,7 @@
 
                                     <p:commandLink id="idTurma" value="#{item.idTurma}" action="alunos_da_turma.xhtml?faces-redirect=true" actionListener="#{turmaBean.carregarTurmaEstudantes(item.idTurma)}">
                                         <f:setPropertyActionListener target="#{turmaBean.turma}" value="#{item}"/>
-                                        
+                                
                                     </p:commandLink>
                                      <p:tooltip id="toolTipFade" for="idTurma"
                                                value="Clique para ver os alunos da Turma." />

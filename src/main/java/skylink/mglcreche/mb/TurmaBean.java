@@ -1,9 +1,13 @@
 package skylink.mglcreche.mb;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.DataModel;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.model.ArrayDataModel;
 import jakarta.faces.view.ViewScoped;
+
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import skylink.mglcreche.modelo.Turma;
@@ -18,13 +22,14 @@ import java.io.Serializable;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import skylink.mglcreche.dao.MatriculaDAO;
 import skylink.mglcreche.modelo.Matricula;
 
 @Named(value = "turmaBean")
-@ViewScoped
+@SessionScoped
 public class TurmaBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(TurmaBean.class.getName());
@@ -49,6 +54,12 @@ public class TurmaBean implements Serializable {
     private Matricula matricula = new Matricula();
     private String filtroDescricao;
     private Integer idTurma;
+    @Inject
+    GestorImpressao gestorImpressao;
+   
+    public TurmaBean() {
+        new ArrayDataModel<Matricula>();
+    }
 
     @PostConstruct
     public void inicializar() {
@@ -159,6 +170,8 @@ public class TurmaBean implements Serializable {
         }
     }
 
+    
+    
     public String editar() {
         if (turmaSelecionada == null) {
             addMensagem(FacesMessage.SEVERITY_WARN, "Aviso", "Seleccione uma turma para editar.");
@@ -185,6 +198,17 @@ public class TurmaBean implements Serializable {
         salas = salaDAO.findAll();
     }
 
+    
+    public void imprimirListaEstudantesDaTurma(Integer valor) {
+         String relatorio = "turma.jasper";
+        HashMap parametros = new HashMap();
+         parametros.put("ID_TURMA", valor);
+
+        gestorImpressao.imprimirPDF(relatorio, parametros);
+
+    }
+    
+    
     public Turma getTurma() {
         return turma;
     }
