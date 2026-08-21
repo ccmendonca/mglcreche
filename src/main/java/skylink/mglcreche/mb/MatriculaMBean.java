@@ -1,4 +1,3 @@
-
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
@@ -20,7 +19,6 @@ import skylink.mglcreche.modelo.FormaPagamento;
 import skylink.mglcreche.modelo.Matricula;
 import skylink.mglcreche.modelo.Turma;
 
-
 @Named(value = "matriculaMBean")
 @SessionScoped
 public class MatriculaMBean implements Serializable {
@@ -28,7 +26,7 @@ public class MatriculaMBean implements Serializable {
     private Matricula matricula = new Matricula();
     private MatriculaDAO matriculaDAO = new MatriculaDAO();
     private List<Matricula> matriculas = new ArrayList<>();
-      private List<Matricula> matriculasEntreDatas = new ArrayList<>();
+    private List<Matricula> matriculasEntreDatas = new ArrayList<>();
     private Turma turma = new Turma();
     private TurmaDAO turmaDAO = new TurmaDAO();
     private List<Turma> turmas = new ArrayList<>();
@@ -38,14 +36,16 @@ public class MatriculaMBean implements Serializable {
     private Date dataInicio, dataFim;
     @Inject
     FacesContext facesContext;
-    
+    @Inject
+    GestorImpressao gestorImpressao;
+
     @PostConstruct
-    public void inicializar(){
+    public void inicializar() {
         formaPagamentos = formaPagamentoDAO.findAll();
         turmas = turmaDAO.findAll();
         matriculasEntreDatas = matriculaDAO.findAllMatriculasEntreDatas();
     }
-    
+
     public void registarMatricula() {
         if (matriculaDAO.save(matricula)) {
             FacesMessage info = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Matrícula criada com sucesso!");
@@ -65,9 +65,6 @@ public class MatriculaMBean implements Serializable {
         this.matriculasEntreDatas = matriculasEntreDatas;
     }
 
-    
-    
-    
     public Matricula getMatricula() {
         return matricula;
     }
@@ -163,43 +160,38 @@ public class MatriculaMBean implements Serializable {
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
-    
-    
-      public String imprimirDiarioInscricoes() {
+
+    public String imprimirDiarioInscricoes() {
         String relatorio = "inscricoes_diario.jasper";
         HashMap parametros = new HashMap();
         parametros.put("dataInicio", dataInicio);
         parametros.put("dataFim", dataFim);
-      //  gestorImpressao.visualizarPDF(relatorio, parametros);
+        //  gestorImpressao.visualizarPDF(relatorio, parametros);
         return null;
     }
-    
+
     public void listaDiariosInscricoes(ActionEvent event) {
 
-     //   inscricaos = inscricaoService.findInscricoesEntreDatasDiario(dataInicio, dataFim);
-
+        //   inscricaos = inscricaoService.findInscricoesEntreDatasDiario(dataInicio, dataFim);
     }
-    
-    
-    public void imprimirReciboMatricula(Long idIscricao) {
-        String relatorio = "recibo_inscricao.jasper";
+
+    public void imprimirReciboMatricula(Integer idMatricula) {
+        String relatorio = "recibo_matricula.jasper";
         HashMap parametros = new HashMap();
-        Integer numeroRecibo = idIscricao.intValue();
-        parametros.put("NUMERO_RECIBO", numeroRecibo);
-   //     gestorImpressao.imprimirPDF(relatorio, parametros);
-       //  gestorImpressao.visualizarPDF(relatorio, parametros);
+
+        parametros.put("NUMERO_RECIBO", idMatricula);
+       gestorImpressao.imprimirPDF(relatorio, parametros);
+        
 
     }
-    
-    
+
     public void downloadReciboMatricula(Long idIscricao) {
         String relatorio = "recibo_inscricao_download.jasper";
         HashMap parametros = new HashMap();
         Integer numeroRecibo = idIscricao.intValue();
         parametros.put("NUMERO_RECIBO", numeroRecibo);
-     //   gestorImpressao.downloadPDF(relatorio, parametros, numeroRecibo);
+        //   gestorImpressao.downloadPDF(relatorio, parametros, numeroRecibo);
 
     }
 
-    
 }
