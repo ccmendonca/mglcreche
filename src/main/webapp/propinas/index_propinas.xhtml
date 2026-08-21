@@ -5,23 +5,28 @@
                 template="./../WEB-INF/templates/propinas_template.xhtml">
 
 
-    
-            <ui:define name="left">
 
-                <h3>#{app.gestaopropinas}</h3>
-                <ul>
-                    <li><a href="../index.faces">&#x1F3E0;#{sis.home}</a></li>
-                    <li><a href="propinas_pagamento_busca_aluno.faces">&#x1F3F8;#{app.pagarpropina}</a></li>
-                    <li><a href="pagamento_propinas_lista_todos.faces">📊 #{app.propinaspagas}</a></li>
-                </ul>
+    <ui:define name="left">
 
-            </ui:define>
+        <h3>#{app.gestaopropinas}</h3>
+        <ul>
+            <li><a href="../index.faces">&#x1F3E0;#{sis.home}</a></li>
+            <li><a href="propinas_pagamento_busca_aluno.faces">&#x1F3F8;#{app.pagarpropina}</a></li>
+            <li><a href="pagamento_propinas_lista_todos.faces">📊 #{app.propinaspagas}</a></li>
+        </ul>
+
+    </ui:define>
 
 
 
     <ui:define name="content">
-        <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-        <p style="text-align: center; font-size: 2rem;">#{app.gestaopropinas}</p>
+
+        <div class="home-container">
+            <div class="home-item">
+                <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
+                #{app.gestaopropinas}
+            </div>
+        </div>
     </ui:define>
 
 

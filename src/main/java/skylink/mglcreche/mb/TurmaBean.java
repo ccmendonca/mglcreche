@@ -56,7 +56,7 @@ public class TurmaBean implements Serializable {
     private Integer idTurma;
     @Inject
     GestorImpressao gestorImpressao;
-   
+
     public TurmaBean() {
         new ArrayDataModel<Matricula>();
     }
@@ -149,9 +149,8 @@ public class TurmaBean implements Serializable {
     }
 
     public void carregarTurmaEstudantes(Integer idTurma) {
-      
+
         alunosDaTurma = matriculaDAO.findAllAlunosTurma(idTurma);
-       
 
     }
 
@@ -170,8 +169,6 @@ public class TurmaBean implements Serializable {
         }
     }
 
-    
-    
     public String editar() {
         if (turmaSelecionada == null) {
             addMensagem(FacesMessage.SEVERITY_WARN, "Aviso", "Seleccione uma turma para editar.");
@@ -198,17 +195,14 @@ public class TurmaBean implements Serializable {
         salas = salaDAO.findAll();
     }
 
-    
     public void imprimirListaEstudantesDaTurma(Integer valor) {
-         String relatorio = "turma.jasper";
+        String relatorio = "turma.jasper";
         HashMap parametros = new HashMap();
-         parametros.put("ID_TURMA", valor);
-
+        parametros.put("ID_TURMA", valor);
         gestorImpressao.imprimirPDF(relatorio, parametros);
 
     }
-    
-    
+
     public Turma getTurma() {
         return turma;
     }

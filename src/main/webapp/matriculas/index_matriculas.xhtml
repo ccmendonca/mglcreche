@@ -12,15 +12,20 @@
         <h3>Menu Gestão das matriculas</h3>
         <ul>
             <li><a href="../index.faces">&#x1F3E0;Home</a></li>  
-             <li><a href="propinas_pagamento_busca_aluno.faces">&#x1F3F8;#{app.pagarpropina}</a></li>
+            <li><a href="listagem_geral.faces">&#x1F3F8;#{app.gestaomatriculas}</a></li>
 
         </ul>
 
     </ui:define>
             
             <ui:define name="content">
-                <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-                <p style="text-align: center; font-size: 2rem;">Gestão das matriculas</p>
+               
+                 <div class="home-container">
+                    <div class="home-item">
+                            <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
+                        #{app.gestaomatriculas}
+                    </div>
+                </div>
             </ui:define>
 
         </ui:composition>

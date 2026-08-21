@@ -5,12 +5,22 @@
                 template="./../WEB-INF/templates/notas_template.xhtml"
                 xmlns:h="jakarta.faces.html">
 
-   
+
 
     <ui:define name="left">
         <h2>
-        <h:link outcome="lancamento_notas_inicio" value="Lançar notas"/>
+            <h:link outcome="lancamento_notas_inicio" value="Lançar notas"/>
         </h2>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="home-container">
+            <div class="home-item">
+                <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
+                #{app.gestaodenotas}
+            </div>
+        </div>
     </ui:define>
 
 
