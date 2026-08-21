@@ -29,6 +29,8 @@ public class MatriculaDAO {
     public static final String SELECT_BETEEWN_DATES = "SELECT * FROM matricula WHRE data_matricula BETWEEN ? AND ?";
     private static final String SELECT_FORMA_PAGAMENTO = "SELECT id_forma_pagamento FROM propina where id_propina = ?";
     public static final String SELECT_ESTUDANTES_BY_ID_TURMA = "SELECT a.id_aluno, a.nome_aluno, a.sobrenome_aluno FROM aluno a INNER JOIN matricula m ON a.id_aluno= m.id_aluno INNER JOIN turma t ON m.id_turma =t.id_turma  WHERE t.id_turma = ?";
+    public static final String SELECT_MATRICULAS_ENTRE_DATAS ="SELECT id_matricula, data_matricula, aluno.id_aluno, nome_aluno,sobrenome_aluno, turma.id_turma, turma.codigo_turma, descricao_forma_pagamento, descricao_status_matricula FROM mglcreche.matricula INNER JOIN aluno on matricula.id_aluno=aluno.id_aluno INNER JOIN turma ON matricula.id_turma = turma.id_turma INNER JOIN forma_pagamento ON matricula.id_forma_pagamento=forma_pagamento.id_forma_pagamento INNER JOIN status_matricula ON matricula.id_status_matricula = status_matricula.id_status_matricula";
+    
     
     private static final String SELECT_MATRICULAS_REALIZADAS=" SELECT mglcreche.forma_pagamento.descricao_forma_pagamento, mglcreche.matricula.id_matricula, mglcreche.matricula.data_matricula, mglcreche.aluno.nome_aluno, mglcreche.aluno.sobrenome_aluno,mglcreche.aluno.numero_bi_cedula,mglcreche.aluno.numero_passaporte,mglcreche.aluno.casa_aluno,mglcreche.aluno.rua_aluno, mglcreche.aluno.bairro_aluno,  mglcreche.responsavel_busca_aluno.nome_responsavel, mglcreche.responsavel_busca_aluno.sobrenome_responsavel,  mglcreche.responsavel_busca_aluno.telefone_responsavel,mglcreche.responsavel_busca_aluno.email_responsavel, nome_municipio,turma.id_turma, turma.codigo_turma, matricula.observacoes FROM mglcreche.matricula	INNER JOIN mglcreche.aluno ON 	 mglcreche.matricula.id_aluno = mglcreche.aluno.id_aluno     INNER JOIN cadastro_responsavel_busca ON aluno.id_aluno=cadastro_responsavel_busca.id_aluno     INNER JOIN responsavel_busca_aluno ON cadastro_responsavel_busca.id_responsavel=responsavel_busca_aluno.id_responsavel     INNER JOIN turma ON matricula.id_turma=turma.id_turma	INNER JOIN mglcreche.forma_pagamento ON 	 mglcreche.matricula.id_forma_pagamento = mglcreche.forma_pagamento.id_forma_pagamento 	Inner JOin municipio ON 	 municipio.id_municipio = mglcreche.aluno.id_municipio	 WHERE mglcreche.matricula.id_matricula = 1";    
     
@@ -86,10 +88,9 @@ public class MatriculaDAO {
         List<Matricula> matriculas = new ArrayList<>();
 
         try {
-            conn = ConnectionDB.getConnection();
+             conn = ConnectionDB.getConnection();
             ps = conn.prepareStatement(SELECT_ALL);
-            ps.executeQuery();
-
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Matricula matricula = new Matricula();
                 popularDados(matricula, rs);
@@ -105,6 +106,28 @@ public class MatriculaDAO {
         return matriculas;
     }
 
+    
+     public List<Matricula> findAllMatriculasEntreDatas() {
+        List<Matricula> matriculas = new ArrayList<>();
+
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_MATRICULAS_ENTRE_DATAS);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Matricula matricula = new Matricula();
+                popularDados(matricula, rs);
+                matriculas.add(matricula);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao carregar dados da base de dados: " + e.getLocalizedMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, ps, rs);
+        }
+
+        return matriculas;
+    }
     
     public List<Matricula> findAllMatriculasRealizadas() {
         List<Matricula> matriculas = new ArrayList<>();

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+    <body>
+
+               <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
+
+
+
+
+            <ui:define name="content">
+                <p:panel header="Diário de contas entre datas">
+                <h:form id="frmpesquisa" style="margin: 4px auto">
+                    <h:panelGrid columns="4">
+                    <p:datePicker value="#{matriculaMBean.dataInicio}" title="Data de início" pattern="dd/MM/yyyy" placeholder="Data de início" required="true" requiredMessage="Campo obrigatório"/>
+                    <p:datePicker value="#{matriculaMBean.dataFim}" title="Data de Fim" pattern="dd/MM/yyyy" placeholder="Data final" required="true" requiredMessage="Campo obrigatório"/>
+                    <p:commandButton value="Pesquisar" actionListener="#{matriculaMBean.listaDiariosInscricoes}" update=":frmInscricoes:tblInscricoes"/>
+                    <p:commandButton value="Imprimir diário" action="#{matriculaMBean.imprimirDiarioInscricoes}" ajax="false"/>
+                    </h:panelGrid>
+                </h:form>
+               </p:panel>
+                <h:form id="frmInscricoes">
+                    <p:dataTable id="tblInscricoes" value="#{matriculaMBean.matriculasEntreDatas}" var="item"  emptyMessage="Nenhum registo encontrado" >
+
+                        <p:headerRow field="idMatricula"
+                                     expandable="true" >
+
+                            <p:column colspan="6">
+                                <div class="inline-flex align-items-center" style="vertical-align: middle">
+                                    <h:panelGrid columns="1" cellspacing="4px">
+                                        <h:outputText value="Recibo N.º: #{item.idMatricula}"/>
+
+                                        <h:outputText value="#{item.aluno.nomeAluno} #{item.aluno.nomeAluno}"/>    
+                                        <h:outputText value="#{item.dataMatricula}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                        </h:outputText>
+                                    </h:panelGrid>
+                                </div>
+                            </p:column>
+                        </p:headerRow>
+
+
+
+
+                        <p:column headerText="Turma">
+                            <h:outputText value="#{item.formaPagamento.descricaoFormaPagamento}"/>                            
+                        </p:column>
+                      
+                        <p:column headerText="Forma de pagamento">
+                            <h:outputText value="#{item.formaPagamento.descricaoFormaPagamento}"/>                            
+                        </p:column>
+
+                        <p:summaryRow>
+                            <p:column colspan="5" style="text-align:right">
+                                <h:outputText value=""/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value=""/>
+                            </p:column>
+                        </p:summaryRow>
+
+
+
+                    </p:dataTable>
+
+                </h:form>
+                
+               
+            </ui:define>
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -5,10 +5,13 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Named;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import skylink.mglcreche.dao.FormaPagamentoDAO;
 import skylink.mglcreche.dao.MatriculaDAO;
@@ -25,13 +28,14 @@ public class MatriculaMBean implements Serializable {
     private Matricula matricula = new Matricula();
     private MatriculaDAO matriculaDAO = new MatriculaDAO();
     private List<Matricula> matriculas = new ArrayList<>();
+      private List<Matricula> matriculasEntreDatas = new ArrayList<>();
     private Turma turma = new Turma();
     private TurmaDAO turmaDAO = new TurmaDAO();
     private List<Turma> turmas = new ArrayList<>();
     private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
     private List<FormaPagamento> formaPagamentos = new ArrayList();
     private FormaPagamento formapagamento = new FormaPagamento();
-    
+    private Date dataInicio, dataFim;
     @Inject
     FacesContext facesContext;
     
@@ -39,6 +43,7 @@ public class MatriculaMBean implements Serializable {
     public void inicializar(){
         formaPagamentos = formaPagamentoDAO.findAll();
         turmas = turmaDAO.findAll();
+        matriculasEntreDatas = matriculaDAO.findAllMatriculasEntreDatas();
     }
     
     public void registarMatricula() {
@@ -52,6 +57,17 @@ public class MatriculaMBean implements Serializable {
 
     }
 
+    public List<Matricula> getMatriculasEntreDatas() {
+        return matriculasEntreDatas;
+    }
+
+    public void setMatriculasEntreDatas(List<Matricula> matriculasEntreDatas) {
+        this.matriculasEntreDatas = matriculasEntreDatas;
+    }
+
+    
+    
+    
     public Matricula getMatricula() {
         return matricula;
     }
@@ -131,5 +147,59 @@ public class MatriculaMBean implements Serializable {
     public void setFormapagamento(FormaPagamento formapagamento) {
         this.formapagamento = formapagamento;
     }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
+    }
+    
+    
+      public String imprimirDiarioInscricoes() {
+        String relatorio = "inscricoes_diario.jasper";
+        HashMap parametros = new HashMap();
+        parametros.put("dataInicio", dataInicio);
+        parametros.put("dataFim", dataFim);
+      //  gestorImpressao.visualizarPDF(relatorio, parametros);
+        return null;
+    }
+    
+    public void listaDiariosInscricoes(ActionEvent event) {
+
+     //   inscricaos = inscricaoService.findInscricoesEntreDatasDiario(dataInicio, dataFim);
+
+    }
+    
+    
+    public void imprimirReciboMatricula(Long idIscricao) {
+        String relatorio = "recibo_inscricao.jasper";
+        HashMap parametros = new HashMap();
+        Integer numeroRecibo = idIscricao.intValue();
+        parametros.put("NUMERO_RECIBO", numeroRecibo);
+   //     gestorImpressao.imprimirPDF(relatorio, parametros);
+       //  gestorImpressao.visualizarPDF(relatorio, parametros);
+
+    }
+    
+    
+    public void downloadReciboMatricula(Long idIscricao) {
+        String relatorio = "recibo_inscricao_download.jasper";
+        HashMap parametros = new HashMap();
+        Integer numeroRecibo = idIscricao.intValue();
+        parametros.put("NUMERO_RECIBO", numeroRecibo);
+     //   gestorImpressao.downloadPDF(relatorio, parametros, numeroRecibo);
+
+    }
+
     
 }
