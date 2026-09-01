@@ -11,9 +11,30 @@
         <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
 
             <ui:define name="content">
+                 <div class="caixa_retangular">
+                    <div class="caixa_retangular_item">
+                     N.º do aluno:
+                    #{matriculaMBean.matricula.aluno.idAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                     Nome:
+                    #{matriculaMBean.matricula.aluno.nomeAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                    Sobrenome:
+                    #{matriculaMBean.matricula.aluno.sobrenomeAluno}
+                    </div>
+                     <div class="caixa_retangular_item">
+                    Data de Nascimento:
+                    #{matriculaMBean.matricula.aluno.dataNascimentoAluno}
+                    </div>
+                    
+                 </div>
                 <p:panel header="Serviços Seleccionados">
 
                     <p:dataTable var="item" value="#{cestoMatriculaDetalheMBean.cesto}" emptyMessage="Nenhum serviço seleccionado">
+                        
+                        
                         <p:column headerText="Serviço">
                             <h:outputText value="#{item.servico.descricaoServico}"/>
                         </p:column>
@@ -23,7 +44,7 @@
                         </p:column>
 
                         <p:column headerText="Sub Total">
-                            <h:outputText value="#{item.precoServico * 1}">
+                            <h:outputText value="#{item.precoServico * item.quantidadeServico}">
                                 <f:convertNumber pattern="#,##0.00" currencySymbol="KZ"/>
                             </h:outputText>
                         </p:column>

@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Aluno;
+import skylink.mglcreche.modelo.GrupoSanguineo;
 import skylink.mglcreche.modelo.MesPropina;
+import skylink.mglcreche.modelo.Municipio;
+import skylink.mglcreche.modelo.Sexo;
 
 public class MesPropinaDAO {
 
@@ -183,11 +186,16 @@ public class MesPropinaDAO {
     public void popularAluno(Aluno aluno, ResultSet rs) {
         try {
 
-            aluno.setIdAluno(rs.getInt("id_aluno"));
+             aluno.setIdAluno(rs.getInt("id_aluno"));
             aluno.setNomeAluno(rs.getString("nome_aluno"));
             aluno.setSobrenomeAluno(rs.getString("sobrenome_aluno"));
             aluno.setDataNascimentoAluno(rs.getDate("data_nascimento_aluno"));
-            aluno.setGrauSanguineoAluno(rs.getString("grupo_sanguineo_aluno"));
+            GrupoSanguineo grupoSanguineo = new GrupoSanguineo();
+            grupoSanguineo.setDescricaoGrupoSanguineo(rs.getString("descricao_grupo_sanguineo"));
+            aluno.setGrupoSanguineo(grupoSanguineo);
+            Sexo sexo = new Sexo();
+            sexo.setDescricaoSexo(rs.getString("descricao_sexo"));
+            aluno.setSexo(sexo);
             aluno.setCasaAluno(rs.getString("casa_aluno"));
             aluno.setRuaAluno(rs.getString("rua_aluno"));
             aluno.setBairroAluno(rs.getString("bairro_aluno"));
@@ -197,10 +205,12 @@ public class MesPropinaDAO {
             aluno.setNomePaiAluno(rs.getString("nome_pai_aluno"));
             aluno.setSobrenomePaiAluno(rs.getString("sobrenome_pai_aluno"));
             aluno.setTelefonePaiAluno(rs.getString("telefone_pai_aluno"));
-            aluno.setDataRegistoAluno(rs.getDate("data_registo_aluno"));
+            Municipio municipio = new Municipio();
+            municipio.setNomeMunicipio(rs.getString("nome_municipio"));
+            aluno.setMunicipio(municipio);
 
         } catch (SQLException ex) {
-            System.err.println("Error on fill data Cliente: " + ex.getLocalizedMessage());
+            System.err.println("Error on fill data Aluno: " + ex.getLocalizedMessage());
         }
 
     }

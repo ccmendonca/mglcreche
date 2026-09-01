@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
+import skylink.mglcreche.modelo.CategoriaServico;
 import skylink.mglcreche.modelo.Servico;
 
 /**
@@ -19,8 +20,9 @@ public class ServicoDAO {
     public static final String INSERT = "INSERT INTO servico (descricao_servico, preco_servico) VALUES (?,?)";
     public static final String UPDATE = "UPDATE servico SET descricao_servico = ?, preco_servico = ? WHERE id_servico = ?";
     public static final String DELETE = "DELETE FROM servico WHERE id_servico = ? ";
-    public static final String SELECT_ALL = "SELECT * FROM servico";
-    public static final String SELECT_BY_ID = "SELECT * FROM servico WHERE id_servico = ? ";
+    public static final String SELECT_ALL = "SELECT id_servico, descricao_servico, preco_servico, descricao_categoria_servico FROM servico INNER JOIN categoria_servico ON servico.id_categoria_servico=categoria_servico.id_categoria_servico";
+    public static final String SELECT_BY_ID = "SELECT id_servico, descricao_servico, preco_servico, descricao_categoria_servico FROM servico INNER JOIN categoria_servico ON servico.id_categoria_servico=categoria_servico.id_categoria_servico WHERE id_servico = ? ";
+    public static final String SELECT_BY_ID_CATEGORIA = "SELECT id_servico, descricao_servico, preco_servico, descricao_categoria_servico FROM servico INNER JOIN categoria_servico ON servico.id_categoria_servico=categoria_servico.id_categoria_servico WHERE categoria_servico.id_categoria_servico = ? ";
 
     Connection conn = null;
     PreparedStatement ps = null;
@@ -33,6 +35,8 @@ public class ServicoDAO {
             servico.setIdServico(rs.getInt("id_servico"));
             servico.setDescricaoServico(rs.getString("descricao_servico"));
             servico.setPrecoServico(rs.getDouble("preco_servico"));
+            CategoriaServico categoriaServico = new CategoriaServico();
+            categoriaServico.setDescricaoCategoriaServico(rs.getString("descricao_categoria_servico"));
             
         } catch (SQLException e) {
             System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
@@ -137,9 +141,31 @@ public class ServicoDAO {
         
         return servicos;
     }
-    
-    public List<Servico> findById(Integer id){
+    public List<Servico> findServicosByIdCategoria(Integer id){
         List<Servico> servicos = new ArrayList<>();
+        
+        try {
+            conn = ConnectionDB.getConnection();
+            ps = conn.prepareStatement(SELECT_BY_ID_CATEGORIA);
+             ps.setInt(1, id);
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                
+                Servico servico = new Servico();
+                popularDados(servico, rs);
+                servicos.add(servico);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao carregar dados da base de dados: " + e.getLocalizedMessage());
+        }finally{
+            ConnectionDB.closeConnection(conn, ps);
+        }
+        
+        return servicos;
+    }
+    public Servico findById(Integer id){
+    
         Servico servico = new Servico();
         
         try {
@@ -159,7 +185,7 @@ public class ServicoDAO {
         }finally{
             ConnectionDB.closeConnection(conn, ps, rs);
         }
-            return servicos;
+            return servico;
         
     }
 

@@ -11,21 +11,31 @@
         <ui:composition template="./../WEB-INF/templates/matriculas_templete.xhtml">
 
             <ui:define name="content">
-                <h:form style="font-size: 2rem">
-
+                <div class="caixa_retangular">
+                    <div class="caixa_retangular_item">
+                     N.º do aluno:
+                    #{matriculaMBean.matricula.aluno.idAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                     Nome:
                     #{matriculaMBean.matricula.aluno.nomeAluno}
-
+                    </div>
+                    <div class="caixa_retangular_item">
+                    Sobrenome:
                     #{matriculaMBean.matricula.aluno.sobrenomeAluno}
-                    <p:outputLabel value="Data de nascimento" for="nascimento" />
-                    <p:inputText id="nascimento" value="#{matriculaMBean.matricula.aluno.dataNascimentoAluno}" readonly="true">
-                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                 </p:inputText> 
-                        <hr/>
-                </h:form>
+                    </div>
+                     <div class="caixa_retangular_item">
+                    Data de Nascimento:
+                    #{matriculaMBean.matricula.aluno.dataNascimentoAluno}
+                    </div>
+                    
+                 </div>
 
                 <h:form id="mesesseleccionados">
                     <h:messages showDetail="true"/>
-                    <p:dataTable id="dtblservicos" var="item" value="#{servicoMBean.servicos}" scrollable="true" scrollHeight="600" lazy="false">
+                    <p:dataTable id="dtblservicos" var="item" value="#{servicoMBean.servicosMatriculas}" scrollable="true" scrollHeight="600" lazy="false">
+                        
+
                         <p:column headerText="Serviço">
                             <h:outputText value="#{item.descricaoServico}"/>
                         </p:column>

@@ -1,4 +1,3 @@
-
 package skylink.mglcreche.dao;
 
 import java.sql.Connection;
@@ -12,7 +11,8 @@ import skylink.mglcreche.modelo.EixoCurricularDisciplina;
 import skylink.mglcreche.modelo.GrauParentesco;
 
 public class EixoCurricularDisciplinaDAO {
-      private static final String INSERT = "INSERT INTO eixo_curricular_disciplina(descricao_eixo_curricular) VALUES (?)";
+
+    private static final String INSERT = "INSERT INTO eixo_curricular_disciplina(descricao_eixo_curricular) VALUES (?)";
     private static final String UPDATE = "UPDATE eixo_curricular_disciplina SET descricao_eixo_curricular = ?  WHERE id_eixo_curricular = ?";
     private static final String DELETE = "DELETE FROM disciplina WHERE id_disciplina = ?";
     private static final String BUSCAR_POR_CODIGO = "SELECT id_eixo_curricular, descricao_eixo_curricular FROM eixo_curricular_disciplina WHERE id_eixo_curricular =?";

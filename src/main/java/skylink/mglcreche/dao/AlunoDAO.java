@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
 import skylink.mglcreche.modelo.Aluno;
+import skylink.mglcreche.modelo.GrupoSanguineo;
 import skylink.mglcreche.modelo.Municipio;
 import skylink.mglcreche.modelo.Sexo;
 
 public class AlunoDAO implements Serializable {
 
-    public static final String INSERT = "INSERT INTO aluno (nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, id_sexo, id_municipio) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static final String INSERT = "INSERT INTO aluno (nome_aluno, sobrenome_aluno, data_nascimento_aluno, id_grupo_sanguineo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, id_sexo, id_municipio) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String UPDATE = "UPDATE aluno SET nome_aluno = ?, sobrenome_aluno = ?, data_nascimento_aluno = ?, grupo_sanguineo_aluno = ?, casa_aluno = ?, rua_aluno = ?, bairro_aluno = ?, nome_mae_aluno = ?, sobrenome_mae_aluno = ?, telefone_mae_aluno = ?, nome_pai_aluno = ?, sobrenome_pai_aluno = ?, telefone_pai_aluno = ?, id_sexo = ?, id_municipio = ? WHERE id_aluno = ?";
     public static final String DELETE = "DELETE FROM aluno WHERE id_aluno = ? ";
-    public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio";
+    public static final String SELECT_ALL = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, descricao_grupo_sanguineo, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio INNER JOIN grupo_sanguineo ON aluno.id_grupo_sanguineo=grupo_sanguineo.id_grupo_sanguineo";
     public static final String SELECT_BY_ID = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno = ? ";
-    public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, grupo_sanguineo_aluno, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
+    public static final String SELECT_BY_PARAMETER = "SELECT id_aluno, nome_aluno, sobrenome_aluno, data_nascimento_aluno, descricao_grupo_sanguineo, descricao_sexo, casa_aluno, rua_aluno, bairro_aluno, nome_mae_aluno, sobrenome_mae_aluno, telefone_mae_aluno, nome_pai_aluno, sobrenome_pai_aluno, telefone_pai_aluno, nome_municipio FROM aluno INNER JOIN sexo ON aluno.id_sexo=sexo.id_sexo INNER JOIN municipio ON aluno.id_municipio=municipio.id_municipio INNER JOIN grupo_sanguineo ON aluno.id_grupo_sanguineo=grupo_sanguineo.id_grupo_sanguineo WHERE id_aluno LIKE ? OR nome_aluno LIKE ? OR sobrenome_aluno LIKE ?";
     public static final String SELECT_ESTUDANTES_BY_ID_TURMA = "SELECT a.id_aluno, a.nome_aluno, a.sobrenome_aluno FROM aluno a INNER JOIN matricula m ON a.id_aluno= m.id_aluno INNER JOIN turma t ON m.id_turma =t.id_turma  WHERE t.id_turma = ?";
     
     Connection conn = null;
@@ -33,11 +34,12 @@ public class AlunoDAO implements Serializable {
             aluno.setNomeAluno(rs.getString("nome_aluno"));
             aluno.setSobrenomeAluno(rs.getString("sobrenome_aluno"));
             aluno.setDataNascimentoAluno(rs.getDate("data_nascimento_aluno"));
-            aluno.setGrauSanguineoAluno(rs.getString("grupo_sanguineo_aluno"));
+            GrupoSanguineo grupoSanguineo = new GrupoSanguineo();
+            grupoSanguineo.setDescricaoGrupoSanguineo(rs.getString("descricao_grupo_sanguineo"));
+            aluno.setGrupoSanguineo(grupoSanguineo);
             Sexo sexo = new Sexo();
             sexo.setDescricaoSexo(rs.getString("descricao_sexo"));
             aluno.setSexo(sexo);
-            aluno.setGrauSanguineoAluno(rs.getString("grupo_sanguineo_aluno"));
             aluno.setCasaAluno(rs.getString("casa_aluno"));
             aluno.setRuaAluno(rs.getString("rua_aluno"));
             aluno.setBairroAluno(rs.getString("bairro_aluno"));
@@ -78,7 +80,7 @@ public class AlunoDAO implements Serializable {
             ps.setString(1, aluno.getNomeAluno());
             ps.setString(2, aluno.getSobrenomeAluno());
             ps.setDate(3, new java.sql.Date(aluno.getDataNascimentoAluno().getTime()));
-            ps.setString(4, aluno.getGrauSanguineoAluno());
+             ps.setInt(4, aluno.getGrupoSanguineo().getIdGrupoSanguineo());
             ps.setString(5, aluno.getCasaAluno());
             ps.setString(6, aluno.getRuaAluno());
             ps.setString(7, aluno.getBairroAluno());
@@ -116,7 +118,7 @@ public class AlunoDAO implements Serializable {
             ps.setString(1, aluno.getNomeAluno());
             ps.setString(2, aluno.getSobrenomeAluno());
             ps.setDate(3, new java.sql.Date(aluno.getDataNascimentoAluno().getTime()));
-            ps.setString(4, aluno.getGrauSanguineoAluno());
+            ps.setInt(4, aluno.getGrupoSanguineo().getIdGrupoSanguineo());
             ps.setString(5, aluno.getCasaAluno());
             ps.setString(6, aluno.getRuaAluno());
             ps.setString(7, aluno.getBairroAluno());
@@ -181,7 +183,7 @@ public class AlunoDAO implements Serializable {
                 alunos.add(aluno);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao carregar dados da base de dados: " + e.getLocalizedMessage());
+            System.err.println("findAll ->Erro ao carregar dados da base de dados: " + e.getLocalizedMessage());
         } finally {
             ConnectionDB.closeConnection(conn);
         }
@@ -255,7 +257,7 @@ public class AlunoDAO implements Serializable {
             }
 
         } catch (SQLException ex) {
-            System.err.println("Erro ao carregar dados da base de dados: " + ex.getLocalizedMessage());
+            System.err.println("aleatoryAlunos =>Erro ao carregar dados da base de dados: " + ex.getLocalizedMessage());
         } finally {
             ConnectionDB.closeConnection(conn);
         }

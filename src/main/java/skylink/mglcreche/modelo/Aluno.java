@@ -17,7 +17,7 @@ public class Aluno implements Serializable{
     private String nomeAluno;
     private String sobrenomeAluno;
     private Date dataNascimentoAluno;
-    private String grauSanguineoAluno;
+    private GrupoSanguineo grupoSanguineo;
     private String casaAluno;
     private String ruaAluno;
     private String bairroAluno;
@@ -63,13 +63,15 @@ public class Aluno implements Serializable{
         this.dataNascimentoAluno = dataNascimentoAluno;
     }
 
-    public String getGrauSanguineoAluno() {
-        return grauSanguineoAluno;
+    public GrupoSanguineo getGrupoSanguineo() {
+        return grupoSanguineo;
     }
 
-    public void setGrauSanguineoAluno(String grauSanguineoAluno) {
-        this.grauSanguineoAluno = grauSanguineoAluno;
+    public void setGrupoSanguineo(GrupoSanguineo grupoSanguineo) {
+        this.grupoSanguineo = grupoSanguineo;
     }
+
+
 
     public String getCasaAluno() {
         return casaAluno;
@@ -199,7 +201,9 @@ public class Aluno implements Serializable{
 
     @Override
     public String toString() {
-        return "Aluno{" + "idAluno=" + idAluno + ", nomeAluno=" + nomeAluno + ", sobrenomeAluno=" + sobrenomeAluno + ", dataNascimentoAluno=" + dataNascimentoAluno + ", grauSanguineoAluno=" + grauSanguineoAluno + ", casaAluno=" + casaAluno + ", ruaAluno=" + ruaAluno + ", bairroAluno=" + bairroAluno + ", nomeMaeAluno=" + nomeMaeAluno + ", sobrenomeMaeAluno=" + sobrenomeMaeAluno + ", telefoneMaeAluno=" + telefoneMaeAluno + ", nomePaiAluno=" + nomePaiAluno + ", sobrenomePaiAluno=" + sobrenomePaiAluno + ", telefonePaiAluno=" + telefonePaiAluno + ", dataRegistoAluno=" + dataRegistoAluno + ", sexo=" + sexo + ", municipio=" + municipio + '}';
+        return "Aluno{" + "idAluno=" + idAluno + ", nomeAluno=" + nomeAluno + '}';
     }
+
+    
     
 }

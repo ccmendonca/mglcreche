@@ -12,7 +12,8 @@
 
         <h3>Menu Gestão dos alunos</h3>
         <ul>
-            <li><a href="../index.faces">&#x1F3E0;Home</a></li>       
+            <li><a href="../index.faces">&#x1F3E0;Home</a></li>
+             
 
         </ul>
 
@@ -21,12 +22,22 @@
 
 
     <ui:define name="content">
-        <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-            <div class="home-container">
-                    <div class="home-item">
-                        #{app.gestaoalunos}
-                    </div>
-                </div>
+        <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;  #{app.gestaoalunos}</p>
+        <div class="home-container">
+            <div class="home-item">
+              
+               <a href="cadastro_aluno.faces">&#x1F3E0;Novo Aluno</a>   
+            </div>
+            <div class="home-item">
+               
+            <a href="lista_alunos.faces">&#x1F3E0;Alterar dados</a> 
+            </div>
+            <div class="home-item">
+                #{app.gestaoalunos}
+                 <li><a href="cadastro_aluno.faces">&#x1F3E0;Novo Aluno</a></li> 
+            <li><a href="lista_alunos.faces">&#x1F3E0;Alterar dados</a></li>   
+            </div>
+        </div>
     </ui:define>
 
 

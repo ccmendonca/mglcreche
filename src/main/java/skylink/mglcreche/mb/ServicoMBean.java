@@ -25,6 +25,7 @@ public class ServicoMBean implements Serializable {
 
     private ServicoDAO servicoDAO = new ServicoDAO();
     private List<Servico> servicos = new ArrayList<>();
+      private List<Servico> servicosMatriculas = new ArrayList<>();
     private Servico servico = new Servico();
     private String nomeAluno;
     private List<Aluno> alunosPesquisados;
@@ -39,6 +40,7 @@ public class ServicoMBean implements Serializable {
     @PostConstruct
     public void inicializar() {
         servicos = servicoDAO.findAll();
+        servicosMatriculas = servicoDAO.findServicosByIdCategoria(1);
     }
     
     public void pesquisaAluno() {
@@ -101,6 +103,16 @@ public class ServicoMBean implements Serializable {
         this.servicos = servicos;
     }
 
+    public List<Servico> getServicosMatriculas() {
+        return servicosMatriculas;
+    }
+
+    public void setServicosMatriculas(List<Servico> servicosMatriculas) {
+        this.servicosMatriculas = servicosMatriculas;
+    }
+
+    
+    
     public Servico getServico() {
         return servico;
     }

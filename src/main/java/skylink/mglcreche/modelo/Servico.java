@@ -15,6 +15,19 @@ public class Servico implements Serializable {
     private Integer idServico;
     private String descricaoServico;
     private Double precoServico;
+    private CategoriaServico categoriaServico;
+
+    public Servico() {
+    }
+
+    public Servico(Integer idServico, String descricaoServico, Double precoServico, CategoriaServico categoriaServico) {
+        this.idServico = idServico;
+        this.descricaoServico = descricaoServico;
+        this.precoServico = precoServico;
+        this.categoriaServico = categoriaServico;
+    }
+    
+    
 
     public Integer getIdServico() {
         return idServico;
@@ -39,6 +52,17 @@ public class Servico implements Serializable {
     public void setPrecoServico(Double precoServico) {
         this.precoServico = precoServico;
     }
+
+    public CategoriaServico getCategoriaServico() {
+        return categoriaServico;
+    }
+
+    public void setCategoriaServico(CategoriaServico categoriaServico) {
+        this.categoriaServico = categoriaServico;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {

@@ -78,7 +78,28 @@ public class CestoMatriculaDetalheMBean implements Serializable {
         }
     }
     
-    
+    public int getQuantidateItems(Servico servico) {
+        MatriculaDetalhe item;
+        int quantidadeActual = 0;
+        if (servico == null) {
+            return quantidadeActual;
+        }
+        List<MatriculaDetalhe> results = this.getItems();
+        Iterator<MatriculaDetalhe> iterator = results.iterator();
+        do {
+            if (!iterator.hasNext()) {
+                return quantidadeActual;
+            }
+        } while ((item = iterator.next()).getServico().getIdServico()!= servico.getIdServico());
+        quantidadeActual = item.getQuantidadeServico();
+        return quantidadeActual;
+    }
+
+    public synchronized List<MatriculaDetalhe> getItems() {
+        ArrayList<MatriculaDetalhe> results = new ArrayList<>();
+        results.addAll(this.cesto);
+        return results;
+    }
     
      public long totalAPagar() {
         long t = 0L;

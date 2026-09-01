@@ -153,7 +153,30 @@ body {
     text-decoration: underline;
 }
 
+
+.caixa_retangular{
+    display: flex;
+     justify-content:space-between;
+    flex-wrap: wrap ;
+    background-color: #c0c0c0;
+    font-size: 1.2em;
+
+
+}
+.caixa_retangular_item{
+
+}
+
 /* Media Queries para Responsividade */
+
+@media (max-width: 480px) {
+    .caixa_retangular{
+        display: flex;
+        flex-direction: column;
+
+
+    }
+}
 @media (max-width: 768px) {
     .container {
         grid-template-areas:
