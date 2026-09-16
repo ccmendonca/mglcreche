@@ -28,8 +28,12 @@
                                 <f:selectItems value="#{alunoBean.sexos}"  var="sx" itemValue="#{sx}"
                                                itemLabel="#{sx.descricaoSexo}" />
                             </h:selectOneRadio>
-                            <p:outputLabel value="Grupo Sanguíneo:"/>
-                            <p:inputText value="#{alunoBean.aluno.grauSanguineoAluno}" required="true"/>
+                            <p:outputLabel value="Grupo Sanguíneo:" for="gruposanguneo"/>
+                            <h:selectOneRadio id="gruposanguneo" value="#{alunoBean.aluno.grupoSanguineo}" 
+                                              converter="omnifaces.SelectItemsConverter" required="true">
+                                <f:selectItems value="#{grupoSanguineoMBean.grupoSanguineos}"  var="gs" itemValue="#{gs}"
+                                               itemLabel="#{gs.descricaoGrupoSanguineo}" />
+                            </h:selectOneRadio>
                             <p:outputLabel value="Nº Casa:"/>
                             <p:inputText value="#{alunoBean.aluno.casaAluno}" required="true"/>
                             <p:outputLabel value="Rua:"/>

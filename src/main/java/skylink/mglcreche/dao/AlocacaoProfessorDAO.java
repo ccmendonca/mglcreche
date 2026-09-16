@@ -75,7 +75,9 @@ public class AlocacaoProfessorDAO implements Serializable {
     public List<AlocacaoProfessor> findAll() throws SQLException {
         List<AlocacaoProfessor> lista = new ArrayList<>();
 
-        try (Connection conn = ConnectionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(SELECT_ALL); ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConnectionDB.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(SELECT_ALL); 
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 lista.add(mapearResultSet(rs));
