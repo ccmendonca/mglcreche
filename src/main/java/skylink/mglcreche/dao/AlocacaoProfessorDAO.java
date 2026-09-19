@@ -22,7 +22,7 @@ public class AlocacaoProfessorDAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String INSERT = "INSERT INTO alocacao_professor (carga_horaria_semanal, id_profissional, id_disciplina, id_turma, id_ano_lectivo, id_trimestre, data_registo) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+    private static final String INSERT = "INSERT INTO alocacao_professor ( carga_horaria_semanal, id_profissional, id_disciplina, id_turma, id_ano_lectivo, id_trimestre, data_registo) VALUES (?, ?, ?, ?, ?, ?, NOW())";
     private static final String UPDATE = "UPDATE alocacao_professor SET carga_horaria_semanal = ?, id_profissional = ?, id_disciplina = ?, id_turma = ?, id_ano_lectivo = ?, id_trimestre = ? WHERE id_alocacao_professor = ?";
     private static final String DELETE = "DELETE FROM alocacao_professor WHERE id_alocacao_professor = ?";
 

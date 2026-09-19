@@ -8,33 +8,32 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:p="http://primefaces.org/ui"
                 template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
-    <ui:define name="left">
 
+    <ui:define name="left">
         <h3>Menu Gestão dos responsáveis</h3>
         <ul>
-            <li><a href="../index.faces">&#x1F3E0;Home</a></li> 
+            <li><a href="../index.faces">&#x1F3E0; Home</a></li>
             <h:panelGrid columns="1">
-                
-                <p:button value="Novo responsavel" outcome="cadastro_responsavelbusca"/>
-                
-                
-                <p:button value="Listar Responsavel" outcome="lista_responsavel_busca_aluno"/>
-
+                <p:button value="Novo responsável"
+                          outcome="cadastro_responsavelbusca_aluno"
+                          icon="pi pi-user-plus" />
+                <p:button value="Registar Encarregado de Educação"
+                          outcome="cadastro_responsavel_busca"
+                          icon="pi pi-user-edit" />
+                <p:button value="Listar Responsável"
+                          outcome="lista_responsavel_busca_aluno"
+                          icon="pi pi-list" />
             </h:panelGrid>
-
         </ul>
-
     </ui:define>
 
     <ui:define name="content">
-
         <p style="text-align: center; font-size: 2rem; margin-top: 100px;">&#128209;</p>
-               <div class="home-container">
-                    <div class="home-item">
-                        #{app.gestaoencarregado}
-                    </div>
-                </div>
-
+        <div class="home-container">
+            <div class="home-item">
+                #{app.gestaoencarregado}
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

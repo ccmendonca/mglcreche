@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
+
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="formListaCadastroResponsavelBusca">
+
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+
+                        <p:panel header="Lista de Responsáveis de Busca">
+
+                            <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank">
+
+                                <p:outputLabel for="filtroAluno" value="Aluno:" />
+                                <p:inputText id="filtroAluno"
+                                             value="#{cadastroResponsavelBuscaBean.nomeAluno}"
+                                             placeholder="Nome do aluno" />
+
+                                <p:commandButton value="Pesquisar"
+                                                 action="#{cadastroResponsavelBuscaBean.pesquisa}"
+                                                 icon="pi pi-search"
+                                                 update="tabelaCadastros growl"
+                                                 process="@this filtroAluno" />
+
+                                <p:commandButton value="Limpar"
+                                                 icon="pi pi-filter-slash"
+                                                 process="@this"
+                                                 update="filtroAluno tabelaCadastros growl"
+                                                 oncomplete="PF('tabelaCadastros').clearFilters()"
+                                                 immediate="true" />
+                            </p:panelGrid>
+
+                            <p:separator />
+
+                            <p:dataTable id="tabelaCadastros"
+                                         widgetVar="tabelaCadastros"
+                                         value="#{cadastroResponsavelBuscaBean.listaCadastros}"
+                                         var="c"
+                                         rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,25,50"
+                                         currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords}"
+                                         emptyMessage="Nenhum registo encontrado"
+                                         filteredValue="#{cadastroResponsavelBuscaBean.listaFiltrada}"
+                                         >
+
+                                <p:column headerText="ID" sortBy="#{c.idResponsavelBusca}" width="70">
+                                    #{c.idResponsavelBusca}
+                                </p:column>
+
+                                <p:column headerText="Data" sortBy="#{c.dataRegisto}" width="120">
+                                    <h:outputText value="#{c.dataRegisto}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Aluno" sortBy="#{c.aluno.nomeAluno}">
+                                    #{c.aluno.nomeAluno}
+                                </p:column>
+
+                                <p:column headerText="Grau Parentesco" sortBy="#{c.grauParentesco.descricaoGrauParentesco}">
+                                    #{c.grauParentesco.descricaoGrauParentesco}
+                                </p:column>
+
+                                <p:column headerText="Responsável" sortBy="#{c.responsavelBuscaAluno.nomeResponsavel}">
+                                    #{c.responsavelBuscaAluno.nomeResponsavel}
+                                </p:column>
+
+                                <p:column headerText="Ano Lectivo" sortBy="#{c.anoLectivo.descricaoAnoLectivo}" width="130">
+                                    #{c.anoLectivo.descricaoAnoLectivo}
+                                </p:column>
+
+                                <p:column headerText="Ações" width="150" styleClass="ui-column-actions">
+                                    <h:commandLink action="#{cadastroResponsavelBuscaBean.editar(c)}">
+                                        <i class="pi pi-pencil" style="margin-right: 4px;"></i>
+                                    </h:commandLink>
+
+                                    <p:spacer width="10" />
+
+
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:separator />
+
+                            <p:button value="Novo"
+                                      outcome="cadastro_encarregado_busca"
+                                      icon="pi pi-plus" />
+
+                            <p:commandButton value="Atualizar Lista"
+                                             action="#{cadastroResponsavelBuscaBean.pesquisa}"
+                                             icon="pi pi-refresh"
+                                             update="tabelaCadastros growl"
+                                             process="@this" />
+
+                        </p:panel>
+
+                        <p:confirmDialog global="true"
+                                         showEffect="fade"
+                                         hideEffect="fade"
+                                         responsive="true">
+                            <p:commandButton value="Sim"
+                                             styleClass="ui-confirmdialog-yes"
+                                             icon="pi pi-check" />
+                            <p:commandButton value="Não"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+
+                    </h:form>
+                </f:view>
+            </ui:define>
+
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

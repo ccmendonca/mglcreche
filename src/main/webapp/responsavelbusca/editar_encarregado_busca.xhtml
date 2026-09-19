@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
+
+            <ui:define name="content">
+                <f:view>
+                    <h:form id="formEditarCadastroResponsavelBusca">
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+
+                        <p:panel header="Editar Registo de Responsável de Busca">
+                            <p:panelGrid columns="4" layout="grid">
+
+                                <p:outputLabel for="dataRegisto" value="Data de Registo:" />
+                                <p:datePicker id="dataRegisto"
+                                              value="#{cadastroResponsavelBuscaBean.cadastro.dataRegisto}"
+                                              pattern="dd/MM/yyyy"
+                                              showTime="false"
+                                              required="true"
+                                              requiredMessage="Data de registo é obrigatória" />
+
+                                <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
+                                <p:selectOneMenu id="anoLectivo"
+                                                 value="#{cadastroResponsavelBuscaBean.cadastro.anoLectivo}"
+                                                 required="true"
+                                                 requiredMessage="Ano Lectivo é obrigatório"
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o Ano Lectivo..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{cadastroResponsavelBuscaBean.listaAnosLectivos}"
+                                                   var="al"
+                                                   itemValue="#{al}"
+                                                   itemLabel="#{al.descricaoAnoLectivo}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="aluno" value="Aluno:" />
+                                <p:selectOneMenu id="aluno"
+                                                 value="#{cadastroResponsavelBuscaBean.cadastro.aluno}"
+                                                 required="true"
+                                                 requiredMessage="Aluno é obrigatório"
+                                                 converter="omnifaces.SelectItemsConverter"
+                                                 filter="true">
+                                    <f:selectItem itemLabel="Selecione o Aluno..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{cadastroResponsavelBuscaBean.listaAlunos}"
+                                                   var="a" itemValue="#{a}" itemLabel="#{a.nomeAluno}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="grauParentesco" value="Grau de Parentesco:" />
+                                <p:selectOneMenu id="grauParentesco"
+                                                 value="#{cadastroResponsavelBuscaBean.cadastro.grauParentesco}"
+                                                 required="true"
+                                                 requiredMessage="Grau de parentesco é obrigatório"
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione o Grau..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{cadastroResponsavelBuscaBean.listaGrausParentesco}"
+                                                   var="g" itemValue="#{g}" itemLabel="#{g.descricaoGrauParentesco}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="responsavel" value="Responsável:" />
+                                <p:selectOneMenu id="responsavel"
+                                                 value="#{cadastroResponsavelBuscaBean.cadastro.responsavelBuscaAluno}"
+                                                 required="true"
+                                                 requiredMessage="Responsável é obrigatório"
+                                                 converter="omnifaces.SelectItemsConverter"
+                                                 filter="true">
+                                    <f:selectItem itemLabel="Selecione o Responsável..." itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{cadastroResponsavelBuscaBean.listaResponsaveisBusca}"
+                                                   var="r" itemValue="#{r}" itemLabel="#{r.nomeResponsavel}" />
+                                </p:selectOneMenu>
+
+                            </p:panelGrid>
+
+                            <p:separator />
+
+                            <p:commandButton id="btnAtualizar"
+                                             value="Atualizar"
+                                             action="#{cadastroResponsavelBuscaBean.atualizar}"
+                                             icon="pi pi-refresh"
+                                             update="growl formEditarCadastroResponsavelBusca"
+                                             validateClient="true" />
+                        </p:panel>
+                    </h:form>
+                </f:view>
+
+            </ui:define>
+
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

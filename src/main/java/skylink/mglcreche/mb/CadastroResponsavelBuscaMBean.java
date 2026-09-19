@@ -21,34 +21,38 @@ import skylink.mglcreche.modelo.GrauParentesco;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 
 /**
+ * Managed Bean responsável pela gestão do Cadastro de Responsável de Busca.
  *
  * @author Henriques
  */
 @Named("cadastroResponsavelBuscaBean")
 @ViewScoped
-public class CadastroResponsavelBuscaBean implements Serializable {
+public class CadastroResponsavelBuscaMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     
     private CadastroResponsavelBusca cadastro;
 
-  
+    
     private CadastroResponsavelBuscaDAO cadastroDAO;
     private AlunoDAO alunoDAO;
     private GrauParentescoDAO grauParentescoDAO;
     private ResponsavelBuscaAlunoDAO responsavelBuscaAlunoDAO;
     private AnoLectivoDAO anoLectivoDAO;
 
+    
     private List<CadastroResponsavelBusca> listaCadastros;
+    private List<CadastroResponsavelBusca> listaFiltrada;   
     private List<Aluno> listaAlunos;
     private List<GrauParentesco> listaGrausParentesco;
     private List<ResponsavelBuscaAluno> listaResponsaveisBusca;
     private List<AnoLectivo> listaAnosLectivos;
 
+    
     private String nomeAluno;
 
-  
+    
     @PostConstruct
     public void init() {
         cadastroDAO = new CadastroResponsavelBuscaDAO();
@@ -62,6 +66,9 @@ public class CadastroResponsavelBuscaBean implements Serializable {
             listaGrausParentesco = grauParentescoDAO.findAll();
             listaResponsaveisBusca = responsavelBuscaAlunoDAO.findAll();
             listaAnosLectivos = anoLectivoDAO.findAll();
+
+            listaCadastros = cadastroDAO.findAll();
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -84,11 +91,7 @@ public class CadastroResponsavelBuscaBean implements Serializable {
 
     public void pesquisa() {
         try {
-            if (nomeAluno == null || nomeAluno.trim().isEmpty()) {
-                listaCadastros = cadastroDAO.findAll();
-            } else {
-                listaCadastros = cadastroDAO.findAll(); 
-            }
+            listaCadastros = cadastroDAO.findAll();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -105,7 +108,6 @@ public class CadastroResponsavelBuscaBean implements Serializable {
         return "/responsavelbusca/editar_cadastro_responsavel_busca.xhtml?faces-redirect=true";
     }
 
-    
     public String salvar() {
         try {
             if (cadastroDAO.save(cadastro)) {
@@ -113,7 +115,7 @@ public class CadastroResponsavelBuscaBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
                                 "Sucesso", "Dados guardados"));
-                return "/responsavelbusca/index_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+                return "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
             }
 
             FacesContext.getCurrentInstance().addMessage(null,
@@ -129,13 +131,14 @@ public class CadastroResponsavelBuscaBean implements Serializable {
         }
     }
 
+    
     public String atualizar() {
         try {
             if (cadastroDAO.actualizar(cadastro)) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
                                 "Sucesso", "Atualizado com sucesso"));
-                return "/responsavelbusca/index_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+                return "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
             }
 
             FacesContext.getCurrentInstance().addMessage(null,
@@ -173,10 +176,12 @@ public class CadastroResponsavelBuscaBean implements Serializable {
         }
     }
 
+    
     public void novo() {
         cadastro = new CadastroResponsavelBusca();
     }
 
+   
     public CadastroResponsavelBusca getCadastro() {
         return cadastro;
     }
@@ -191,6 +196,14 @@ public class CadastroResponsavelBuscaBean implements Serializable {
 
     public void setListaCadastros(List<CadastroResponsavelBusca> listaCadastros) {
         this.listaCadastros = listaCadastros;
+    }
+
+    public List<CadastroResponsavelBusca> getListaFiltrada() {
+        return listaFiltrada;
+    }
+
+    public void setListaFiltrada(List<CadastroResponsavelBusca> listaFiltrada) {
+        this.listaFiltrada = listaFiltrada;
     }
 
     public List<Aluno> getListaAlunos() {
