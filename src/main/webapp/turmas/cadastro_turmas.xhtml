@@ -30,7 +30,7 @@
                                                decimalPlaces="0" />
 
                                 <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
-                                <h:selectOneMenu id="anoLectivo"
+                                <p:selectOneMenu id="anoLectivo"
                                                  value="#{turmaBean.turma.anoLectivo}"
                                                  required="true"
                                                  requiredMessage="Ano Lectivo é obrigatório" 
@@ -40,10 +40,10 @@
                                                    var="al"
                                                    itemValue="#{al}"
                                                    itemLabel="#{al.descricaoAnoLectivo}" />
-                                </h:selectOneMenu>
+                                </p:selectOneMenu>
 
                                 <p:outputLabel for="classe" value="Classe:" />
-                                <h:selectOneMenu id="classe"
+                                <p:selectOneMenu id="classe"
                                                  value="#{turmaBean.turma.classe}"
                                                  required="true"
                                                  requiredMessage="Classe é obrigatória" 
@@ -53,11 +53,11 @@
                                                    var="c"
                                                    itemValue="#{c}"
                                                    itemLabel="#{c.descricaoClasse}" />
-                                </h:selectOneMenu>
+                                </p:selectOneMenu>
 
                             
                                 <p:outputLabel for="sala" value="Sala:" />
-                                <h:selectOneMenu id="sala"
+                                <p:selectOneMenu id="sala"
                                                  value="#{turmaBean.turma.sala}"
                                                  required="true"
                                                  requiredMessage="A Sala é obrigatória" 
@@ -67,10 +67,10 @@
                                                    var="s"
                                                    itemValue="#{s}"
                                                    itemLabel="#{s.descricaoSala}" />
-                                </h:selectOneMenu>
+                                </p:selectOneMenu>
 
                               <p:outputLabel for="periodo" value="Periodo:" />
-                                <h:selectOneMenu id="periodo"
+                                <p:selectOneMenu id="periodo"
                                                  value="#{turmaBean.turma.periodo}"
                                                  required="true"
                                                  requiredMessage="O periodo é obrigatóri" 
@@ -80,7 +80,7 @@
                                                    var="p"
                                                    itemValue="#{p}"
                                                    itemLabel="#{p.descricaoPeriodo}" />
-                                </h:selectOneMenu>
+                                </p:selectOneMenu>
 
 
                                 <p:outputLabel for="activa" value="Activa:" />
