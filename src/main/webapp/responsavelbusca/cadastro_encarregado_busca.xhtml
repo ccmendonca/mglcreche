@@ -19,7 +19,7 @@
                         <p:panel header="Registos #{app.cadastroresponsavelbusca}">
                             <p:panelGrid columns="4" layout="grid">
 
-                                <p:outputLabel for="dataRegisto" value="Data de Registo:" />
+                                <p:outputLabel for="dataRegisto" value="#{sis.datahoraregisto}" />
                                 <p:datePicker id="dataRegisto"
                                               value="#{cadastroResponsavelBuscaBean.cadastro.dataRegisto}"
                                               pattern="dd/MM/yyyy"
@@ -27,7 +27,7 @@
                                               required="true"
                                               requiredMessage="Data de registo é obrigatória" />
 
-                                <p:outputLabel for="anoLectivo" value="Ano Lectivo:" />
+                                <p:outputLabel  value="#{app.anolectivo}" />
                                 <p:selectOneMenu id="anoLectivo"
                                                  value="#{cadastroResponsavelBuscaBean.cadastro.anoLectivo}"
                                                  required="true"

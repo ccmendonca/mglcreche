@@ -9,9 +9,9 @@
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
             <ui:define name="content">
                 <f:view>
-                <h:form id="formResponsavel">
-                    <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
-                    
+                    <h:form id="formResponsavel">
+                        <p:growl id="growl" showDetail="true" sticky="false" life="4000" />
+
                         <p:panelGrid columns="4" layout="grid">
 
                             <p:outputLabel for="nome" value="Nome:" />
@@ -58,20 +58,23 @@
                                          value="#{responsavelBuscaAlunoBean.responsavel.casaResponsavel}" />
 
                             <p:outputLabel for="municipio" value="Município:" />
-                            <h:selectOneMenu id="municipio" value="#{responsavelBuscaAlunoBean.responsavel.idMunicipio}" required="true" requiredMessage="Município é obrigatório">
-                                <f:selectItem itemLabel="Selecione o Municipio..." itemValue="" />
-                                <f:selectItems value="#{responsavelBuscaAlunoBean.listaMunicipios}"
-                                               var="m"
-                                               itemValue="#{m.idMunicipio}"
-                                               itemLabel="#{m.nomeMunicipio}" />
-                            </h:selectOneMenu>
+                            <p:selectOneMenu id="municipio" value="#{responsavelBuscaAlunoBean.responsavel.municipio}" 
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="Município é obrigatório" 
+                                             style="width: 100%;">
+                                <f:selectItem itemLabel="Selecione o Município..." itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{responsavelBuscaAlunoBean.listaMunicipios}" var="m"
+                                               itemValue="#{m}" itemLabel="#{m.nomeMunicipio}" />
+                            </p:selectOneMenu>
 
-                            <p:outputLabel for="sexo" value="Sexo:" />
-                            <h:selectOneRadio id="sexo" value="#{responsavelBuscaAlunoBean.responsavel.idSexo}" 
-                                              required="true">
-                                <f:selectItems value="#{responsavelBuscaAlunoBean.listaSexos}"  var="s" itemValue="#{s.idSexo}"
-                                               itemLabel="#{s.descricaoSexo}" />
+                            <p:outputLabel for="sexo" value="Sexo" />
+                            <h:selectOneRadio id="sexo" value="#{responsavelBuscaAlunoBean.responsavel.sexo}" 
+                                              converter="omnifaces.SelectItemsConverter"
+                                              required="true" requiredMessage="O campo sexo é obrigatório">
+                                <f:selectItems value="#{responsavelBuscaAlunoBean.listaSexos}" var="s" 
+                                               itemValue="#{s}" itemLabel="#{s.descricaoSexo}" />
                             </h:selectOneRadio>
+
 
                         </p:panelGrid>
 
@@ -84,8 +87,8 @@
                                          update="growl formResponsavel" 
                                          validateClient="true" />
 
-                    
-                </h:form>
+
+                    </h:form>
                 </f:view>
             </ui:define>
         </ui:composition>

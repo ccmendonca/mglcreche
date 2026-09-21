@@ -1,5 +1,5 @@
 package skylink.mglcreche.dao;
- 
+
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,215 +8,193 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import skylink.mglcreche.bdutil.ConnectionDB;
+import skylink.mglcreche.modelo.Municipio;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 import skylink.mglcreche.modelo.Sexo;
- /**
+
+/**
  *
- * @Henriques
+ * @author Henriques
  */
 public class ResponsavelBuscaAlunoDAO implements Serializable {
- 
-    private static final String INSERT = "INSERT INTO responsavel_busca_aluno (nome_responsavel, sobrenome_responsavel, data_nascimento_responsavel, casa_responsavel, rua_responsavel, bairro_responsavel, id_municipio, telefone_responsavel, sexo_responsavel_busca_aluno, id_sexo, data_registo_responsavel) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE = "UPDATE responsavel_busca_aluno SET nome_responsavel = ?, sobrenome_responsavel = ?, data_nascimento_responsavel = ?, casa_responsavel = ?, rua_responsavel = ?, bairro_responsavel = ?, id_municipio = ?, telefone_responsavel = ?, sexo_responsavel_busca_aluno = ?, id_sexo = ?, data_registo_responsavel = ? WHERE id_responsavel = ?";
-    private static final String DELETE = "DELETE FROM responsavel_busca_aluno WHERE id_responsavel = ?";
-    private static final String SELECT_ALL = "SELECT * FROM responsavel_busca_aluno ORDER BY nome_responsavel";
-    private static final String SELECT_BY_ID = "SELECT * FROM responsavel_busca_aluno WHERE id_responsavel = ?";
-    private static final String SELECT_BY_PARAMETER = "SELECT * FROM responsavel_busca_aluno WHERE nome_responsavel LIKE ? OR sobrenome_responsavel LIKE ? OR telefone_responsavel LIKE ? ORDER BY nome_responsavel";
- 
- 
-    public List<ResponsavelBuscaAluno> buscar(String nome) {
+private static final String INSERT = "INSERT INTO responsavel_busca_aluno (nome_responsavel, sobrenome_responsavel, data_nascimento_responsavel, casa_responsavel, rua_responsavel, bairro_responsavel, telefone_responsavel, email_responsavel, id_sexo, id_municipio, data_registo_responsavel) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+private static final String UPDATE = "UPDATE responsavel_busca_aluno SET nome_responsavel = ?, sobrenome_responsavel = ?, data_nascimento_responsavel = ?, casa_responsavel = ?, rua_responsavel = ?, bairro_responsavel = ?, telefone_responsavel = ?, email_responsavel = ?, id_sexo = ?, id_municipio = ?, data_registo_responsavel = ? WHERE id_responsavel = ?";
+private static final String DELETE = "DELETE FROM responsavel_busca_aluno WHERE id_responsavel = ?";
+
+private static final String SELECT_BASE = "SELECT r.*, s.descricao_sexo, m.nome_municipio FROM responsavel_busca_aluno r LEFT JOIN sexo s ON r.id_sexo = s.id_sexo LEFT JOIN municipio m ON r.id_municipio = m.id_municipio ";
+private static final String SELECT_ALL = SELECT_BASE + "ORDER BY r.nome_responsavel";
+private static final String SELECT_BY_ID = SELECT_BASE + "WHERE r.id_responsavel = ?";
+private static final String SELECT_BY_PARAMETER = SELECT_BASE + "WHERE r.nome_responsavel LIKE ? OR r.sobrenome_responsavel LIKE ? OR r.telefone_responsavel LIKE ? ORDER BY r.nome_responsavel";
+
+    public List<ResponsavelBuscaAluno> buscar(String nome) throws SQLException {
         if (nome == null || nome.trim().isEmpty()) {
             return findAll();
         }
- 
+
         List<ResponsavelBuscaAluno> lista = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(SELECT_BY_PARAMETER);
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SELECT_BY_PARAMETER)) {
+            
             String padrao = "%" + nome.trim() + "%";
             ps.setString(1, padrao);
             ps.setString(2, padrao);
             ps.setString(3, padrao);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                ResponsavelBuscaAluno r = new ResponsavelBuscaAluno();
-                popularDados(r, rs);
-                lista.add(r);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ResponsavelBuscaAluno r = new ResponsavelBuscaAluno();
+                    popularDados(r, rs);
+                    lista.add(r);
+                }
             }
-        } catch (SQLException e) {
-            System.err.println("Erro ao pesquisar: " + e.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
         }
         return lista;
     }
- 
- 
-    public boolean save(ResponsavelBuscaAluno r) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(INSERT);
+
+    public boolean save(ResponsavelBuscaAluno r) throws SQLException {
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(INSERT)) {
+            
             ps.setString(1, r.getNomeResponsavel());
             ps.setString(2, r.getSobrenomeResponsavel());
- 
+
             if (r.getDataNascimentoResponsavel() != null) {
                 ps.setDate(3, new java.sql.Date(r.getDataNascimentoResponsavel().getTime()));
             } else {
                 ps.setNull(3, java.sql.Types.DATE);
             }
- 
+
             ps.setString(4, r.getCasaResponsavel());
             ps.setString(5, r.getRuaResponsavel());
             ps.setString(6, r.getBairroResponsavel());
-            ps.setInt(7, r.getIdMunicipio());
-            ps.setString(8, r.getTelefoneResponsavel());
-            ps.setString(9, r.getSexoResponsavel());
-            ps.setInt(10, r.getIdSexo());
-            ps.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
- 
-            return ps.executeUpdate() > 0;
- 
-        } catch (SQLException e) {
-            System.err.println("Erro ao inserir dados: " + e.getMessage());
-            return false;
-        } finally {
-            ConnectionDB.closeConnection(conn, ps);
-        }
-    }
- 
-    public boolean update(ResponsavelBuscaAluno r) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(UPDATE);
-            ps.setString(1, r.getNomeResponsavel());
-            ps.setString(2, r.getSobrenomeResponsavel());
- 
-            if (r.getDataNascimentoResponsavel() != null) {
-                ps.setDate(3, new java.sql.Date(r.getDataNascimentoResponsavel().getTime()));
+            ps.setString(7, r.getTelefoneResponsavel());
+            ps.setString(8, r.getEmailResponsavel());
+
+            if (r.getSexo() != null && r.getSexo().getIdSexo() != null) {
+                ps.setInt(9, r.getSexo().getIdSexo());
             } else {
-                ps.setNull(3, java.sql.Types.DATE);
+                ps.setNull(9, java.sql.Types.INTEGER);
             }
- 
-            ps.setString(4, r.getCasaResponsavel());
-            ps.setString(5, r.getRuaResponsavel());
-            ps.setString(6, r.getBairroResponsavel());
-            ps.setInt(7, r.getIdMunicipio());
-            ps.setString(8, r.getTelefoneResponsavel());
-            ps.setString(9, r.getSexoResponsavel());
- 
-            if (r.getIdSexo() != null) {
-                ps.setInt(10, r.getIdSexo());
+
+            if (r.getMunicipio() != null && r.getMunicipio().getIdMunicipio() != null) {
+                ps.setInt(10, r.getMunicipio().getIdMunicipio());
             } else {
                 ps.setNull(10, java.sql.Types.INTEGER);
             }
- 
+
+            ps.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean update(ResponsavelBuscaAluno r) throws SQLException {
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(UPDATE)) {
+            
+            ps.setString(1, r.getNomeResponsavel());
+            ps.setString(2, r.getSobrenomeResponsavel());
+
+            if (r.getDataNascimentoResponsavel() != null) {
+                ps.setDate(3, new java.sql.Date(r.getDataNascimentoResponsavel().getTime()));
+            } else {
+                ps.setNull(3, java.sql.Types.DATE);
+            }
+
+            ps.setString(4, r.getCasaResponsavel());
+            ps.setString(5, r.getRuaResponsavel());
+            ps.setString(6, r.getBairroResponsavel());
+            ps.setString(7, r.getTelefoneResponsavel());
+            ps.setString(8, r.getEmailResponsavel());
+
+            if (r.getSexo() != null && r.getSexo().getIdSexo() != null) {
+                ps.setInt(9, r.getSexo().getIdSexo());
+            } else {
+                ps.setNull(9, java.sql.Types.INTEGER);
+            }
+
+            if (r.getMunicipio() != null && r.getMunicipio().getIdMunicipio() != null) {
+                ps.setInt(10, r.getMunicipio().getIdMunicipio());
+            } else {
+                ps.setNull(10, java.sql.Types.INTEGER);
+            }
+
             ps.setTimestamp(11, new java.sql.Timestamp(System.currentTimeMillis()));
             ps.setInt(12, r.getIdResponsavel());
- 
+
             return ps.executeUpdate() > 0;
- 
-        } catch (SQLException e) {
-            System.err.println("Erro ao actualizar dados: " + e.getLocalizedMessage());
-            return false;
-        } finally {
-            ConnectionDB.closeConnection(conn, ps);
         }
     }
- 
-    public boolean delete(ResponsavelBuscaAluno r) {
-        if (r == null) {
-            System.err.println("O objecto não pode ser nulo!");
+
+    public boolean delete(ResponsavelBuscaAluno r) throws SQLException {
+        if (r == null || r.getIdResponsavel() == null) {
             return false;
         }
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(DELETE);
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(DELETE)) {
+            
             ps.setInt(1, r.getIdResponsavel());
             return ps.executeUpdate() > 0;
- 
-        } catch (SQLException e) {
-            System.err.println("Erro ao eliminar dados: " + e.getMessage());
-            return false;
-        } finally {
-            ConnectionDB.closeConnection(conn, ps);
         }
     }
- 
-    public List<ResponsavelBuscaAluno> findAll() {
+
+    public List<ResponsavelBuscaAluno> findAll() throws SQLException {
         List<ResponsavelBuscaAluno> lista = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(SELECT_ALL);
-            rs = ps.executeQuery();
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SELECT_ALL);
+             ResultSet rs = ps.executeQuery()) {
+            
             while (rs.next()) {
                 ResponsavelBuscaAluno r = new ResponsavelBuscaAluno();
                 popularDados(r, rs);
                 lista.add(r);
             }
-        } catch (SQLException e) {
-            System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
         }
         return lista;
     }
- 
-    public ResponsavelBuscaAluno findById(Integer id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionDB.getConnection();
-            ps = conn.prepareStatement(SELECT_BY_ID);
+
+    public ResponsavelBuscaAluno findById(Integer id) throws SQLException {
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SELECT_BY_ID)) {
+            
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                ResponsavelBuscaAluno r = new ResponsavelBuscaAluno();
-                popularDados(r, rs);
-                return r;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    ResponsavelBuscaAluno r = new ResponsavelBuscaAluno();
+                    popularDados(r, rs);
+                    return r;
+                }
             }
-        } catch (SQLException e) {
-            System.err.println("Erro ao carregar dados: " + e.getLocalizedMessage());
-        } finally {
-            ConnectionDB.closeConnection(conn, ps, rs);
         }
         return null;
     }
- 
-    private void popularDados(ResponsavelBuscaAluno r, ResultSet rs) {
-        try {
-            r.setIdResponsavel(rs.getInt("id_responsavel"));
-            r.setNomeResponsavel(rs.getString("nome_responsavel"));
-            r.setSobrenomeResponsavel(rs.getString("sobrenome_responsavel"));
-            r.setDataNascimentoResponsavel(rs.getDate("data_nascimento_responsavel"));
-            r.setCasaResponsavel(rs.getString("casa_responsavel"));
-            r.setRuaResponsavel(rs.getString("rua_responsavel"));
-            r.setBairroResponsavel(rs.getString("bairro_responsavel"));
-            r.setIdMunicipio(rs.getInt("id_municipio"));
-            r.setTelefoneResponsavel(rs.getString("telefone_responsavel"));
-            r.setSexoResponsavel(rs.getString("sexo_responsavel_busca_aluno"));
-            r.setIdSexo(rs.getInt("id_sexo"));
-            r.setDataRegistoResponsavel(rs.getTimestamp("data_registo_responsavel"));
- 
+
+    private void popularDados(ResponsavelBuscaAluno r, ResultSet rs) throws SQLException {
+        r.setIdResponsavel(rs.getInt("id_responsavel"));
+        r.setNomeResponsavel(rs.getString("nome_responsavel"));
+        r.setSobrenomeResponsavel(rs.getString("sobrenome_responsavel"));
+        r.setDataNascimentoResponsavel(rs.getDate("data_nascimento_responsavel"));
+        r.setCasaResponsavel(rs.getString("casa_responsavel"));
+        r.setRuaResponsavel(rs.getString("rua_responsavel"));
+        r.setBairroResponsavel(rs.getString("bairro_responsavel"));
+        r.setTelefoneResponsavel(rs.getString("telefone_responsavel"));
+        r.setEmailResponsavel(rs.getString("email_responsavel"));
+        r.setDataRegistoResponsavel(rs.getTimestamp("data_registo_responsavel"));
+
+        int idSexo = rs.getInt("id_sexo");
+        if (!rs.wasNull()) {
             Sexo sexo = new Sexo();
-            sexo.setIdSexo(rs.getInt("id_sexo"));
-            sexo.setDescricaoSexo(rs.getString("sexo_responsavel_busca_aluno"));
+            sexo.setIdSexo(idSexo);
+            sexo.setDescricaoSexo(rs.getString("descricao_sexo"));
             r.setSexo(sexo);
- 
-        } catch (SQLException e) {
-            System.err.println("Erro ao mapear dados: " + e.getLocalizedMessage());
+        }
+
+        int idMunicipio = rs.getInt("id_municipio");
+        if (!rs.wasNull()) {
+            Municipio municipio = new Municipio();
+            municipio.setIdMunicipio(idMunicipio);
+            municipio.setNomeMunicipio(rs.getString("nome_municipio"));
+            r.setMunicipio(municipio);
         }
     }
 }

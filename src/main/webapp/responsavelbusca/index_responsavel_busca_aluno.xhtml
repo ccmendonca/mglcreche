@@ -10,20 +10,18 @@
                 template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
 
     <ui:define name="left">
-        <h3>Menu Gestão dos responsáveis</h3>
+        <h3>#{app.gestaoencarregado}</h3>
         <ul>
             <li><a href="../index.faces">&#x1F3E0; Home</a></li>
-            <h:panelGrid columns="1">
-                <p:button value="Novo responsável"
-                          outcome="cadastro_responsavelbusca_aluno"
-                          icon="pi pi-user-plus" />
-                <p:button value="Registar Encarregado de Educação"
-                          outcome="cadastro_responsavel_busca"
-                          icon="pi pi-user-edit" />
-                <p:button value="Listar Responsável"
-                          outcome="lista_responsavel_busca_aluno"
-                          icon="pi pi-list" />
-            </h:panelGrid>
+            <li><a href="cadastro_responsavelbusca_aluno.faces">&#10133;#{app.cadastroresponsavelbuscaaluno}</a></li>
+
+            <li><a href="cadastro_encarregado_busca.faces">&#10133;#{app.cadastroresponsavelbusca}</a></li>
+
+
+
+            <li><a href="lista_responsavel_busca_aluno.faces">&#x1F3F8;#{app.listaresponsavelbuscaaluno}</a></li>
+
+
         </ul>
     </ui:define>
 

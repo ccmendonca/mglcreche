@@ -6,6 +6,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import skylink.mglcreche.dao.MunicipioDAO;
@@ -33,101 +34,94 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
         responsavelDAO = new ResponsavelBuscaAlunoDAO();
         sexoDAO = new SexoDAO();
         municipioDAO = new MunicipioDAO();
+        
         listaSexos = sexoDAO.findAll();
         listaMunicipios = municipioDAO.findAll();
 
-      
         Map<String, Object> session = FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap();
 
         ResponsavelBuscaAluno editando = (ResponsavelBuscaAluno) session.get("responsavelEditando");
 
         if (editando != null) {
-         
             this.responsavel = editando;
             session.remove("responsavelEditando");
         } else {
-          
             this.responsavel = new ResponsavelBuscaAluno();
         }
     }
 
-    
     public void pesquisa() {
-        listaResponsaveis = responsavelDAO.buscar(nomeResponsavel);
+        try {
+            listaResponsaveis = responsavelDAO.buscar(nomeResponsavel);
+        } catch (SQLException e) {
+            adicionarMensagemErro("Erro ao pesquisar responsáveis: " + e.getMessage());
+        }
     }
 
-
     public String editar(ResponsavelBuscaAluno r) {
-    FacesContext.getCurrentInstance()
-        .getExternalContext()
-        .getSessionMap()
-        .put("responsavelEditando", r);
+        FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .put("responsavelEditando", r);
 
-    return "/responsavelbusca/editar_responsavel_busca.xhtml?faces-redirect=true";
-}
+        return "/responsavelbusca/editar_responsavel_busca.xhtml?faces-redirect=true";
+    }
 
     public String salvar() {
-        String telefone = responsavel.getTelefoneResponsavel();
-        if (telefone != null) {
-            telefone = telefone.replaceAll("[^0-9]", "");
-            responsavel.setTelefoneResponsavel(telefone);
+        tratarTelefone();
+
+        try {
+            boolean sucesso;
+            if (responsavel.getIdResponsavel() != null && responsavel.getIdResponsavel() > 0) {
+                sucesso = responsavelDAO.update(responsavel);
+            } else {
+                sucesso = responsavelDAO.save(responsavel);
+            }
+
+            if (sucesso) {
+                responsavel = new ResponsavelBuscaAluno();
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados com sucesso"));
+                return "/responsavelbusca/index_responsavel_busca_aluno.xhtml?faces-redirect=true";
+            } else {
+                adicionarMensagemErro("Falha ao guardar dados");
+            }
+        } catch (SQLException e) {
+            adicionarMensagemErro("Erro de base de dados ao guardar: " + e.getMessage());
         }
 
-        Sexo sexoSelecionado = listaSexos.stream()
-                .filter(s -> s.getIdSexo().equals(responsavel.getIdSexo()))
-                .findFirst()
-                .orElse(null);
-
-        if (sexoSelecionado != null) {
-            responsavel.setSexoResponsavel(sexoSelecionado.getDescricaoSexo());
-        }
-
-        if (responsavelDAO.save(responsavel)) {
-            responsavel = new ResponsavelBuscaAluno();
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Dados guardados"));
-            return "/responsavelbusca/index_responsavel_busca_aluno.xhtml?faces-redirect=true";
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha ao guardar dados"));
         return null;
     }
 
     public void atualizar() {
-        String telefone = responsavel.getTelefoneResponsavel();
-        if (telefone != null) {
-            telefone = telefone.replaceAll("[^0-9]", "");
-            responsavel.setTelefoneResponsavel(telefone);
-        }
+        tratarTelefone();
 
-        Sexo sexoSelecionado = listaSexos.stream()
-                .filter(s -> s.getIdSexo().equals(responsavel.getIdSexo()))
-                .findFirst()
-                .orElse(null);
-
-        if (sexoSelecionado != null) {
-            responsavel.setSexoResponsavel(sexoSelecionado.getDescricaoSexo());
-        }
-
-        if (responsavelDAO.update(responsavel)) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Atualizado com sucesso"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha ao atualizar"));
+        try {
+            if (responsavelDAO.update(responsavel)) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Atualizado com sucesso"));
+            } else {
+                adicionarMensagemErro("Falha ao atualizar");
+            }
+        } catch (SQLException e) {
+            adicionarMensagemErro("Erro de base de dados ao atualizar: " + e.getMessage());
         }
     }
 
     public void eliminar(ResponsavelBuscaAluno r) {
-        if (responsavelDAO.delete(r)) {
-            listaResponsaveis.remove(r);
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Eliminado com sucesso"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha ao eliminar"));
+        try {
+            if (responsavelDAO.delete(r)) {
+                if (listaResponsaveis != null) {
+                    listaResponsaveis.remove(r);
+                }
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Eliminado com sucesso"));
+            } else {
+                adicionarMensagemErro("Falha ao eliminar");
+            }
+        } catch (SQLException e) {
+            adicionarMensagemErro("Erro de base de dados ao eliminar: " + e.getMessage());
         }
     }
 
@@ -135,7 +129,18 @@ public class ResponsavelBuscaAlunoBean implements Serializable {
         responsavel = new ResponsavelBuscaAluno();
     }
 
-    
+    private void tratarTelefone() {
+        String telefone = responsavel.getTelefoneResponsavel();
+        if (telefone != null) {
+            responsavel.setTelefoneResponsavel(telefone.replaceAll("[^0-9]", ""));
+        }
+    }
+
+    private void adicionarMensagemErro(String detalhe) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", detalhe));
+    }
+
     public ResponsavelBuscaAluno getResponsavel() { return responsavel; }
     public void setResponsavel(ResponsavelBuscaAluno responsavel) { this.responsavel = responsavel; }
 

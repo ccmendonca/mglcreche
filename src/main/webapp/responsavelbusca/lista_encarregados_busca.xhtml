@@ -10,7 +10,6 @@
 
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
 
-
             <ui:define name="content">
                 <f:view>
                     <h:form id="formListaCadastroResponsavelBusca">
@@ -19,7 +18,7 @@
 
                         <p:panel header="Lista de Responsáveis de Busca">
 
-                            <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:panelGrid id="gridFiltro" columns="4" layout="grid" styleClass="ui-panelgrid-blank">
 
                                 <p:outputLabel for="filtroAluno" value="Aluno:" />
                                 <p:inputText id="filtroAluno"
@@ -33,11 +32,11 @@
                                                  process="@this filtroAluno" />
 
                                 <p:commandButton value="Limpar"
+                                                 action="#{cadastroResponsavelBuscaBean.limpar()}"
                                                  icon="pi pi-filter-slash"
                                                  process="@this"
-                                                 update="filtroAluno tabelaCadastros growl"
-                                                 oncomplete="PF('tabelaCadastros').clearFilters()"
-                                                 immediate="true" />
+                                                 update="gridFiltro tabelaCadastros growl"
+                                                 oncomplete="PF('tabelaCadastros').clearFilters()" />
                             </p:panelGrid>
 
                             <p:separator />
@@ -52,14 +51,13 @@
                                          rowsPerPageTemplate="5,10,25,50"
                                          currentPageReportTemplate="{startRecord} - {endRecord} de {totalRecords}"
                                          emptyMessage="Nenhum registo encontrado"
-                                         filteredValue="#{cadastroResponsavelBuscaBean.listaFiltrada}"
-                                         >
+                                         filteredValue="#{cadastroResponsavelBuscaBean.listaFiltrada}">
 
                                 <p:column headerText="ID" sortBy="#{c.idResponsavelBusca}" width="70">
                                     #{c.idResponsavelBusca}
                                 </p:column>
 
-                                <p:column headerText="Data" sortBy="#{c.dataRegisto}" width="120">
+                                <p:column headerText="Data" sortBy="#{c.dataRegisto}" width="100">
                                     <h:outputText value="#{c.dataRegisto}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
@@ -77,19 +75,18 @@
                                     #{c.responsavelBuscaAluno.nomeResponsavel}
                                 </p:column>
 
-                                <p:column headerText="Ano Lectivo" sortBy="#{c.anoLectivo.descricaoAnoLectivo}" width="130">
+                                <p:column headerText="Ano Lectivo" sortBy="#{c.anoLectivo.descricaoAnoLectivo}" width="110">
                                     #{c.anoLectivo.descricaoAnoLectivo}
                                 </p:column>
 
-                                <p:column headerText="Ações" width="150" styleClass="ui-column-actions">
-                                    <h:commandLink action="#{cadastroResponsavelBuscaBean.editar(c)}">
-                                        <i class="pi pi-pencil" style="margin-right: 4px;"></i>
-                                    </h:commandLink>
+                                 <p:column headerText="Operações" width="120" style="text-align:center;">
+                                <p:commandButton value="Editar"
+                                                 action="#{cadastroResponsavelBuscaBean.editar(c)}"
+                                                 ajax="false" />
+                            </p:column>
 
-                                    <p:spacer width="10" />
-
-
-                                </p:column>
+                                    
+                                
 
                             </p:dataTable>
 
@@ -103,7 +100,8 @@
                                              action="#{cadastroResponsavelBuscaBean.pesquisa}"
                                              icon="pi pi-refresh"
                                              update="tabelaCadastros growl"
-                                             process="@this" />
+                                             process="@this"
+                                             styleClass="ui-button-secondary" />
 
                         </p:panel>
 
@@ -112,10 +110,10 @@
                                          hideEffect="fade"
                                          responsive="true">
                             <p:commandButton value="Sim"
-                                             styleClass="ui-confirmdialog-yes"
+                                             styleClass="ui-confirmdialog-yes ui-button-danger"
                                              icon="pi pi-check" />
                             <p:commandButton value="Não"
-                                             styleClass="ui-confirmdialog-no"
+                                             styleClass="ui-confirmdialog-no ui-button-secondary"
                                              icon="pi pi-times" />
                         </p:confirmDialog>
 

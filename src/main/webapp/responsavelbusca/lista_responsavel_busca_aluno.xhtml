@@ -46,6 +46,7 @@
                             </p:toolbarGroup>
                         </p:toolbar>
                     </h:form>
+
                     <h:form id="formTabela">
 
                         <p:dataTable id="tabela"
@@ -60,20 +61,28 @@
                                      stripedRows="true"
                                      style="margin-top: 10px;">
 
-                            <p:column headerText="Nº Registo" width="80" style="text-align:center;">
+                            <p:column headerText="Nº Registo" width="50" style="text-align:center;">
                                 <h:outputText value="#{resp.idResponsavel}" />
                             </p:column>
 
-                            <p:column headerText="Nome Completo">
+                            <p:column headerText="Nome Completo" width="80">
                                 <h:outputText value="#{resp.nomeResponsavel} #{resp.sobrenomeResponsavel}" />
                             </p:column>
 
-                            <p:column headerText="Telefone" width="140">
+                            <p:column headerText="E-mail" width="130">
+                                <h:outputText value="#{resp.emailResponsavel}" />
+                            </p:column>
+
+                            <p:column headerText="Telefone" width="100">
                                 <h:outputText value="#{resp.telefoneResponsavel}" />
                             </p:column>
 
+                            <p:column headerText="Município" width="100">
+                                <h:outputText value="#{resp.municipio.nomeMunicipio}" />
+                            </p:column>
+
                             <p:column headerText="Bairro / Rua">
-                                <h:outputText value="#{resp.bairroResponsavel}, #{resp.ruaResponsavel} " />
+                                <h:outputText value="#{resp.bairroResponsavel}, #{resp.ruaResponsavel}" />
                             </p:column>
 
                             <p:column headerText="Nascimento" width="110" style="text-align:center;">
@@ -88,6 +97,8 @@
                                 </h:outputText>
                             </p:column>
 
+
+
                             <p:column headerText="Operações" width="120" style="text-align:center;">
                                 <p:commandButton value="Editar"
                                                  action="#{responsavelBuscaAlunoBean.editar(resp)}"
@@ -96,7 +107,7 @@
 
                         </p:dataTable>
 
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                             <p:commandButton value="Sim" type="button"
                                              styleClass="ui-confirmdialog-yes ui-button-danger"
                                              icon="pi pi-check" />

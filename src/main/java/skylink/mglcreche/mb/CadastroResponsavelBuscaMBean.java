@@ -6,6 +6,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,8 @@ import skylink.mglcreche.modelo.GrauParentesco;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 
 /**
- * Managed Bean responsável pela gestão do Cadastro de Responsável de Busca.
  *
- * @author Henriques
+ * @ Henriques
  */
 @Named("cadastroResponsavelBuscaBean")
 @ViewScoped
@@ -31,17 +31,14 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    
     private CadastroResponsavelBusca cadastro;
 
-    
     private CadastroResponsavelBuscaDAO cadastroDAO;
     private AlunoDAO alunoDAO;
     private GrauParentescoDAO grauParentescoDAO;
     private ResponsavelBuscaAlunoDAO responsavelBuscaAlunoDAO;
     private AnoLectivoDAO anoLectivoDAO;
 
-    
     private List<CadastroResponsavelBusca> listaCadastros;
     private List<CadastroResponsavelBusca> listaFiltrada;   
     private List<Aluno> listaAlunos;
@@ -49,10 +46,8 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
     private List<ResponsavelBuscaAluno> listaResponsaveisBusca;
     private List<AnoLectivo> listaAnosLectivos;
 
-    
     private String nomeAluno;
 
-    
     @PostConstruct
     public void init() {
         cadastroDAO = new CadastroResponsavelBuscaDAO();
@@ -90,15 +85,32 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
     }
 
     public void pesquisa() {
-        try {
+    try {
+        if (nomeAluno != null && !nomeAluno.trim().isEmpty()) {
+            List<CadastroResponsavelBusca> todos = cadastroDAO.findAll();
+            listaCadastros = new ArrayList<>();
+            for (CadastroResponsavelBusca c : todos) {
+                if (c.getAluno() != null 
+                        && c.getAluno().getNomeAluno() != null
+                        && c.getAluno().getNomeAluno().toLowerCase().contains(nomeAluno.trim().toLowerCase())) {
+                    listaCadastros.add(c);
+                }
+            }
+        } else {
             listaCadastros = cadastroDAO.findAll();
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao pesquisar: " + e.getMessage()));
         }
+    } catch (Exception e) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Erro", "Falha ao pesquisar: " + e.getMessage()));
     }
+}
 
+    public void limpar() {
+    this.nomeAluno = null;
+    pesquisa();
+}
+    
     public String editar(CadastroResponsavelBusca c) {
         FacesContext.getCurrentInstance()
                 .getExternalContext()
@@ -131,7 +143,6 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
         }
     }
 
-    
     public String atualizar() {
         try {
             if (cadastroDAO.actualizar(cadastro)) {
@@ -154,7 +165,6 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
         }
     }
 
-    
     public void eliminar(CadastroResponsavelBusca c) {
         try {
             if (cadastroDAO.delete(c.getIdResponsavelBusca())) {
@@ -176,12 +186,10 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
         }
     }
 
-    
     public void novo() {
         cadastro = new CadastroResponsavelBusca();
     }
 
-   
     public CadastroResponsavelBusca getCadastro() {
         return cadastro;
     }
