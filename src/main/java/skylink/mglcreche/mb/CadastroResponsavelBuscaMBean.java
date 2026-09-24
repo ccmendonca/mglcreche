@@ -1,13 +1,14 @@
 package skylink.mglcreche.mb;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import skylink.mglcreche.dao.AlunoDAO;
@@ -22,25 +23,22 @@ import skylink.mglcreche.modelo.GrauParentesco;
 import skylink.mglcreche.modelo.ResponsavelBuscaAluno;
 
 /**
- *
- * @ Henriques
+ * @author Henriques
  */
-@Named("cadastroResponsavelBuscaBean")
-@ViewScoped
+@Named(value = "cadastroResponsavelBuscaBean")
+@SessionScoped
 public class CadastroResponsavelBuscaMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String PAGINA_LISTA =
+            "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+    private static final String PAGINA_EDITAR =
+            "/responsavelbusca/editar_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+
     private CadastroResponsavelBusca cadastro;
-
-    private CadastroResponsavelBuscaDAO cadastroDAO;
-    private AlunoDAO alunoDAO;
-    private GrauParentescoDAO grauParentescoDAO;
-    private ResponsavelBuscaAlunoDAO responsavelBuscaAlunoDAO;
-    private AnoLectivoDAO anoLectivoDAO;
-
     private List<CadastroResponsavelBusca> listaCadastros;
-    private List<CadastroResponsavelBusca> listaFiltrada;   
+    private List<CadastroResponsavelBusca> listaFiltrada;
     private List<Aluno> listaAlunos;
     private List<GrauParentesco> listaGrausParentesco;
     private List<ResponsavelBuscaAluno> listaResponsaveisBusca;
@@ -50,24 +48,21 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        cadastroDAO = new CadastroResponsavelBuscaDAO();
-        alunoDAO = new AlunoDAO();
-        grauParentescoDAO = new GrauParentescoDAO();
-        responsavelBuscaAlunoDAO = new ResponsavelBuscaAlunoDAO();
-        anoLectivoDAO = new AnoLectivoDAO();
-
         try {
-            listaAlunos = alunoDAO.findAll();
+            GrauParentescoDAO grauParentescoDAO = new GrauParentescoDAO();
+            ResponsavelBuscaAlunoDAO responsavelBuscaAlunoDAO = new ResponsavelBuscaAlunoDAO();
+            AnoLectivoDAO anoLectivoDAO = new AnoLectivoDAO();
+
             listaGrausParentesco = grauParentescoDAO.findAll();
             listaResponsaveisBusca = responsavelBuscaAlunoDAO.findAll();
             listaAnosLectivos = anoLectivoDAO.findAll();
 
-            listaCadastros = cadastroDAO.findAll();
+            // Tabela inicia vazia
+            listaCadastros = new ArrayList<>();
+            listaFiltrada = new ArrayList<>();
 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao carregar dados iniciais: " + e.getMessage()));
+            addErro("Falha ao carregar dados iniciais: " + e.getMessage());
         }
 
         Map<String, Object> session = FacesContext.getCurrentInstance()
@@ -79,115 +74,139 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
         if (editando != null) {
             this.cadastro = editando;
             session.remove("cadastroResponsavelBuscaEditando");
-        } else {
+        } else if (this.cadastro == null) {
             this.cadastro = new CadastroResponsavelBusca();
         }
     }
 
     public void pesquisa() {
-    try {
-        if (nomeAluno != null && !nomeAluno.trim().isEmpty()) {
-            List<CadastroResponsavelBusca> todos = cadastroDAO.findAll();
-            listaCadastros = new ArrayList<>();
-            for (CadastroResponsavelBusca c : todos) {
-                if (c.getAluno() != null 
-                        && c.getAluno().getNomeAluno() != null
-                        && c.getAluno().getNomeAluno().toLowerCase().contains(nomeAluno.trim().toLowerCase())) {
-                    listaCadastros.add(c);
+        try {
+            CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
+            List<CadastroResponsavelBusca> todos = dao.findAll();
+
+            if (nomeAluno != null && !nomeAluno.trim().isEmpty()) {
+                String filtro = nomeAluno.trim().toLowerCase(Locale.ROOT);
+                List<CadastroResponsavelBusca> filtrados = new ArrayList<>();
+                for (CadastroResponsavelBusca c : todos) {
+                    if (c.getAluno() != null
+                            && c.getAluno().getNomeAluno() != null
+                            && c.getAluno().getNomeAluno()
+                                    .toLowerCase(Locale.ROOT)
+                                    .contains(filtro)) {
+                        filtrados.add(c);
+                    }
                 }
+                listaCadastros = filtrados;
+            } else {
+                listaCadastros = new ArrayList<>();
             }
-        } else {
-            listaCadastros = cadastroDAO.findAll();
+            listaFiltrada = new ArrayList<>(listaCadastros);
+
+        } catch (Exception e) {
+            addErro("Falha ao pesquisar: " + e.getMessage());
         }
-    } catch (Exception e) {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Erro", "Falha ao pesquisar: " + e.getMessage()));
     }
-}
 
     public void limpar() {
-    this.nomeAluno = null;
-    pesquisa();
-}
-    
+        this.nomeAluno = null;
+        this.listaCadastros = new ArrayList<>();
+        this.listaFiltrada = new ArrayList<>();
+    }
+
     public String editar(CadastroResponsavelBusca c) {
+        if (c == null) {
+            addErro("Registro inválido para edição.");
+            return null;
+        }
+        this.cadastro = c;
         FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getSessionMap()
                 .put("cadastroResponsavelBuscaEditando", c);
-
-        return "/responsavelbusca/editar_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+        return PAGINA_EDITAR;
     }
 
     public String salvar() {
         try {
-            if (cadastroDAO.save(cadastro)) {
+            CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
+            if (dao.save(cadastro)) {
                 cadastro = new CadastroResponsavelBusca();
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Sucesso", "Dados guardados"));
-                return "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+                recarregarLista();
+                addInfo("Dados guardados com sucesso.");
+                return PAGINA_LISTA;
             }
-
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao guardar dados"));
+            addErro("Falha ao guardar dados.");
             return null;
 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao guardar: " + e.getMessage()));
+            addErro("Falha ao guardar: " + e.getMessage());
             return null;
         }
     }
 
     public String atualizar() {
         try {
-            if (cadastroDAO.actualizar(cadastro)) {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Sucesso", "Atualizado com sucesso"));
-                return "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+            CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
+            if (dao.actualizar(cadastro)) {
+                cadastro = new CadastroResponsavelBusca();
+                recarregarLista();
+                addInfo("Atualizado com sucesso.");
+                return PAGINA_LISTA;
             }
-
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao atualizar"));
+            addErro("Falha ao atualizar.");
             return null;
 
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao atualizar: " + e.getMessage()));
+            addErro("Falha ao atualizar: " + e.getMessage());
             return null;
         }
     }
 
     public void eliminar(CadastroResponsavelBusca c) {
         try {
-            if (cadastroDAO.delete(c.getIdResponsavelBusca())) {
+            if (c == null || c.getIdResponsavelBusca() == null) {
+                addErro("Registro inválido para eliminação.");
+                return;
+            }
+            CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
+            if (dao.delete(c.getIdResponsavelBusca())) {
                 if (listaCadastros != null) {
                     listaCadastros.remove(c);
                 }
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "Sucesso", "Eliminado com sucesso"));
+                if (listaFiltrada != null) {
+                    listaFiltrada.remove(c);
+                }
+                addInfo("Eliminado com sucesso.");
             } else {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                "Erro", "Falha ao eliminar"));
+                addErro("Falha ao eliminar.");
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Erro", "Falha ao eliminar: " + e.getMessage()));
+            addErro("Falha ao eliminar: " + e.getMessage());
         }
     }
 
     public void novo() {
         cadastro = new CadastroResponsavelBusca();
+    }
+
+    private void recarregarLista() {
+        try {
+            CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
+            listaCadastros = dao.findAll();
+            listaFiltrada = new ArrayList<>(listaCadastros);
+        } catch (Exception e) {
+            addErro("Falha ao recarregar lista: " + e.getMessage());
+        }
+    }
+
+    private void addInfo(String msg) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", msg));
+    }
+
+    private void addErro(String msg) {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", msg));
     }
 
     public CadastroResponsavelBusca getCadastro() {

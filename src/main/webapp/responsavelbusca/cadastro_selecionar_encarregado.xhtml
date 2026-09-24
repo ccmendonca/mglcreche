@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
+
+            <ui:define name="content">
+
+                <div class="caixa_retangular">
+                    <div class="caixa_retangular_item">
+                        N.º do aluno:
+                        #{cadastroResponsavelBuscaBean.cadastro.aluno.idAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                        Nome:
+                        #{cadastroResponsavelBuscaBean.cadastro.aluno.nomeAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                        Sobrenome:
+                        #{cadastroResponsavelBuscaBean.cadastro.aluno.sobrenomeAluno}
+                    </div>
+                    <div class="caixa_retangular_item">
+                        Data de Nascimento:
+                        <h:outputText value="#{cadastroResponsavelBuscaBean.cadastro.aluno.dataNascimentoAluno}">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </div>
+                </div>
+
+                <h:form id="encarregadosseleccionados">
+                    <h:messages showDetail="true" showSummary="true"/>
+
+                    <p:dataTable id="dtblencarregads"
+                                 var="item"
+                                 value="#{cadastroResponsavelBuscaBean.listaResponsaveisBusca}"
+                                 scrollable="true"
+                                 scrollHeight="600"
+                                 emptyMessage="Nenhum encarregado disponível">
+
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{item.nomeResponsavel}"/>
+                        </p:column>
+
+                        <p:column headerText="Sobrenome">
+                            <h:outputText value="#{item.sobrenomeResponsavel}"/>
+                        </p:column>
+
+                        <p:column headerText="Telefone">
+                            <h:outputText value="#{item.telefoneResponsavel}"/>
+                        </p:column>
+
+                        <p:column headerText="N.º BI/Passaporte">
+                            <h:outputText value="#{item.idResponsavel}"/>
+                        </p:column>
+
+                     
+
+                        <p:column headerText="Operações">
+                            <p:commandButton value="Selecionar"
+                                             icon="fa fa-fw fa-check"
+                                             action="#{cadastroResponsavelBuscaBean.selecionarResponsavel(item)}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+                <h:form>
+                    <p:commandButton value="Guardar Encarregado"
+                                     icon="fa fa-fw fa-save"
+                                     action="#{cadastroResponsavelBuscaBean.salvar()}"/>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
