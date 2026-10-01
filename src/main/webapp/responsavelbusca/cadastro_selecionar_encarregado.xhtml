@@ -4,13 +4,16 @@
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="jakarta.faces.composite/ezcomp">
 
     <body>
 
         <ui:composition template="./../WEB-INF/templates/responsavel_busca_aluno_template.xhtml">
 
             <ui:define name="content">
+
+
 
                 <div class="caixa_retangular">
                     <div class="caixa_retangular_item">
@@ -31,10 +34,14 @@
                             <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </div>
+                    <div class="caixa_retangular_item">
+                        Encarregado selecionado:
+                        <h:outputText id="encSel"
+                                      value="#{cadastroResponsavelBuscaBean.cadastro.responsavelBuscaAluno.nomeResponsavel} #{cadastroResponsavelBuscaBean.cadastro.responsavelBuscaAluno.sobrenomeResponsavel}"/>
+                    </div>
                 </div>
 
                 <h:form id="encarregadosseleccionados">
-                    <h:messages showDetail="true" showSummary="true"/>
 
                     <p:dataTable id="dtblencarregads"
                                  var="item"
@@ -59,20 +66,48 @@
                             <h:outputText value="#{item.idResponsavel}"/>
                         </p:column>
 
-                     
-
                         <p:column headerText="Operações">
                             <p:commandButton value="Selecionar"
                                              icon="fa fa-fw fa-check"
+                                             process="@this"
+                                             update=":msgs :formguardar encSel"
                                              action="#{cadastroResponsavelBuscaBean.selecionarResponsavel(item)}"/>
                         </p:column>
 
                     </p:dataTable>
                 </h:form>
 
-                <h:form>
+                <h:form id="formguardar">
+
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <p:outputLabel for="grau" value="Grau de parentesco:"/>
+                        <p:selectOneMenu id="grau"
+                                         value="#{cadastroResponsavelBuscaBean.cadastro.grauParentesco}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{cadastroResponsavelBuscaBean.listaGrausParentesco}"
+                                           var="g"
+                                           itemLabel="#{g.descricaoGrauParentesco}"
+                                           itemValue="#{g}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="ano" value="Ano lectivo:"/>
+                        <p:selectOneMenu id="ano"
+                                         value="#{cadastroResponsavelBuscaBean.cadastro.anoLectivo}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{cadastroResponsavelBuscaBean.listaAnosLectivos}"
+                                           var="a"
+                                           itemLabel="#{a.descricaoAnoLectivo}"
+                                           itemValue="#{a}"/>
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
                     <p:commandButton value="Guardar Encarregado"
                                      icon="fa fa-fw fa-save"
+                                     ajax="false"
                                      action="#{cadastroResponsavelBuscaBean.salvar()}"/>
                 </h:form>
 

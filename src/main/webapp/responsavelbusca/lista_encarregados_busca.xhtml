@@ -53,9 +53,7 @@
                                          emptyMessage="Nenhum registo encontrado"
                                          filteredValue="#{cadastroResponsavelBuscaBean.listaFiltrada}">
 
-                                <p:column headerText="ID" sortBy="#{c.idResponsavelBusca}" width="70">
-                                    #{c.idResponsavelBusca}
-                                </p:column>
+
 
                                 <p:column headerText="Data" sortBy="#{c.dataRegisto}" width="100">
                                     <h:outputText value="#{c.dataRegisto}">
@@ -79,14 +77,14 @@
                                     #{c.anoLectivo.descricaoAnoLectivo}
                                 </p:column>
 
-                                 <p:column headerText="Operações" width="120" style="text-align:center;">
-                                <p:commandButton value="Editar"
-                                                 action="#{cadastroResponsavelBuscaBean.editar(c)}"
-                                                 ajax="false" />
-                            </p:column>
+                                <p:column headerText="Operações" width="120" style="text-align:center;">
+                                    <p:commandButton value="Editar"
+                                                     action="#{cadastroResponsavelBuscaBean.editar(c)}"
+                                                     ajax="false" />
+                                </p:column>
 
-                                    
-                                
+
+
 
                             </p:dataTable>
 

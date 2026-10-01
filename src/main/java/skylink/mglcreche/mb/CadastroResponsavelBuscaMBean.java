@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import skylink.mglcreche.dao.AlunoDAO;
 import skylink.mglcreche.dao.AnoLectivoDAO;
 import skylink.mglcreche.dao.CadastroResponsavelBuscaDAO;
 import skylink.mglcreche.dao.GrauParentescoDAO;
@@ -31,10 +30,10 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String PAGINA_LISTA =
-            "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
-    private static final String PAGINA_EDITAR =
-            "/responsavelbusca/editar_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+    private static final String PAGINA_LISTA
+            = "/responsavelbusca/lista_cadastro_responsavel_busca.xhtml?faces-redirect=true";
+    private static final String PAGINA_EDITAR
+            = "/responsavelbusca/editar_cadastro_responsavel_busca.xhtml?faces-redirect=true";
 
     private CadastroResponsavelBusca cadastro;
     private List<CadastroResponsavelBusca> listaCadastros;
@@ -57,7 +56,6 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
             listaResponsaveisBusca = responsavelBuscaAlunoDAO.findAll();
             listaAnosLectivos = anoLectivoDAO.findAll();
 
-            // Tabela inicia vazia
             listaCadastros = new ArrayList<>();
             listaFiltrada = new ArrayList<>();
 
@@ -68,8 +66,8 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
         Map<String, Object> session = FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap();
 
-        CadastroResponsavelBusca editando =
-                (CadastroResponsavelBusca) session.get("cadastroResponsavelBuscaEditando");
+        CadastroResponsavelBusca editando
+                = (CadastroResponsavelBusca) session.get("cadastroResponsavelBuscaEditando");
 
         if (editando != null) {
             this.cadastro = editando;
@@ -128,6 +126,26 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
 
     public String salvar() {
         try {
+            if (cadastro.getAluno() == null) {
+                addErro("Aluno não definido. Volte e selecione o aluno.");
+                return null;
+            }
+            if (cadastro.getResponsavelBuscaAluno() == null) {
+                addErro("Selecione um encarregado antes de guardar.");
+                return null;
+            }
+            if (cadastro.getGrauParentesco() == null) {
+                addErro("Grau de parentesco não definido.");
+                return null;
+            }
+            if (cadastro.getAnoLectivo() == null) {
+                addErro("Ano lectivo não definido.");
+                return null;
+            }
+            if (cadastro.getDataRegisto() == null) {
+                cadastro.setDataRegisto(new java.util.Date());
+            }
+
             CadastroResponsavelBuscaDAO dao = new CadastroResponsavelBuscaDAO();
             if (dao.save(cadastro)) {
                 cadastro = new CadastroResponsavelBusca();
@@ -139,6 +157,7 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
             return null;
 
         } catch (Exception e) {
+            e.printStackTrace();
             addErro("Falha ao guardar: " + e.getMessage());
             return null;
         }
@@ -187,6 +206,16 @@ public class CadastroResponsavelBuscaMBean implements Serializable {
 
     public void novo() {
         cadastro = new CadastroResponsavelBusca();
+    }
+
+    public void selecionarResponsavel(ResponsavelBuscaAluno responsavel) {
+        if (responsavel == null) {
+            addErro("Encarregado inválido.");
+            return;
+        }
+        cadastro.setResponsavelBuscaAluno(responsavel);
+        addInfo("Encarregado selecionado: " + responsavel.getNomeResponsavel()
+                + " " + responsavel.getSobrenomeResponsavel());
     }
 
     private void recarregarLista() {
